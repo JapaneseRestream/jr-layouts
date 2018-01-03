@@ -1,0 +1,19 @@
+{
+  "name": "japanese-restream",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hoishin/japanese-restream.git"
+  },
+  "author": "Hoishin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hoishin/japanese-restream/issues"
+  },
+  "homepage": "https://github.com/Hoishin/japanese-restream#readme"
+}
