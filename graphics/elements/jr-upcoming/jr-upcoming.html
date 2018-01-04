@@ -1,0 +1,15 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="jr-upcoming">
+	<template>
+		<style>
+		</style>
+
+		<template is="dom-repeat" items="[[upcomingRuns]]" as="run">
+			<div>[[run.game]]</div>
+		</template>
+	</template>
+
+	<script src="jr-upcoming.js"></script>
+</dom-module>

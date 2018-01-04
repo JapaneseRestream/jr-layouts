@@ -1,0 +1,21 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="jr-logos">
+	<template>
+		<style>
+			:host {
+				display: flex;
+				width: 384px;
+				
+			}
+			#logo {
+				opacity: 0;
+				transition: opacity 0.33s linear;
+			}
+		</style>
+
+		<img id="logo" src="[[logoUrl]]">
+	</template>
+
+	<script src="jr-logos.js"></script>
+</dom-module>
