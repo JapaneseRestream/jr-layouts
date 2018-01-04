@@ -5,7 +5,7 @@ module.exports = nodecg => {
 	const currentRunRep = nodecg.Replicant('currentRun');
 
 	scheduleRep.on('change', () => {
-		if (currentRunRep.value.index === null) {
+		if (!currentRunRep.value.index) {
 			setCurrentRunByIndex(0);
 		}
 	});
