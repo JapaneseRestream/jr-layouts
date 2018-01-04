@@ -11,6 +11,10 @@
 			return {
 				'run-number': {
 					type: Number
+				},
+				currentIndex: {
+					type: Number,
+					default: 0
 				}
 			}
 		}
@@ -30,10 +34,10 @@
 		}
 
 		calcUpcomingRuns() {
-			if (!this.currentIndex || !this.schedule) {
+			if (!this.schedule) {
 				return;
 			}
-			this.upcomingRuns = this.schedule.slice(this.currentIndex, this.currentIndex + this['run-number'])
+			this.upcomingRuns = this.schedule.slice(this.currentIndex + 1, this.currentIndex + this['run-number'] + 1)
 		}
 	}
 	customElements.define(JrUpcoming.is, JrUpcoming);

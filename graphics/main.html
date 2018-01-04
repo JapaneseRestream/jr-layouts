@@ -2,25 +2,74 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css" rel="stylesheet" />
 	<link rel="import" href="elements/jr-upcoming/jr-upcoming.html">
 	<link rel="import" href="elements/jr-logos/jr-logos.html">
+	<link rel="import" href="elements/jr-bottom-info/jr-bottom-info.html">
 	<style>
+		body {
+			margin: 0 0;
+			font-family: "Rounded Mplus 1c";
+			font-weight: 500;
+			color: white;
+			line-height: 1.25;
+		}
+
+		#container {
+			position: absolute;
+			width: 1920px;
+			height: 1080px;
+			overflow: hidden;
+			/* clip-path: polygon(0 0, 0 1080px, 1920px 1080px, 1920px 918px, 288px 918px, 288px 0px); */
+		}
+
 		#left {
 			position: absolute;
 			left: 0px;
 			top: 0px;
 			width: 288px;
-			height: 100px;
+			height: 100%;
 			display: flex;
 			flex-flow: column nowrap;
+			justify-content: flex-start;
+		}
+
+		#logo_container {
+			display: flex;
+			height: 144px;
+			padding: 10px 10px;
+			justify-content: center;
+			align-items: center;
+		}
+
+		#background {
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+
+		jr-bottom-info {
+			position: absolute;
+			bottom: 0px;
+			right: 0px;
+			width: 1632px;
+			height: 162px;
 		}
 	</style>
 </head>
 <body>
-	<div id="left">
-		<jr-logos></jr-logos>
-		<jr-upcoming run-number="3"></jr-upcoming>
+	<div id="container">
+		<div id="left">
+			<div id="logo_container">
+				<jr-logos></jr-logos>
+			</div>
+			<jr-upcoming run-number="7"></jr-upcoming>
+		</div>
+		<img src="images/background.jpeg" id="background">
+
+		<jr-bottom-info></jr-bottom-info>
 	</div>
-	<img src="images/background.png">
 </body>
 </html>

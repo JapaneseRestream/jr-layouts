@@ -4,10 +4,40 @@
 <dom-module id="jr-upcoming">
 	<template>
 		<style>
+			#title {
+				font-size: 25px;
+				text-align: center;
+				margin-top: 10px;
+				filter: drop-shadow(5px 5px 5px black);
+			}
+
+			#run_container {
+				margin: 10px 5px;
+				padding: 10px 5px;
+				max-height: 114px;
+				overflow: hidden;
+				background-color: #c79100;
+				box-shadow: 3px 5px black;
+			}
+
+			#game {
+				font-size: 30px;
+				max-height: 2.5em;
+				overflow: hidden;
+			}
+
+			#misc {
+				height: 1.25em;
+				overflow: hidden;
+			}
 		</style>
 
+		<div id="title">今後のゲーム</div>
 		<template is="dom-repeat" items="[[upcomingRuns]]" as="run">
-			<div>[[run.game]]</div>
+			<div id="run_container">
+				<div id="game">[[run.game]]</div>
+				<div id="misc">[[run.category]] - [[run.runners]]</div>
+			</div>
 		</template>
 	</template>
 
