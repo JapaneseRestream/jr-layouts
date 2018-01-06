@@ -10,53 +10,20 @@
 	<template>
 		<style>
 			#container {
-				display: grid;
-				grid-template-columns: repeat(2, auto) 400px;
-				grid-template-rows: repeat(2, auto) 1fr;
+				display: flex;
+				flex-flow: column nowrap;
 				height: 100vh;
+				width: 100vw;
 			}
 
 			#control,
 			#currentRunInfo,
-			#target_channel_info {
-				padding: 10px 10px;
-			}
-
-			#control {
-				grid-row: 1 / 2;
-				grid-column: 1 / 2;
-			}
-
-			#currentRunInfo {
-				grid-row: 2 / 3;
-				grid-column: 1 / 2;
-			}
-
 			#grid {
-				grid-row: 3 / 4;
-				grid-column: 1 / 3;
-				display: flex;
-				flex-flow: column nowrap;
-			}
-
-			#chat_container {
-				grid-row: 1 / 4;
-				grid-column: 3 / 4;
-				display: flex;
-				flex-flow: column nowrap;
+				padding: 10px 10px;
 			}
 
 			vaadin-grid {
 				flex-grow: 1;
-			}
-
-			#chat {
-				flex-grow: 1;
-			}
-
-			#target_channel_info {
-				grid-row: 1 / 3;
-				grid-column: 2 / 3;
 			}
 
 			#editDialog {
@@ -77,50 +44,33 @@
 				<div>カテゴリー：[[category]]</div>
 				<div>走者：[[runners]]</div>
 			</div>
-
-			<div id="grid">
-				<vaadin-grid aria-label="ゲーム一覧" items="[[schedule]]">
-					<vaadin-grid-column width="120px" flex-grow="0">
-						<template>
-							<paper-button raised on-click="setCurrentRunByIndex">
-								選択
-							</paper-button>
-						</template>
-					</vaadin-grid-column>
-					<vaadin-grid-column>
-						<template class="header">開始予定</template>
-						<template>[[unixTimeToString(item.scheduled)]]</template>
-					</vaadin-grid-column>
-					<vaadin-grid-column>
-						<template class="header">タイトル</template>
-						<template>[[item.game]]</template>
-					</vaadin-grid-column>
-					<vaadin-grid-column>
-						<template class="header">カテゴリー</template>
-						<template>[[item.category]]</template>
-					</vaadin-grid-column>
-					<vaadin-grid-column>
-						<template class="header">走者</template>
-						<template>[[item.runners]]</template>
-					</vaadin-grid-column>
-				</vaadin-grid>
-			</div>
-
-			<div id="target_channel_info">
-				<div>GDQチャンネル情報</div>
-				<div id="title">タイトル: [[targetChannelInfoTitle]]</div>
-				<div id="game">ゲーム: [[targetChannelInfoGame]]</div>
-			</div>
-
-			<div id="chat_container">
-				<iframe id="chat"
-				src="https://twitch.tv/japanese_restream/chat"
-				frameborder="0"
-				scrolling="yes"
-				></iframe>
-			</div>
+	
+			<vaadin-grid id="grid" aria-label="ゲーム一覧" items="[[schedule]]">
+				<vaadin-grid-column width="120px" flex-grow="0">
+					<template>
+						<paper-button raised on-click="setCurrentRunByIndex">
+							選択
+						</paper-button>
+					</template>
+				</vaadin-grid-column>
+				<vaadin-grid-column>
+					<template class="header">開始予定</template>
+					<template>[[unixTimeToString(item.scheduled)]]</template>
+				</vaadin-grid-column>
+				<vaadin-grid-column>
+					<template class="header">タイトル</template>
+					<template>[[item.game]]</template>
+				</vaadin-grid-column>
+				<vaadin-grid-column>
+					<template class="header">カテゴリー</template>
+					<template>[[item.category]]</template>
+				</vaadin-grid-column>
+				<vaadin-grid-column>
+					<template class="header">走者</template>
+					<template>[[item.runners]]</template>
+				</vaadin-grid-column>
+			</vaadin-grid>
 		</div>
-
 		
 		<paper-dialog id="editDialog">
 			<paper-input
