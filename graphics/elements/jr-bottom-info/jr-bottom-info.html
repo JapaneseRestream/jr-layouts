@@ -8,19 +8,28 @@
 				display: flex;
 				flex-flow: row nowrap;
 			}
+
+			#info_container {
+				filter: drop-shadow(5px 5px 5px black);
+			}
+
+			#game {
+				font-size: 30px;
+				font-weight: 600;
+			}
 		</style>
 
+		<div id="info_container">
+			<div id="game">[[game]]</div>
+			<div id="category">[[category]]</div>
+			<div id="runners">[[runners]]</div>
+		</div>
 		<template is="dom-if" if="{{commentator}}">
 			<div id="commentator_container">
 				<div id="title">解説</div>
 				<div id="commentator">[[commentator]]</div>
 			</div>
 		</template>
-		<div id="info_container">
-			<div>[[game]]</div>
-			<div>[[category]]</div>
-			<div>[[runners]]</div>
-		</div>
 	</template>
 
 	<script src="jr-bottom-info.js"></script>

@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/polymer/lib/utils/render-status.html">
+
+<dom-module id="jr-game-plate">
+	<template>
+		<style>
+			#run_container {
+				margin: 10px 5px;
+				padding: 10px 5px;
+				max-height: 114px;
+				overflow: hidden;
+				background-color: rgba(130, 130, 130, 0.5);
+				box-shadow: 3px 3px rgba(50, 50, 50, 0.8);
+			}
+
+			#game {
+				font-size: 25px;
+				font-weight: 500;
+				display: flex;
+				justify-content: center
+			}
+
+			#game_text {
+				white-space: nowrap;
+			}
+
+			#misc {
+				font-size: 500;
+				height: 1.25em;
+				overflow: hidden;
+			}
+		</style>
+
+		<div id="run_container">
+			<div id="game"><div id="game_text">[[game]]</div></div>
+			<div id="misc">[[category]] - [[runners]]</div>
+		</div>
+	</template>
+	<script src="jr-game-plate.js"></script>
+</dom-module>

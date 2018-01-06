@@ -33,7 +33,7 @@
   "scripts": {
     "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
     "restart": "pm2 restart jr",
-    "lint": "eslint --fix --cache ./**/*.js ./**/*.html"
+    "lint": "eslint --fix ./**/*.js ./**/*.html"
   },
   "repository": {
     "type": "git",

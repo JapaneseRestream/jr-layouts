@@ -1,43 +1,25 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../jr-game-plate/jr-game-plate.html">
 
 <dom-module id="jr-upcoming">
 	<template>
 		<style>
 			#title {
-				font-size: 25px;
+				font-size: 30px;
+				font-weight: 500;
 				text-align: center;
 				margin-top: 10px;
 				filter: drop-shadow(5px 5px 5px black);
-			}
-
-			#run_container {
-				margin: 10px 5px;
-				padding: 10px 5px;
-				max-height: 114px;
-				overflow: hidden;
-				background-color: #c79100;
-				box-shadow: 3px 5px black;
-			}
-
-			#game {
-				font-size: 30px;
-				max-height: 2.5em;
-				overflow: hidden;
-			}
-
-			#misc {
-				height: 1.25em;
-				overflow: hidden;
 			}
 		</style>
 
 		<div id="title">今後のゲーム</div>
 		<template is="dom-repeat" items="[[upcomingRuns]]" as="run">
-			<div id="run_container">
-				<div id="game">[[run.game]]</div>
-				<div id="misc">[[run.category]] - [[run.runners]]</div>
-			</div>
+			<jr-game-plate
+			game="[[run.game]]" 
+			category="[[run.category]]"
+			runners="[[run.runners]]"></jr-game-plate>
 		</template>
 	</template>
 
