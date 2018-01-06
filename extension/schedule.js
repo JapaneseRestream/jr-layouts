@@ -1,6 +1,6 @@
 const request = require('superagent');
 
-const FETCH_SCHEDULE_INTERVAL = 60 * 60 * 1000;
+const FETCH_SCHEDULE_INTERVAL = 60 * 1000;
 
 module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
