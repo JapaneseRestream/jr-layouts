@@ -56,8 +56,4 @@ module.exports = nodecg => {
 		retrieveChannelInfo();
 		channelInfoInterval = setInterval(retrieveChannelInfo, 60 * 1000);
 	})
-
-	targetChannelInfoRep.on('change', newVal => {
-		console.log(newVal);
-	})
 }

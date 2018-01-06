@@ -22,7 +22,6 @@
 		fitText() {
 			const MAX_WIDTH = this.$.game.clientWidth;
 			const currentWidth = this.$.game_text.clientWidth;
-			console.log(MAX_WIDTH, currentWidth)
 			if (MAX_WIDTH < currentWidth) {
 				const overflowLength = currentWidth - MAX_WIDTH;
 				this.$.game_text.style.transform = 

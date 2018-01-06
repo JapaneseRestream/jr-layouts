@@ -35,11 +35,6 @@ module.exports = nodecg => {
 		}
 	});
 
-	// Debugging purpose
-	currentRunRep.on('change', newVal => {
-		console.log(newVal);
-	});
-
 	function setCurrentRunByIndex(index) {
 		if (index >= 0 && index < scheduleRep.value.length) {
 			currentRunRep.value = clone(scheduleRep.value[index]);
