@@ -39,18 +39,22 @@
 				flex-flow: column nowrap;
 			}
 
-			#chat_container {
+			#twitch {
 				grid-row: 1 / 4;
 				grid-column: 3 / 4;
 				display: flex;
 				flex-flow: column nowrap;
 			}
 
-			vaadin-grid {
-				flex-grow: 1;
+			#stream {
+				height: 225px;
 			}
 
 			#chat {
+				flex-grow: 1;
+			}
+
+			vaadin-grid {
 				flex-grow: 1;
 			}
 
@@ -112,7 +116,12 @@
 				<div id="game">ゲーム: [[targetChannelInfoGame]]</div>
 			</div>
 
-			<div id="chat_container">
+			<div id="twitch">
+				<iframe id="stream"
+				src="https://player.twitch.tv/?channel=gamesdonequick&volume=0.5&muted=false"
+				frameborder="0"
+				scrolling="no"
+				></iframe>
 				<iframe id="chat"
 				src="https://twitch.tv/japanese_restream/chat"
 				frameborder="0"
