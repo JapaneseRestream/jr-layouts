@@ -21,6 +21,7 @@
     "vaadin-grid": "vaadin/vaadin-grid#^4.1.0",
     "vaadin-material-theme": "vaadin/vaadin-material-theme#^0.3.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.1",
-    "paper-input": "PolymerElements/paper-input#^2.0.5"
+    "paper-input": "PolymerElements/paper-input#^2.0.5",
+    "textfit": "^2.3.1"
   }
 }

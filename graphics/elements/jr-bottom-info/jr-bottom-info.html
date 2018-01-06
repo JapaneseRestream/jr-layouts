@@ -1,29 +1,57 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../../bower_components/polymer/lib/utils/render-status.html">
 <link rel="import" href="../../../bower_components/polymer/lib/elements/dom-if.html">
 
 <dom-module id="jr-bottom-info">
 	<template>
 		<style>
 			:host {
-				display: flex;
-				flex-flow: row nowrap;
-			}
-
-			#info_container {
+				display: grid;
+				grid-template-columns: auto 300px;
+				grid-template-rows: auto auto auto;
+				grid-auto-flow: column;
 				filter: drop-shadow(5px 5px 5px black);
 			}
 
 			#game {
+				font-size: 60px;
+				font-weight: 900;
+				overflow: hidden;
+				display: flex;
+				justify-content: flex-start;
+			}
+
+			#game_text {
+				position: relative;
+				white-space: nowrap;
+				align-self: flex-start;
+			}
+
+			#category, #runners {
+				font-size: 25px;
+				font-weight: 500;
+			}
+
+			#commentator_container {
+				grid-row-start: 1;
+				grid-row-end: 4;
+				display: flex;
+				flex-flow: column nowrap;
+				justify-content: center;
+			}
+			#commentator_container > #title {
+				font-size: 20px;
+				font-weight: 400;
+			}
+			#commentator_container > #commentator {
 				font-size: 30px;
 				font-weight: 600;
 			}
 		</style>
 
-		<div id="info_container">
-			<div id="game">[[game]]</div>
-			<div id="category">[[category]]</div>
-			<div id="runners">[[runners]]</div>
-		</div>
+		<div id="game"><div id="game_text">[[game]]</div></div>
+		<div id="category">カテゴリー：[[category]]</div>
+		<div id="runners">走者：[[runners]]</div>
 		<template is="dom-if" if="{{commentator}}">
 			<div id="commentator_container">
 				<div id="title">解説</div>
@@ -32,5 +60,6 @@
 		</template>
 	</template>
 
+	<script src="../../../bower_components/textfit/textFit.min.js"></script>
 	<script src="jr-bottom-info.js"></script>
 </dom-module>

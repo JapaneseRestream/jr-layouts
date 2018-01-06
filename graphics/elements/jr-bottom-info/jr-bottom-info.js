@@ -10,11 +10,26 @@
 			super.ready();
 
 			currentRunRep.on('change', newVal => {
+				Polymer.flush();
 				this.commentator = newVal.commentator;
 				this.game = newVal.game;
 				this.category = newVal.category;
 				this.runners = newVal.runners;
+				Polymer.RenderStatus.afterNextRender(this, this.fitText);
 			})
+		}
+
+		fitText() {
+			const MAX_WIDTH = this.$.game.clientWidth;
+			const currentWidth = this.$.game_text.clientWidth;
+			console.log(MAX_WIDTH, currentWidth)
+			if (MAX_WIDTH < currentWidth) {
+				const overflowLength = currentWidth - MAX_WIDTH;
+				this.$.game_text.style.transform = 
+					`translateX(${0 - overflowLength / 2}px) scaleX(${MAX_WIDTH / currentWidth})`;
+			} else {
+				this.$.game_text.style.transform = `scaleX(1)`;
+			}
 		}
 	}
 

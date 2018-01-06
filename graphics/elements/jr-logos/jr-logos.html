@@ -4,9 +4,17 @@
 	<template>
 		<style>
 			:host {
-				width: 384px;
-
+				display: flex;
+				height: 144px;
+				padding: 10px 10px;
+				justify-content: center;
+				align-items: center;
 			}
+
+			#container {
+				width: 384px;
+			}
+
 			#logo {
 				display: block;
 				width: 100%;
@@ -17,7 +25,9 @@
 			}
 		</style>
 
-		<img id="logo" src="[[logoUrl]]">
+		<div id="container">
+			<img id="logo" src="[[logoUrl]]">
+		</div>
 	</template>
 
 	<script src="jr-logos.js"></script>
