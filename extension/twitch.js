@@ -4,7 +4,9 @@ module.exports = nodecg => {
 	const log = new nodecg.Logger(`${nodecg.bundleName}:twitch`);
 	const targetChannelName = 'gamesdonequick';
 	const targetChannelIdRep = nodecg.Replicant('targetChannelId', { defaultValue: '' });
+	const ourChannelIdRep = nodecg.Replicant('ourChannelId', { defaultValue: '' });
 	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo')
+	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo')
 
 	if (
 		!nodecg.config.login ||
@@ -16,44 +18,52 @@ module.exports = nodecg => {
 		return;
 	}
 	
-	const url = `https://api.twitch.tv/kraken/users?login=${targetChannelName}`
-	request
-		.get(url)
+	const getUrl = name => `https://api.twitch.tv/kraken/users?login=${name}`
+	const targetChannelRequest = request.get(getUrl(targetChannelName))
 		.set('Accept', 'application/vnd.twitchtv.v5+json')
-		.set('Client-ID', nodecg.config.login.twitch.clientID)
-		.end((err, response) => {
-			if (err) {
-				log.error(`Failed to get channel ID of ${targetChannelName}:`);
-				log.error(err);
-			} else {
-				targetChannelIdRep.value = response.body.users[0]._id
-			}
+		.set('Client-ID', nodecg.config.login.twitch.clientID);
+	const jpRestreamChannelRequest = request.get(getUrl('japanese_restream'))
+		.set('Accept', 'application/vnd.twitchtv.v5+json')
+		.set('Client-ID', nodecg.config.login.twitch.clientID);
+	Promise.all([targetChannelRequest, jpRestreamChannelRequest])
+		.then(([target, ours]) => {
+			targetChannelIdRep.value = target.body.users[0]._id;
+			ourChannelIdRep.value = ours.body.users[0]._id;
+		})
+		.catch(err => {
+			log.error(`Failed to get channel ID of ${targetChannelName}:`);
+			log.error(err);
 		})
 	
-	let channelInfoInterval;
-	targetChannelIdRep.on('change', newVal => {
-		const retrieveChannelInfo = () => {
-			const url = `https://api.twitch.tv/kraken/channels/${newVal}`;
-			request
-				.get(url)
-				.set('Accept', 'application/vnd.twitchtv.v5+json')
-				.set('Client-ID', nodecg.config.login.twitch.clientID)
-				.end((err, response) => {
-					if (err) {
-						log.error(`Failed to get channel info from ${targetChannelName}:`);
-						log.error(err);
-					} else {
-						const result = response.body;
-						if (targetChannelInfoRep.value.title !== result.status) {
-							targetChannelInfoRep.value.title = result.status || '';
+	const getChannelInfo = (channelIdRep, channelInfoRep) => {
+		let interval;
+		channelIdRep.on('change', newVal => {
+			const retrieveChannelInfo = () => {
+				const url = `https://api.twitch.tv/kraken/channels/${newVal}`;
+				request
+					.get(url)
+					.set('Accept', 'application/vnd.twitchtv.v5+json')
+					.set('Client-ID', nodecg.config.login.twitch.clientID)
+					.end((err, response) => {
+						if (err) {
+							log.error(`Failed to get channel info from ${targetChannelName}:`);
+							log.error(err);
+						} else {
+							const result = response.body;
+							if (channelInfoRep.value.title !== result.status) {
+								channelInfoRep.value.title = result.status || '';
+							}
+							if (channelInfoRep.value.game !== result.game) {
+								channelInfoRep.value.game = result.game || '';
+							}
 						}
-						if (targetChannelInfoRep.value.game !== result.game) {
-							targetChannelInfoRep.value.game = result.game || '';
-						}
-					}
-				})
-		}
-		retrieveChannelInfo();
-		channelInfoInterval = setInterval(retrieveChannelInfo, 60 * 1000);
-	})
+					})
+			}
+			retrieveChannelInfo();
+			channelInfoInterval = setInterval(retrieveChannelInfo, 60 * 1000);
+		})
+	}
+
+	getChannelInfo(targetChannelIdRep, targetChannelInfoRep)
+	getChannelInfo(ourChannelIdRep, ourChannelInfoRep)
 }

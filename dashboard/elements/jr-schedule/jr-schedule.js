@@ -4,6 +4,7 @@
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
+	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo');
 
 	class JrSchedule extends Polymer.Element {
 		static get is() {
@@ -27,6 +28,10 @@
 			targetChannelInfoRep.on('change', newVal => {
 				this.targetChannelInfoTitle = newVal.title;
 				this.targetChannelInfoGame = newVal.game;
+			})
+			ourChannelInfoRep.on('change', newVal => {
+				this.ourChannelInfoTitle = newVal.title;
+				this.ourChannelInfoGame = newVal.game;
 			})
 		}
 
