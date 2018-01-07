@@ -45,10 +45,10 @@ module.exports = nodecg => {
 					} else {
 						const result = response.body;
 						if (targetChannelInfoRep.value.title !== result.status) {
-							targetChannelInfoRep.value.title = result.status;
+							targetChannelInfoRep.value.title = result.status || '';
 						}
 						if (targetChannelInfoRep.value.game !== result.game) {
-							targetChannelInfoRep.value.game = result.game;
+							targetChannelInfoRep.value.game = result.game || '';
 						}
 					}
 				})
