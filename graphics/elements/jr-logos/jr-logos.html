@@ -4,21 +4,17 @@
 	<template>
 		<style>
 			:host {
+				height: 203px;
+				padding: 0 5px;
 				display: flex;
-				height: 144px;
-				padding: 10px 10px;
 				justify-content: center;
 				align-items: center;
 			}
 
-			#container {
-				width: 384px;
-			}
-
 			#logo {
 				display: block;
-				width: 100%;
-				height: auto;
+				max-height: 100%;
+				max-width: 100%;
 				opacity: 0;
 				transition: opacity 0.33s linear;
 				filter: drop-shadow(5px 5px 5px black);
