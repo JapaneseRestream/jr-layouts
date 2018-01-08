@@ -9,12 +9,11 @@
 	<link rel="import" href="elements/jr-time/jr-time.html">
 	<style>
 		body {
+			background-color: #051113;
 			margin: 0 0;
 			font-family: "Rounded Mplus 1c";
-			color: white;
-			line-height: 1.25;
-			background-color: #051113;
 			color: #00ffff;
+			line-height: 1.25;
 			text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
 		}
 
@@ -23,33 +22,23 @@
 			width: 1920px;
 			height: 1080px;
 			overflow: hidden;
+			display: grid;
+			grid-template-columns: 12% 1fr;
+			grid-template-rows: 1fr 12%;
 		}
 
 		#left {
-			position: absolute;
-			left: 0px;
-			top: 0px;
-			width: 288px;
-			height: 100%;
+			grid-column: 1 / 2;
+			grid-row: 1 / 3;
 			display: flex;
 			flex-flow: column nowrap;
 			justify-content: flex-start;
 		}
 
-		#background {
-			left: 0px;
-			top: 0px;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-		}
-
 		jr-bottom-info {
-			position: absolute;
-			bottom: 0px;
-			right: 0px;
-			width: 1622px;
-			height: 162px;
+			grid-column: 2 / 3;
+			grid-row: 2 / 3;
+			margin-left: 10px;
 		}
 	</style>
 </head>
