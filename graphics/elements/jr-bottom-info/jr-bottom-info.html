@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/polymer/lib/utils/render-status.html">
 <link rel="import" href="../../../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../jr-fittext/jr-fittext.html">
 
 <dom-module id="jr-bottom-info">
 	<template>
@@ -13,7 +14,7 @@
 			}
 
 			#game {
-				font-size: 60px;
+				font-size: 70px;
 				font-weight: 900;
 				overflow: hidden;
 				display: flex;
@@ -27,7 +28,7 @@
 				text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 			}
 
-			#category, #runners {
+			#category {
 				font-size: 25px;
 				font-weight: 500;
 			}
@@ -50,8 +51,7 @@
 		</style>
 
 		<div id="game"><div id="game_text">[[game]]</div></div>
-		<div id="category">カテゴリー：[[category]]</div>
-		<div id="runners">走者：[[runners]]</div>
+		<div id="category">カテゴリー：[[category]] | 機種：[[console]]</div>
 		<template is="dom-if" if="{{commentator}}">
 			<div id="commentator_container">
 				<div id="title">解説</div>
@@ -59,7 +59,5 @@
 			</div>
 		</template>
 	</template>
-
-	<script src="../../../bower_components/textfit/textFit.min.js"></script>
 	<script src="jr-bottom-info.js"></script>
 </dom-module>

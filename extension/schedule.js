@@ -20,26 +20,26 @@ module.exports = nodecg => {
 				return;
 			}
 
-			const getIndexByLabel = label => {
-				return data.columns.indexOf(label);
-			};
+			const getIndexByLabel = label => data.columns.indexOf(label);
 			const indices = {
 				game: getIndexByLabel('ゲーム'),
 				category: getIndexByLabel('カテゴリー'),
+				console: getIndexByLabel('機種'),
 				runners: getIndexByLabel('走者'),
 				length: getIndexByLabel('Length'),
-				english: getIndexByLabel('English')
+				english: getIndexByLabel('Game')
 			};
 
 			scheduleRep.value = data.items.map((run, index) => {
 				return {
 					index,
 					scheduled: run.scheduled_t * 1000,
-					game: run.data[indices.game],
-					category: run.data[indices.category],
-					runners: run.data[indices.runners].replace(/\\_/gi, '_'),
-					length: run.data[indices.length],
-					english: run.data[indices.english],
+					game: run.data[indices.game] || '',
+					category: run.data[indices.category] || 'Any%',
+					console: run.data[indices.console] || '',
+					runners: (run.data[indices.runners] || '').replace(/\\_/gi, '_'),
+					length: run.data[indices.length] || '',
+					english: run.data[indices.english] || '',
 					commentator: ''
 				};
 			});

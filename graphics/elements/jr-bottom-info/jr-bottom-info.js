@@ -14,7 +14,7 @@
 				this.commentator = newVal.commentator;
 				this.game = newVal.game;
 				this.category = newVal.category;
-				this.runners = newVal.runners;
+				this.console = newVal.console;
 				Polymer.RenderStatus.afterNextRender(this, this.fitText);
 			})
 		}

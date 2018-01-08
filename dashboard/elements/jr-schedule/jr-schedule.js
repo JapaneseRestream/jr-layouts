@@ -15,10 +15,7 @@
 			super.ready();
 
 			currentRunRep.on('change', newVal => {
-				this.game = newVal.game;
-				this.runners = newVal.runners;
-				this.category = newVal.category;
-				this.commentator = newVal.commentator;
+				this.run = newVal;
 			});
 
 			scheduleRep.on('change', newVal => {
@@ -28,11 +25,11 @@
 			targetChannelInfoRep.on('change', newVal => {
 				this.targetChannelInfoTitle = newVal.title;
 				this.targetChannelInfoGame = newVal.game;
-			})
+			});
 			ourChannelInfoRep.on('change', newVal => {
 				this.ourChannelInfoTitle = newVal.title;
 				this.ourChannelInfoGame = newVal.game;
-			})
+			});
 		}
 
 		previousRun() {

@@ -7,6 +7,8 @@ module.exports = nodecg => {
 	scheduleRep.on('change', () => {
 		if (!currentRunRep.value.index) {
 			setCurrentRunByIndex(0);
+		} else {
+			setCurrentRunByIndex(currentRunRep.value.index);
 		}
 	});
 

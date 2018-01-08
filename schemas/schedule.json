@@ -18,6 +18,9 @@
 			"category": {
 				"type": "string"
 			},
+			"console": {
+				"type": "string"
+			},
 			"runners": {
 				"type": "string"
 			},

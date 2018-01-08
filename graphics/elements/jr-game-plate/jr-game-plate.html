@@ -1,5 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../../bower_components/polymer/lib/utils/render-status.html">
+<link rel="import" href="../jr-fittext/jr-fittext.html">
 
 <dom-module id="jr-game-plate">
 	<template>
@@ -16,12 +17,6 @@
 			#game {
 				font-size: 30px;
 				font-weight: 500;
-				display: flex;
-				justify-content: center;
-			}
-
-			#game_text {
-				white-space: nowrap;
 			}
 
 			#misc {
@@ -32,8 +27,8 @@
 		</style>
 
 		<div id="run_container">
-			<div id="game"><div id="game_text">[[game]]</div></div>
-			<div id="misc">[[category]] - [[runners]]</div>
+			<jr-fittext id="game" text="[[game]]"></jr-fittext>
+			<jr-fittext id="misc" text="[[misc]]"></jr-fittext>
 		</div>
 	</template>
 	<script src="jr-game-plate.js"></script>
