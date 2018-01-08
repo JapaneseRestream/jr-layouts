@@ -76,7 +76,8 @@
   "scripts": {
     "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
     "restart": "pm2 restart jr",
-		"lint": "xo --fix"
+    "lint": "xo --fix",
+    "test": "xo"
   },
   "repository": {
     "type": "git",
