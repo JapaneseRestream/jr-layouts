@@ -15,7 +15,7 @@
 			super.ready();
 
 			currentRunRep.on('change', newVal => {
-				this.run = newVal;
+				this.run = { ...newVal };
 			});
 
 			scheduleRep.on('change', newVal => {
@@ -46,36 +46,19 @@
 		}
 
 		loadEdit() {
-			this.editingGame = this.game;
-			this.editingRunners = this.runners;
-			this.editingCategory = this.category;
-			this.editingCommentator = this.commentator;
+			this.editingRun = { ...this.run };
 			this.$.editDialog.open();
 		}
 
 		saveEdit() {
-			nodecg.sendMessage(
-				'editRun',
-				{
-					game: this.editingGame,
-					runners: this.editingRunners,
-					category: this.editingCategory,
-					commentator: this.editingCommentator
-				},
-				() => {
-					this.$.editDialog.close();
-				}
-			);
+			nodecg.sendMessage('editRun', this.editingRun, () => {
+				this.$.editDialog.close();
+			});
 		}
 
 		unixTimeToString(unix) {
 			return new Date(unix).toLocaleString();
 		}
-
-		calcCommentator(commentator) {
-			return commentator ? commentator : '未設定';
-		}
 	}
-
 	customElements.define(JrSchedule.is, JrSchedule);
 })();

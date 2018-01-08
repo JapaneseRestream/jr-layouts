@@ -78,7 +78,7 @@
 			<div id="currentRunInfo">
 				<div>タイトル：[[run.game]]</div>
 				<div>英語名：[[run.english]]</div>
-				<div>解説：[[calcCommentator(run.commentator)]]</div>
+				<div>解説：[[run.commentator]]</div>
 				<div>カテゴリー：[[run.category]] / 機種：[[run.console]]</div>
 				<div>走者：[[run.runners]]</div>
 			</div>
@@ -136,19 +136,23 @@
 			<paper-input
 			label="ゲーム"
 			always-float-label
-			value="{{editingGame}}"></paper-input>
-			<paper-input
-			label="カテゴリー"
-			always-float-label
-			value="{{editingCategory}}"></paper-input>
+			value="{{editingRun.game}}"></paper-input>
 			<paper-input
 			label="解説"
 			always-float-label
-			value="{{editingCommentator}}"></paper-input>
+			value="{{editingRun.commentator}}"></paper-input>
+			<paper-input
+			label="カテゴリー"
+			always-float-label
+			value="{{editingRun.category}}"></paper-input>
+			<paper-input
+			label="機種"
+			always-float-label
+			value="{{editingRun.console}}"></paper-input>
 			<paper-input
 			label="走者"
 			always-float-label
-			value="{{editingRunners}}"></paper-input>
+			value="{{editingRun.runners}}"></paper-input>
 			<paper-button raised on-click="saveEdit">保存</paper-button>
 			<paper-button raised dialog-dismiss autofocus>キャンセル</paper-button>
 		</paper-dialog>
