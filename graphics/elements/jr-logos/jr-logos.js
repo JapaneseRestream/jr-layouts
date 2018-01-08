@@ -1,3 +1,5 @@
+/* global Polymer */
+
 (function() {
 	const logosRep = nodecg.Replicant('assets:logos');
 
@@ -20,10 +22,10 @@
 				const showElement = index => {
 					this.logoUrl = logoUrls[index];
 					this.$.logo.style.opacity = 1;
-				}
+				};
 				const hideElement = () => {
 					this.$.logo.style.opacity = 0;
-				}
+				};
 
 				clearInterval(this.logoInterval);
 
@@ -41,7 +43,7 @@
 						showElement(currentLogoIndex);
 					}, 0.33 * 1000);
 				}, (10 + 0.33) * 1000);
-			})
+			});
 		}
 	}
 

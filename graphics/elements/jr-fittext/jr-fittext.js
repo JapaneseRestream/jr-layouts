@@ -1,3 +1,5 @@
+/* global Polymer */
+
 (function() {
 	class JrFittext extends Polymer.Element {
 		static get is() {
@@ -18,9 +20,9 @@
 				const MAX_WIDTH = this.$.container.clientWidth;
 				const currentWidth = this.$.text.clientWidth;
 				if (currentWidth > MAX_WIDTH) {
-					this.$.text.style.transform = `scaleX(${MAX_WIDTH / currentWidth})`
+					this.$.text.style.transform = `scaleX(${MAX_WIDTH / currentWidth})`;
 				} else {
-					this.$.text.style.transform = `scaleX(1)`
+					this.$.text.style.transform = `scaleX(1)`;
 				}
 			});
 		}

@@ -54,14 +54,18 @@
 		}
 
 		saveEdit() {
-			nodecg.sendMessage('editRun', {
-				game: this.editingGame,
-				runners: this.editingRunners,
-				category: this.editingCategory,
-				commentator: this.editingCommentator
-			}, () => {
-				this.$.editDialog.close();
-			})
+			nodecg.sendMessage(
+				'editRun',
+				{
+					game: this.editingGame,
+					runners: this.editingRunners,
+					category: this.editingCategory,
+					commentator: this.editingCommentator
+				},
+				() => {
+					this.$.editDialog.close();
+				}
+			);
 		}
 
 		unixTimeToString(unix) {
@@ -69,7 +73,7 @@
 		}
 
 		calcCommentator(commentator) {
-			return commentator ? commentator : '未設定'
+			return commentator ? commentator : '未設定';
 		}
 	}
 

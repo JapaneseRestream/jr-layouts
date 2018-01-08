@@ -1,4 +1,6 @@
-(function(){
+/* global Polymer */
+
+(function() {
 	class JrGamePlate extends Polymer.Element {
 		static get is() {
 			return 'jr-game-plate';
@@ -8,7 +10,7 @@
 			return {
 				game: String,
 				misc: String
-			}
+			};
 		}
 	}
 	customElements.define(JrGamePlate.is, JrGamePlate);

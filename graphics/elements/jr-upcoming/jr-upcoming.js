@@ -1,4 +1,6 @@
-(function(){
+/* global Polymer */
+
+(function() {
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 
@@ -16,7 +18,7 @@
 					type: Number,
 					default: 0
 				}
-			}
+			};
 		}
 
 		ready() {
@@ -30,14 +32,17 @@
 			scheduleRep.on('change', newVal => {
 				this.schedule = newVal;
 				this.calcUpcomingRuns();
-			})
+			});
 		}
 
 		calcUpcomingRuns() {
 			if (!this.schedule) {
 				return;
 			}
-			this.upcomingRuns = this.schedule.slice(this.currentIndex + 1, this.currentIndex + this['run-number'] + 1)
+			this.upcomingRuns = this.schedule.slice(
+				this.currentIndex + 1,
+				this.currentIndex + this['run-number'] + 1
+			);
 		}
 	}
 	customElements.define(JrUpcoming.is, JrUpcoming);

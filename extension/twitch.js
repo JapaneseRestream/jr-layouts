@@ -3,10 +3,14 @@ const request = require('superagent');
 module.exports = nodecg => {
 	const log = new nodecg.Logger(`${nodecg.bundleName}:twitch`);
 	const targetChannelName = 'gamesdonequick';
-	const targetChannelIdRep = nodecg.Replicant('targetChannelId', { defaultValue: '' });
-	const ourChannelIdRep = nodecg.Replicant('ourChannelId', { defaultValue: '' });
-	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo')
-	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo')
+	const targetChannelIdRep = nodecg.Replicant('targetChannelId', {
+		defaultValue: ''
+	});
+	const ourChannelIdRep = nodecg.Replicant('ourChannelId', {
+		defaultValue: ''
+	});
+	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
+	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo');
 
 	if (
 		!nodecg.config.login ||
@@ -14,15 +18,19 @@ module.exports = nodecg => {
 		!nodecg.config.login.twitch ||
 		!nodecg.config.login.twitch.enabled
 	) {
-		log.info("Enable NodeCG's login feature to enable Twitch-related extensions");
+		log.info(
+			"Enable NodeCG's login feature to enable Twitch-related extensions"
+		);
 		return;
 	}
-	
-	const getUrl = name => `https://api.twitch.tv/kraken/users?login=${name}`
-	const targetChannelRequest = request.get(getUrl(targetChannelName))
+
+	const getUrl = name => `https://api.twitch.tv/kraken/users?login=${name}`;
+	const targetChannelRequest = request
+		.get(getUrl(targetChannelName))
 		.set('Accept', 'application/vnd.twitchtv.v5+json')
 		.set('Client-ID', nodecg.config.login.twitch.clientID);
-	const jpRestreamChannelRequest = request.get(getUrl('japanese_restream'))
+	const jpRestreamChannelRequest = request
+		.get(getUrl('japanese_restream'))
 		.set('Accept', 'application/vnd.twitchtv.v5+json')
 		.set('Client-ID', nodecg.config.login.twitch.clientID);
 	Promise.all([targetChannelRequest, jpRestreamChannelRequest])
@@ -33,10 +41,9 @@ module.exports = nodecg => {
 		.catch(err => {
 			log.error(`Failed to get channel ID of ${targetChannelName}:`);
 			log.error(err);
-		})
-	
-	const getChannelInfo = (channelIdRep, channelInfoRep) => {
-		let interval;
+		});
+
+	const getChannelInfo = (channelIdRep, channelInfoRep, interval) => {
 		channelIdRep.on('change', newVal => {
 			const retrieveChannelInfo = () => {
 				const url = `https://api.twitch.tv/kraken/channels/${newVal}`;
@@ -46,7 +53,9 @@ module.exports = nodecg => {
 					.set('Client-ID', nodecg.config.login.twitch.clientID)
 					.end((err, response) => {
 						if (err) {
-							log.error(`Failed to get channel info from ${targetChannelName}:`);
+							log.error(
+								`Failed to get channel info from ${targetChannelName}:`
+							);
 							log.error(err);
 						} else {
 							const result = response.body;
@@ -57,13 +66,15 @@ module.exports = nodecg => {
 								channelInfoRep.value.game = result.game || '';
 							}
 						}
-					})
-			}
+					});
+			};
 			retrieveChannelInfo();
-			channelInfoInterval = setInterval(retrieveChannelInfo, 60 * 1000);
-		})
-	}
+			clearInterval(interval);
+			interval = setInterval(retrieveChannelInfo, 60 * 1000);
+		});
+	};
 
-	getChannelInfo(targetChannelIdRep, targetChannelInfoRep)
-	getChannelInfo(ourChannelIdRep, ourChannelInfoRep)
-}
+	let channelInfoInterval;
+	getChannelInfo(targetChannelIdRep, targetChannelInfoRep, channelInfoInterval);
+	getChannelInfo(ourChannelIdRep, ourChannelInfoRep, channelInfoInterval);
+};

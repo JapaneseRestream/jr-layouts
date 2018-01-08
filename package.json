@@ -5,14 +5,14 @@
   "nodecg": {
     "compatibleRange": "^0.9.8",
     "assetCategories": [
-			{
-				"name": "logos",
-				"title": "ロゴ",
-				"allowedTypes": [
-					"png"
-				]
-			}
-		],
+      {
+        "name": "logos",
+        "title": "ロゴ",
+        "allowedTypes": [
+          "png"
+        ]
+      }
+    ],
     "dashboardPanels": [
       {
         "name": "stream",
@@ -30,10 +30,53 @@
       }
     ]
   },
+  "xo": {
+    "extends": [
+      "plugin:prettier/recommended"
+    ],
+    "globals": [
+      "nodecg"
+    ],
+    "rules": {
+      "new-cap": [2, {
+        "capIsNewExceptions": [
+          "nodecg.Replicant"
+        ]
+      }]
+    },
+    "overrides": [
+      {
+        "files": "dashboard/**/*",
+        "envs": [
+          "browser"
+        ],
+        "plugins": [
+          "html"
+        ],
+        "extensions": [
+          "js",
+          "html"
+        ]
+      },
+      {
+        "files": "graphics/**/*",
+        "envs": [
+          "browser"
+        ],
+        "plugins": [
+          "html"
+        ],
+        "extensions": [
+          "js",
+          "html"
+        ]
+      }
+    ]
+  },
   "scripts": {
     "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
     "restart": "pm2 restart jr",
-    "lint": "eslint --fix ./**/*.js ./**/*.html"
+		"lint": "xo --fix"
   },
   "repository": {
     "type": "git",
@@ -46,18 +89,16 @@
   },
   "homepage": "https://github.com/Hoishin/japanese-restream#readme",
   "dependencies": {
+    "clone": "^2.1.1",
     "pm2": "^2.9.1",
     "superagent": "^3.8.2",
     "twitter-stream-api": "^0.5.2"
   },
   "devDependencies": {
-    "eslint": "^4.14.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-config-xo": "^0.19.0",
-    "eslint-plugin-ava": "^4.4.0",
-    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-prettier": "^2.4.0",
-    "eslint-plugin-unicorn": "^3.0.1",
-    "prettier": "^1.9.2"
+    "prettier": "1.9.2",
+    "xo": "^0.18.2"
   }
 }
