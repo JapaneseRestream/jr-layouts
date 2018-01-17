@@ -1,12 +1,12 @@
 {
-  "name": "japanese-restream",
+  "name": "jr-layouts",
   "description": "",
   "main": "",
   "authors": [
     "Hoishin"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Hoishin/japanese-restream",
+  "homepage": "https://github.com/JapaneseRestream/jr-layouts",
   "ignore": [
     "**/.*",
     "node_modules",

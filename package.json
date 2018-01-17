@@ -1,5 +1,5 @@
 {
-  "name": "japanese-restream",
+  "name": "jr-layouts",
   "version": "0.0.0",
   "description": "",
   "nodecg": {
@@ -81,14 +81,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hoishin/japanese-restream.git"
+    "url": "git+https://github.com/JapaneseRestream/jr-layouts.git"
   },
   "author": "Hoishin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Hoishin/japanese-restream/issues"
+    "url": "https://github.com/JapaneseRestream/jr-layouts/issues"
   },
-  "homepage": "https://github.com/Hoishin/japanese-restream#readme",
+  "homepage": "https://github.com/JapaneseRestream/jr-layouts#readme",
   "dependencies": {
     "clone": "^2.1.1",
     "pm2": "^2.9.1",
