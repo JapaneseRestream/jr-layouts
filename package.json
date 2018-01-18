@@ -17,7 +17,7 @@
       {
         "name": "stream",
         "title": "配信担当ダッシュボード",
-        "file": "main.html",
+        "file": "index.html",
         "headerColor": "#9f9bbd",
         "fullbleed": true
       }
@@ -31,44 +31,28 @@
     ]
   },
   "xo": {
-    "extends": [
-      "plugin:prettier/recommended"
+    "extensions": [
+      "js",
+      "vue"
     ],
     "globals": [
       "nodecg"
     ],
     "rules": {
-      "new-cap": [2, {
-        "capIsNewExceptions": [
-          "nodecg.Replicant"
-        ]
-      }]
+      "new-cap": [
+        "error",
+        {
+          "capIsNewExceptions": [
+            "nodecg.Replicant"
+          ]
+        }
+      ]
     },
     "overrides": [
       {
-        "files": "dashboard/**/*",
-        "envs": [
-          "browser"
-        ],
+        "files": "**/*.vue",
         "plugins": [
-          "html"
-        ],
-        "extensions": [
-          "js",
-          "html"
-        ]
-      },
-      {
-        "files": "graphics/**/*",
-        "envs": [
-          "browser"
-        ],
-        "plugins": [
-          "html"
-        ],
-        "extensions": [
-          "js",
-          "html"
+          "vue/recommended"
         ]
       }
     ]
@@ -77,7 +61,8 @@
     "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
     "restart": "pm2 restart jr",
     "lint": "xo --fix",
-    "test": "xo"
+    "test": "xo",
+    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
   },
   "repository": {
     "type": "git",
@@ -95,11 +80,8 @@
     "superagent": "^3.8.2",
     "twitter-stream-api": "^0.5.2"
   },
-  "devDependencies": {
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-html": "^3.2.2",
-    "eslint-plugin-prettier": "^2.4.0",
-    "prettier": "1.9.2",
-    "xo": "^0.18.2"
+  "devDependencies": {},
+  "engines": {
+    "yarn": ">= 1.0.0"
   }
 }

@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function() {
+(function () {
 	const logosRep = nodecg.Replicant('assets:logos');
 
 	class JrLogos extends Polymer.Element {

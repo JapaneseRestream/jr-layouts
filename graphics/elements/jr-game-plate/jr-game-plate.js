@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function() {
+(function () {
 	class JrGamePlate extends Polymer.Element {
 		static get is() {
 			return 'jr-game-plate';

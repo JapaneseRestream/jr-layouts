@@ -14,9 +14,9 @@ module.exports = nodecg => {
 	function fetchHoraroSchedule() {
 		const url = `https://horaro.org/-/api/v1/schedules/${horaroId}`;
 
-		request.get(url).end((err, { body: { data } }) => {
+		request.get(url).end((err, {body: {data}}) => {
 			if (err) {
-				nodecg.log.error("Couldn't update Horaro schedule.");
+				nodecg.log.error('Couldn\'t update Horaro schedule.');
 				return;
 			}
 
