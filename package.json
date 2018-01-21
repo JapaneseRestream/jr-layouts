@@ -1,7 +1,40 @@
 {
   "name": "jr-layouts",
   "version": "0.0.0",
-  "description": "",
+  "description": "On-stream layout for Japanese Restream, official GDQ and RPGLB restreaming channel",
+  "homepage": "https://twitch.tv/japanese_restream",
+  "bugs": {
+    "url": "https://github.com/JapaneseRestream/jr-layouts/issues",
+    "email": "hoishinxii@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Hoishin <hoishinxii@gmail.com> (https://twitter.com/hoishinxii)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JapaneseRestream/jr-layouts.git"
+  },
+  "scripts": {
+    "build": "./scripts/build.sh",
+    "start": "pm2 start ../../index.js --name jr-layouts --watch ./extension --watch ./node_modules --watch ./schemas --watch ../../cfg",
+    "restart": "pm2 restart jr-layouts",
+    "test": "xo",
+    "format": "xo --fix --prettier"
+  },
+  "dependencies": {
+    "clone": "^2.1.1",
+    "pm2": "^2.9.1",
+    "superagent": "^3.8.2",
+    "twitter-stream-api": "^0.5.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-html": "^4.0.1",
+    "eslint-plugin-vue": "^4.2.0",
+    "xo": "sindresorhus/xo#8ef54e00c6023381704732cbb36aeb7868547eda"
+  },
+  "engines": {
+    "node": "^8.9.4",
+    "npm": "^5.6.0"
+  },
   "nodecg": {
     "compatibleRange": "^0.9.8",
     "assetCategories": [
@@ -31,9 +64,15 @@
     ]
   },
   "xo": {
+    "prettier": true,
     "extensions": [
       "js",
-      "vue"
+      "vue",
+      "html"
+    ],
+    "envs": [
+      "node",
+      "commonjs"
     ],
     "globals": [
       "nodecg"
@@ -50,38 +89,55 @@
     },
     "overrides": [
       {
+        "files": "graphics/**/*",
+        "envs": ["browser"]
+      },
+      {
+        "files": "_dashboard/**/*",
+        "envs": ["browser"]
+      },
+      {
         "files": "**/*.vue",
+        "extends": [
+          "plugin:vue/recommended"
+        ],
+        "rules": {
+          "vue/html-indent": [
+            "error",
+            "tab",
+            {
+              "attribute": 0
+            }
+          ],
+          "vue/max-attributes-per-line": [
+            "error",
+            {
+              "singleline": 1,
+              "multiline": {
+                "max": 1,
+                "allowFirstLine": true
+              }
+            }
+          ],
+          "vue/mustache-interpolation-spacing": [
+            "error",
+            "never"
+          ],
+          "vue/html-closing-bracket-newline": "error",
+          "vue/html-closing-bracket-spacing": [
+            "error",
+            {
+              "selfClosingTag": "never"
+            }
+          ]
+        }
+      },
+      {
+        "files": "**/*.html",
         "plugins": [
-          "vue/recommended"
+          "html"
         ]
       }
     ]
-  },
-  "scripts": {
-    "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
-    "restart": "pm2 restart jr",
-    "lint": "xo --fix",
-    "test": "xo",
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JapaneseRestream/jr-layouts.git"
-  },
-  "author": "Hoishin",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JapaneseRestream/jr-layouts/issues"
-  },
-  "homepage": "https://github.com/JapaneseRestream/jr-layouts#readme",
-  "dependencies": {
-    "clone": "^2.1.1",
-    "pm2": "^2.9.1",
-    "superagent": "^3.8.2",
-    "twitter-stream-api": "^0.5.2"
-  },
-  "devDependencies": {},
-  "engines": {
-    "yarn": ">= 1.0.0"
   }
 }

@@ -1,36 +1,16 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema",
-
-	"type": "object",
-	"additionalProperties": false,
-	"properties": {
-		"index": {
-			"type": ["integer", "null"],
-			"default": null
-		},
-		"scheduled": {
-			"type": "integer"
-		},
-		"game": {
-			"type": "string"
-		},
-		"category": {
-			"type": "string"
-		},
-		"console": {
-			"type": "string"
-		},
-		"runners": {
-			"type": "string"
-		},
-		"length": {
-			"type": "string"
-		},
-		"english": {
-			"type": "string"
-		},
-		"commentator": {
-			"type": "string"
-		}
-	}
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "index": { "type": ["integer", "null"], "default": null },
+    "scheduled": { "type": "integer" },
+    "game": { "type": "string" },
+    "category": { "type": "string" },
+    "console": { "type": "string" },
+    "runners": { "type": "string" },
+    "length": { "type": "string" },
+    "english": { "type": "string" },
+    "commentator": { "type": "string" }
+  }
 }

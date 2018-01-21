@@ -1,25 +1,20 @@
 const request = require('superagent');
 
 const FETCH_SCHEDULE_INTERVAL = 60 * 1000;
-
 module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
 	const horaroId = nodecg.bundleConfig.horaroId;
-
 	if (horaroId) {
 		fetchHoraroSchedule();
 		setInterval(fetchHoraroSchedule, FETCH_SCHEDULE_INTERVAL);
 	}
-
 	function fetchHoraroSchedule() {
 		const url = `https://horaro.org/-/api/v1/schedules/${horaroId}`;
-
 		request.get(url).end((err, {body: {data}}) => {
 			if (err) {
-				nodecg.log.error('Couldn\'t update Horaro schedule.');
+				nodecg.log.error("Couldn't update Horaro schedule.");
 				return;
 			}
-
 			const getIndexByLabel = label => data.columns.indexOf(label);
 			const indices = {
 				game: getIndexByLabel('ゲーム'),
@@ -29,7 +24,6 @@ module.exports = nodecg => {
 				length: getIndexByLabel('Length'),
 				english: getIndexByLabel('Game')
 			};
-
 			scheduleRep.value = data.items.map((run, index) => {
 				return {
 					index,

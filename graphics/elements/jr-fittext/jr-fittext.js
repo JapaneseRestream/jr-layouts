@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function () {
+(function() {
 	class JrFittext extends Polymer.Element {
 		static get is() {
 			return 'jr-fittext';

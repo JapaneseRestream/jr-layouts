@@ -3,13 +3,11 @@ const clone = require('clone');
 module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
 	const currentRunRep = nodecg.Replicant('currentRun');
-
 	scheduleRep.on('change', () => {
-		if (!currentRunRep.value.index) {
+		if (!currentRunRep.value.index === null) {
 			setCurrentRunByIndex(0);
 		}
 	});
-
 	nodecg.listenFor('nextRun', (_, cb) => {
 		setCurrentRunByIndex(currentRunRep.value.index + 1);
 		if (typeof cb === 'function') {
@@ -34,7 +32,6 @@ module.exports = nodecg => {
 			cb();
 		}
 	});
-
 	function setCurrentRunByIndex(index) {
 		if (index >= 0 && index < scheduleRep.value.length) {
 			currentRunRep.value = clone(scheduleRep.value[index]);
