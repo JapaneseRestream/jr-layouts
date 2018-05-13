@@ -38,11 +38,14 @@
       "nodecg"
     ],
     "rules": {
-      "new-cap": [2, {
-        "capIsNewExceptions": [
-          "nodecg.Replicant"
-        ]
-      }]
+      "new-cap": [
+        2,
+        {
+          "capIsNewExceptions": [
+            "nodecg.Replicant"
+          ]
+        }
+      ]
     },
     "overrides": [
       {
