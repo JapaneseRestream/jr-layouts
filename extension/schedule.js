@@ -4,42 +4,36 @@ const FETCH_SCHEDULE_INTERVAL = 60 * 1000;
 
 module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
-	const horaroId = nodecg.bundleConfig.horaroId;
+	const { trackerUrl } = nodecg.bundleConfig;
 
-	if (horaroId) {
-		fetchHoraroSchedule();
-		setInterval(fetchHoraroSchedule, FETCH_SCHEDULE_INTERVAL);
+	if (!trackerUrl) {
+		nodecg.log.info("Tracker URL is not provided. Schedule won't be fetched");
+		return;
 	}
 
-	function fetchHoraroSchedule() {
-		const url = `https://horaro.org/-/api/v1/schedules/${horaroId}`;
+	fetchHoraroSchedule();
+	setInterval(fetchHoraroSchedule, FETCH_SCHEDULE_INTERVAL);
 
-		request.get(url).end((err, { body: { data } }) => {
+	function fetchHoraroSchedule() {
+		const url = trackerUrl;
+
+		request.get(url).end((err, { body }) => {
 			if (err) {
 				nodecg.log.error("Couldn't update Horaro schedule.");
 				return;
 			}
 
-			const getIndexByLabel = label => data.columns.indexOf(label);
-			const indices = {
-				game: getIndexByLabel('ゲーム'),
-				category: getIndexByLabel('カテゴリー'),
-				console: getIndexByLabel('機種'),
-				runners: getIndexByLabel('走者'),
-				length: getIndexByLabel('Length'),
-				english: getIndexByLabel('Game')
-			};
-
-			scheduleRep.value = data.items.map((run, index) => {
+			scheduleRep.value = body.map(run => {
+				const { fields, pk } = run;
 				return {
-					index,
-					scheduled: run.scheduled_t * 1000,
-					game: run.data[indices.game] || '',
-					category: run.data[indices.category] || 'Any%',
-					console: run.data[indices.console] || '',
-					runners: (run.data[indices.runners] || '').replace(/\\_/gi, '_'),
-					length: run.data[indices.length] || '',
-					english: run.data[indices.english] || '',
+					index: fields.order,
+					pk,
+					scheduled: fields.starttime,
+					game: fields.name || '',
+					category: fields.category || 'Any%',
+					console: fields.console || '',
+					runners: fields.deprecated_runners || '',
+					english: fields.name || '',
 					commentator: ''
 				};
 			});

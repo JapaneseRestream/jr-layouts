@@ -9,8 +9,11 @@
 			"index": {
 				"type": "integer"
 			},
-			"scheduled": {
+			"pk": {
 				"type": "integer"
+			},
+			"scheduled": {
+				"type": "string"
 			},
 			"game": {
 				"type": "string"
@@ -22,9 +25,6 @@
 				"type": "string"
 			},
 			"runners": {
-				"type": "string"
-			},
-			"length": {
 				"type": "string"
 			},
 			"english": {

@@ -5,11 +5,13 @@
 	"additionalProperties": false,
 	"properties": {
 		"index": {
-			"type": ["integer", "null"],
-			"default": null
+			"type": "integer"
+		},
+		"pk": {
+			"type": "integer"
 		},
 		"scheduled": {
-			"type": "integer"
+			"type": "string"
 		},
 		"game": {
 			"type": "string"
@@ -21,9 +23,6 @@
 			"type": "string"
 		},
 		"runners": {
-			"type": "string"
-		},
-		"length": {
 			"type": "string"
 		},
 		"english": {
