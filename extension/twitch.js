@@ -2,7 +2,7 @@ const request = require('superagent');
 
 module.exports = nodecg => {
 	const log = new nodecg.Logger(`${nodecg.bundleName}:twitch`);
-	const targetChannelName = 'gamesdonequick';
+	const targetChannelName = 'rpglimitbreak';
 	const targetChannelIdRep = nodecg.Replicant('targetChannelId', {
 		defaultValue: ''
 	});
