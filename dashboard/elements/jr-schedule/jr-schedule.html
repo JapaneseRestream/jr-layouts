@@ -74,7 +74,7 @@
 				<paper-button raised on-click="loadEdit">編集</paper-button>
 				<paper-button raised on-click="nextRun">次のゲーム</paper-button>
 			</div>
-	
+
 			<div id="currentRunInfo">
 				<div>タイトル：[[run.game]]</div>
 				<div>英語名：[[run.english]]</div>
@@ -116,22 +116,9 @@
 				<div>JRチャンネル: [[ourChannelInfoGame]]</div>
 				<div>GDQチャンネル: [[targetChannelInfoGame]]</div>
 			</div>
-
-			<div id="twitch">
-				<iframe id="stream"
-				src="https://player.twitch.tv/?channel=gamesdonequick&volume=0.5&muted=true"
-				frameborder="0"
-				scrolling="no"
-				></iframe>
-				<iframe id="chat"
-				src="https://twitch.tv/japanese_restream/chat"
-				frameborder="0"
-				scrolling="yes"
-				></iframe>
-			</div>
 		</div>
 
-		
+
 		<paper-dialog id="editDialog">
 			<paper-input
 			label="ゲーム"
@@ -156,7 +143,7 @@
 			<paper-button raised on-click="saveEdit">保存</paper-button>
 			<paper-button raised dialog-dismiss autofocus>キャンセル</paper-button>
 		</paper-dialog>
-		
+
 	</template>
 	<script src="jr-schedule.js"></script>
 </dom-module>
