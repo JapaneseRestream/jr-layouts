@@ -23,10 +23,10 @@ module.exports = nodecg => {
 				return;
 			}
 
-			scheduleRep.value = body.map(run => {
+			scheduleRep.value = body.map((run, index) => {
 				const { fields, pk } = run;
 				return {
-					index: fields.order,
+					index,
 					pk,
 					scheduled: fields.starttime,
 					game: fields.name || '',
