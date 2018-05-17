@@ -1,7 +1,5 @@
 {
   "name": "jr-layouts",
-  "version": "0.0.0",
-  "description": "",
   "nodecg": {
     "compatibleRange": "^0.9.8",
     "assetCategories": [
@@ -67,16 +65,6 @@
     "lint": "xo --fix",
     "test": "xo"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JapaneseRestream/jr-layouts.git"
-  },
-  "author": "Hoishin",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JapaneseRestream/jr-layouts/issues"
-  },
-  "homepage": "https://github.com/JapaneseRestream/jr-layouts#readme",
   "dependencies": {
     "clone": "^2.1.1",
     "got": "^8.3.1",
