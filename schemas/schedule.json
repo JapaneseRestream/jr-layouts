@@ -3,36 +3,7 @@
 
 	"type": "array",
 	"items": {
-		"type": "object",
-		"additionalProperties": false,
-		"properties": {
-			"index": {
-				"type": "integer"
-			},
-			"pk": {
-				"type": "integer"
-			},
-			"scheduled": {
-				"type": "string"
-			},
-			"game": {
-				"type": "string"
-			},
-			"category": {
-				"type": "string"
-			},
-			"console": {
-				"type": "string"
-			},
-			"runners": {
-				"type": "string"
-			},
-			"english": {
-				"type": "string"
-			},
-			"commentator": {
-				"type": "string"
-			}
-		}
-	}
+		"$ref": "lib/run.json"
+	},
+	"default": []
 }
