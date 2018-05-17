@@ -1,5 +1,59 @@
 {
   "name": "jr-layouts",
+  "scripts": {
+    "lint": "xo --fix",
+    "restart": "pm2 restart jr",
+    "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
+    "test": "xo"
+  },
+  "xo": {
+    "extensions": [
+      "js",
+      "html"
+    ],
+    "globals": [
+      "nodecg"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "dashboard/**/*",
+          "graphics/**/*"
+        ],
+        "envs": [
+          "browser"
+        ]
+      }
+    ],
+    "plugins": [
+      "html"
+    ],
+    "prettier": true,
+    "rules": {
+      "new-cap": [
+        2,
+        {
+          "capIsNewExceptions": [
+            "nodecg.Replicant"
+          ]
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "clone": "^2.1.1",
+    "got": "^8.3.1",
+    "pm2": "^2.9.1",
+    "superagent": "^3.8.2",
+    "twitter-stream-api": "^0.5.2"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-prettier": "^2.4.0",
+    "prettier": "1.9.2",
+    "xo": "^0.18.2"
+  },
   "nodecg": {
     "compatibleRange": "^0.9.8",
     "assetCategories": [
@@ -27,56 +81,5 @@
         "height": 1080
       }
     ]
-  },
-  "xo": {
-    "prettier": true,
-    "globals": [
-      "nodecg"
-    ],
-    "extensions": [
-      "js",
-      "html"
-    ],
-    "rules": {
-      "new-cap": [
-        2,
-        {
-          "capIsNewExceptions": [
-            "nodecg.Replicant"
-          ]
-        }
-      ]
-    },
-    "plugins": [
-      "html"
-    ],
-    "overrides": [
-      {
-        "files": ["dashboard/**/*", "graphics/**/*"],
-        "envs": [
-          "browser"
-        ]
-      }
-    ]
-  },
-  "scripts": {
-    "start": "pm2 start ../../index.js --name jr --watch . --watch ../../cfg",
-    "restart": "pm2 restart jr",
-    "lint": "xo --fix",
-    "test": "xo"
-  },
-  "dependencies": {
-    "clone": "^2.1.1",
-    "got": "^8.3.1",
-    "pm2": "^2.9.1",
-    "superagent": "^3.8.2",
-    "twitter-stream-api": "^0.5.2"
-  },
-  "devDependencies": {
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-html": "^3.2.2",
-    "eslint-plugin-prettier": "^2.4.0",
-    "prettier": "1.9.2",
-    "xo": "^0.18.2"
   }
 }
