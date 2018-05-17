@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function() {
+(function () {
 	const currentRunRep = nodecg.Replicant('currentRun');
 
 	class JrBottomInfo extends Polymer.Element {
@@ -26,8 +26,7 @@
 			const currentWidth = this.$.game_text.clientWidth;
 			if (MAX_WIDTH < currentWidth) {
 				const overflowLength = currentWidth - MAX_WIDTH;
-				this.$.game_text.style.transform = `translateX(${0 -
-					overflowLength / 2}px) scaleX(${MAX_WIDTH / currentWidth})`;
+				this.$.game_text.style.transform = `translateX(${0 - (overflowLength / 2)}px) scaleX(${MAX_WIDTH / currentWidth})`;
 			} else {
 				this.$.game_text.style.transform = `scaleX(1)`;
 			}

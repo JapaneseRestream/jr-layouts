@@ -31,11 +31,13 @@
     ]
   },
   "xo": {
-    "extends": [
-      "plugin:prettier/recommended"
-    ],
+    "prettier": true,
     "globals": [
       "nodecg"
+    ],
+    "extensions": [
+      "js",
+      "html"
     ],
     "rules": {
       "new-cap": [
@@ -47,31 +49,14 @@
         }
       ]
     },
+    "plugins": [
+      "html"
+    ],
     "overrides": [
       {
-        "files": "dashboard/**/*",
+        "files": ["dashboard/**/*", "graphics/**/*"],
         "envs": [
           "browser"
-        ],
-        "plugins": [
-          "html"
-        ],
-        "extensions": [
-          "js",
-          "html"
-        ]
-      },
-      {
-        "files": "graphics/**/*",
-        "envs": [
-          "browser"
-        ],
-        "plugins": [
-          "html"
-        ],
-        "extensions": [
-          "js",
-          "html"
         ]
       }
     ]

@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function() {
+(function () {
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
@@ -15,7 +15,7 @@
 			super.ready();
 
 			currentRunRep.on('change', newVal => {
-				this.run = { ...newVal };
+				this.run = {...newVal};
 			});
 
 			scheduleRep.on('change', newVal => {
@@ -46,7 +46,7 @@
 		}
 
 		loadEdit() {
-			this.editingRun = { ...this.run };
+			this.editingRun = {...this.run};
 			this.$.editDialog.open();
 		}
 

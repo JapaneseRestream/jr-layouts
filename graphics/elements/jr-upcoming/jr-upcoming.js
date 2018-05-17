@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function() {
+(function () {
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 

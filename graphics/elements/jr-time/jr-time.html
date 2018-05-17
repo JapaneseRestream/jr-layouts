@@ -14,10 +14,11 @@
 	</template>
 
 	<script>
-		(function() {
+		/* global Polymer */
+		(function () {
 			class JrTime extends Polymer.Element {
 				static get is() {
-					return 'jr-time'
+					return 'jr-time';
 				}
 
 				ready() {
@@ -33,10 +34,10 @@
 
 				getTime() {
 					const now = Date.now();
-					return new Date(now - 15 * 60 * 60 * 1000).toLocaleString('ja-JP')
+					return new Date(now - (15 * 60 * 60 * 1000)).toLocaleString('ja-JP');
 				}
 			}
-			customElements.define(JrTime.is, JrTime)
+			customElements.define(JrTime.is, JrTime);
 		})();
 	</script>
 </dom-module>

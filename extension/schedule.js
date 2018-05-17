@@ -4,10 +4,10 @@ const FETCH_SCHEDULE_INTERVAL = 60 * 1000;
 
 module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
-	const { trackerUrl, translationUrl } = nodecg.bundleConfig;
+	const {trackerUrl, translationUrl} = nodecg.bundleConfig;
 
 	if (!trackerUrl) {
-		nodecg.log.info("Tracker URL is not provided. Schedule won't be fetched");
+		nodecg.log.info('Tracker URL is not provided. Schedule won\'t be fetched');
 		return;
 	}
 
@@ -15,9 +15,9 @@ module.exports = nodecg => {
 	setInterval(fetchHoraroSchedule, FETCH_SCHEDULE_INTERVAL);
 
 	function fetchHoraroSchedule() {
-		request.get(translationUrl).end((err, { text }) => {
+		request.get(translationUrl).end((err, {text}) => {
 			if (err) {
-				nodecg.log.error("Couldn't fetch translation info.");
+				nodecg.log.error('Couldn\'t fetch translation info.');
 			}
 
 			let translation;
@@ -27,14 +27,14 @@ module.exports = nodecg => {
 				translation = [];
 			}
 
-			request.get(trackerUrl).end((err, { body }) => {
+			request.get(trackerUrl).end((err, {body}) => {
 				if (err) {
-					nodecg.log.error("Couldn't update Horaro schedule.");
+					nodecg.log.error('Couldn\'t update Horaro schedule.');
 					return;
 				}
 
 				scheduleRep.value = body.map((run, index) => {
-					const { fields, pk } = run;
+					const {fields, pk} = run;
 					const gameTranslation = translation.find(
 						item => item.en.toLowerCase() === fields.name.toLowerCase()
 					);

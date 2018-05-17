@@ -19,7 +19,7 @@ module.exports = nodecg => {
 		!nodecg.config.login.twitch.enabled
 	) {
 		log.info(
-			"Enable NodeCG's login feature to enable Twitch-related extensions"
+			'Enable NodeCG\'s login feature to enable Twitch-related extensions'
 		);
 		return;
 	}
