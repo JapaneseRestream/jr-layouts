@@ -94,6 +94,7 @@
   "homepage": "https://github.com/JapaneseRestream/jr-layouts#readme",
   "dependencies": {
     "clone": "^2.1.1",
+    "got": "^8.3.1",
     "pm2": "^2.9.1",
     "superagent": "^3.8.2",
     "twitter-stream-api": "^0.5.2"
