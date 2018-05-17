@@ -4,10 +4,10 @@ module.exports = nodecg => {
 	const log = new nodecg.Logger(`${nodecg.bundleName}:twitch`);
 	const targetChannelName = 'rpglimitbreak';
 	const targetChannelIdRep = nodecg.Replicant('targetChannelId', {
-		defaultValue: ''
+		defaultValue: '',
 	});
 	const ourChannelIdRep = nodecg.Replicant('ourChannelId', {
-		defaultValue: ''
+		defaultValue: '',
 	});
 	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
 	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo');
@@ -19,7 +19,7 @@ module.exports = nodecg => {
 		!nodecg.config.login.twitch.enabled
 	) {
 		log.info(
-			'Enable NodeCG\'s login feature to enable Twitch-related extensions'
+			"Enable NodeCG's login feature to enable Twitch-related extensions"
 		);
 		return;
 	}

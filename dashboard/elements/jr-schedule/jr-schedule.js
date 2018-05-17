@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function () {
+(function() {
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
@@ -41,7 +41,7 @@
 		}
 
 		setCurrentRunByIndex(e) {
-			const index = e.model.item.index;
+			const {index} = e.model.item;
 			nodecg.sendMessage('specificRun', index);
 		}
 

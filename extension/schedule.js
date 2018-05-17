@@ -7,7 +7,7 @@ module.exports = nodecg => {
 	const {trackerUrl, translationUrl} = nodecg.bundleConfig;
 
 	if (!trackerUrl) {
-		nodecg.log.info('Tracker URL is not provided. Schedule won\'t be fetched');
+		nodecg.log.info("Tracker URL is not provided. Schedule won't be fetched");
 		return;
 	}
 
@@ -17,7 +17,7 @@ module.exports = nodecg => {
 	function fetchHoraroSchedule() {
 		request.get(translationUrl).end((err, {text}) => {
 			if (err) {
-				nodecg.log.error('Couldn\'t fetch translation info.');
+				nodecg.log.error("Couldn't fetch translation info.");
 			}
 
 			let translation;
@@ -29,7 +29,7 @@ module.exports = nodecg => {
 
 			request.get(trackerUrl).end((err, {body}) => {
 				if (err) {
-					nodecg.log.error('Couldn\'t update Horaro schedule.');
+					nodecg.log.error("Couldn't update Horaro schedule.");
 					return;
 				}
 
@@ -47,7 +47,7 @@ module.exports = nodecg => {
 						console: fields.console || '',
 						runners: fields.deprecated_runners || '',
 						english: fields.name || '',
-						commentator: ''
+						commentator: '',
 					};
 				});
 			});

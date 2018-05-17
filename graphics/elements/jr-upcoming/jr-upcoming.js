@@ -1,6 +1,6 @@
 /* global Polymer */
 
-(function () {
+(function() {
 	const currentRunRep = nodecg.Replicant('currentRun');
 	const scheduleRep = nodecg.Replicant('schedule');
 
@@ -12,12 +12,12 @@
 		static get properties() {
 			return {
 				'run-number': {
-					type: Number
+					type: Number,
 				},
 				currentIndex: {
 					type: Number,
-					default: 0
-				}
+					default: 0,
+				},
 			};
 		}
 
