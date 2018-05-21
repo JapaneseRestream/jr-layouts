@@ -1,80 +1,65 @@
-const request = require('superagent');
+const qs = require('querystring');
+const ResetableInterval = require('./lib/resetable-interval');
 
 module.exports = nodecg => {
-	const log = new nodecg.Logger(`${nodecg.bundleName}:twitch`);
-	const targetChannelName = 'rpglimitbreak';
-	const targetChannelIdRep = nodecg.Replicant('targetChannelId', {
-		defaultValue: '',
-	});
-	const ourChannelIdRep = nodecg.Replicant('ourChannelId', {
-		defaultValue: '',
-	});
-	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
-	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo');
-
-	if (
-		!nodecg.config.login ||
-		!nodecg.config.login.enabled ||
-		!nodecg.config.login.twitch ||
-		!nodecg.config.login.twitch.enabled
-	) {
-		log.info(
-			"Enable NodeCG's login feature to enable Twitch-related extensions"
-		);
+	const {log} = nodecg;
+	if (!nodecg.config.login || !nodecg.config.login.twitch) {
+		log.info('Missing config to enable Twitch related feature');
 		return;
 	}
 
-	const getUrl = name => `https://api.twitch.tv/kraken/users?login=${name}`;
-	const targetChannelRequest = request
-		.get(getUrl(targetChannelName))
-		.set('Accept', 'application/vnd.twitchtv.v5+json')
-		.set('Client-ID', nodecg.config.login.twitch.clientID);
-	const jpRestreamChannelRequest = request
-		.get(getUrl('japanese_restream'))
-		.set('Accept', 'application/vnd.twitchtv.v5+json')
-		.set('Client-ID', nodecg.config.login.twitch.clientID);
-	Promise.all([targetChannelRequest, jpRestreamChannelRequest])
-		.then(([target, ours]) => {
-			targetChannelIdRep.value = target.body.users[0]._id;
-			ourChannelIdRep.value = ours.body.users[0]._id;
+	const twitchAxios = require('./lib/twitch-axios')(
+		nodecg.config.login.twitch.clientID
+	);
+
+	const targetChannelName = 'rpglimitbreak';
+	const ourChannelName = 'japanese_restream';
+
+	const targetChannelIdRep = nodecg.Replicant('targetChannelId');
+	const ourChannelIdRep = nodecg.Replicant('ourChannelId');
+	const targetChannelInfoRep = nodecg.Replicant('targetChannelInfo');
+	const ourChannelInfoRep = nodecg.Replicant('ourChannelInfo');
+
+	const channelIdRequestQuery = qs.stringify({
+		login: `${targetChannelName},${ourChannelName}`,
+	});
+	twitchAxios
+		.get(`users?${channelIdRequestQuery}`)
+		.then(({data}) => {
+			targetChannelIdRep.value = data.users[0]._id;
+			ourChannelIdRep.value = data.users[1]._id;
 		})
 		.catch(err => {
 			log.error(`Failed to get channel ID of ${targetChannelName}:`);
 			log.error(err);
 		});
 
-	const getChannelInfo = (channelIdRep, channelInfoRep, interval) => {
-		channelIdRep.on('change', newVal => {
-			const retrieveChannelInfo = () => {
-				const url = `https://api.twitch.tv/kraken/channels/${newVal}`;
-				request
-					.get(url)
-					.set('Accept', 'application/vnd.twitchtv.v5+json')
-					.set('Client-ID', nodecg.config.login.twitch.clientID)
-					.end((err, response) => {
-						if (err) {
-							log.error(
-								`Failed to get channel info from ${targetChannelName}:`
-							);
-							log.error(err);
-						} else {
-							const result = response.body;
-							if (channelInfoRep.value.title !== result.status) {
-								channelInfoRep.value.title = result.status || '';
-							}
-							if (channelInfoRep.value.game !== result.game) {
-								channelInfoRep.value.game = result.game || '';
-							}
-						}
-					});
-			};
-			retrieveChannelInfo();
-			clearInterval(interval);
-			interval = setInterval(retrieveChannelInfo, 60 * 1000);
-		});
+	const fetchChannelInfo = (infoRep, channelId) => {
+		twitchAxios
+			.get(`channels/${channelId}`)
+			.then(({data}) => {
+				if (infoRep.value.title !== data.status) {
+					infoRep.value.title = data.status || '';
+				}
+				if (infoRep.value.game !== data.game) {
+					infoRep.value.game = data.game || '';
+				}
+			})
+			.catch(err => {
+				log.error(`Failed to get channel info:`);
+				log.error(err);
+			});
 	};
 
-	let channelInfoInterval;
-	getChannelInfo(targetChannelIdRep, targetChannelInfoRep, channelInfoInterval);
-	getChannelInfo(ourChannelIdRep, ourChannelInfoRep, channelInfoInterval);
+	const targetInfoInterval = new ResetableInterval(fetchChannelInfo, 60 * 1000);
+	targetChannelIdRep.on('change', newId => {
+		targetInfoInterval.call(targetChannelInfoRep, newId);
+		targetInfoInterval.reset(targetChannelInfoRep, newId);
+	});
+
+	const ourInfoInterval = new ResetableInterval(fetchChannelInfo, 60 * 1000);
+	ourChannelIdRep.on('change', newId => {
+		ourInfoInterval.call(ourChannelInfoRep, newId);
+		ourInfoInterval.reset(ourChannelInfoRep, newId);
+	});
 };
