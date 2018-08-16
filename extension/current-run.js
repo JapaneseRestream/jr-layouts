@@ -4,40 +4,30 @@ module.exports = nodecg => {
 	const scheduleRep = nodecg.Replicant('schedule');
 	const currentRunRep = nodecg.Replicant('currentRun');
 
+	const setCurrentRunByIndex = index => {
+		if (index >= 0 && index < scheduleRep.value.length) {
+			currentRunRep.value = clone(scheduleRep.value[index]);
+		}
+	};
+
 	scheduleRep.on('change', () => {
 		if (!currentRunRep.value.index) {
 			setCurrentRunByIndex(0);
 		}
 	});
 
-	nodecg.listenFor('nextRun', (_, cb) => {
+	nodecg.listenFor('nextRun', () => {
 		setCurrentRunByIndex(currentRunRep.value.index + 1);
-		if (typeof cb === 'function') {
-			cb();
-		}
 	});
-	nodecg.listenFor('previousRun', (_, cb) => {
+	nodecg.listenFor('previousRun', () => {
 		setCurrentRunByIndex(currentRunRep.value.index - 1);
-		if (typeof cb === 'function') {
-			cb();
-		}
 	});
-	nodecg.listenFor('specificRun', (index, cb) => {
+	nodecg.listenFor('specificRun', index => {
 		setCurrentRunByIndex(index);
-		if (typeof cb === 'function') {
-			cb();
-		}
 	});
-	nodecg.listenFor('editRun', (data, cb) => {
+	nodecg.listenFor('editRun', (data, ack) => {
+		// Intentionally mutates replicant object
 		Object.assign(currentRunRep.value, data);
-		if (typeof cb === 'function') {
-			cb();
-		}
+		ack();
 	});
-
-	function setCurrentRunByIndex(index) {
-		if (index >= 0 && index < scheduleRep.value.length) {
-			currentRunRep.value = clone(scheduleRep.value[index]);
-		}
-	}
 };

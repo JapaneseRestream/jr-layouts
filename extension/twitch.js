@@ -12,7 +12,7 @@ module.exports = nodecg => {
 		nodecg.config.login.twitch.clientID
 	);
 
-	const targetChannelName = 'rpglimitbreak';
+	const targetChannelName = 'gamesdonequick';
 	const ourChannelName = 'japanese_restream';
 
 	const targetChannelIdRep = nodecg.Replicant('targetChannelId');

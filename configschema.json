@@ -4,11 +4,9 @@
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
-		"trackerUrl": {
-			"type": "string"
-		},
-		"translationUrl": {
-			"type": "string"
+		"eventName": {
+			"type": "string",
+			"default": "SGDQ2018"
 		}
 	}
 }

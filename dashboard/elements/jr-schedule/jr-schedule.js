@@ -51,7 +51,7 @@
 		}
 
 		saveEdit() {
-			nodecg.sendMessage('editRun', this.editingRun, () => {
+			nodecg.sendMessage('editRun', this.editingRun).then(() => {
 				this.$.editDialog.close();
 			});
 		}
