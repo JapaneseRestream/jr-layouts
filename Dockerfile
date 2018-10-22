@@ -20,7 +20,7 @@ COPY schemas ./schemas
 COPY scripts ./scripts
 COPY src ./src
 COPY types ./types
-COPY Makefile package.json tsconfig.json yarn.lock ./
+COPY configschema.json Makefile package.json tsconfig.json yarn.lock ./
 
 RUN yarn install && make
 
@@ -43,6 +43,7 @@ COPY --from=builder /nodecg/bundles/jr-layouts/extension ./extension
 COPY --from=builder /nodecg/bundles/jr-layouts/graphics ./graphics
 COPY --from=builder /nodecg/bundles/jr-layouts/schemas ./schemas
 COPY --from=builder \
+	/nodecg/bundles/jr-layouts/configschema.json \
 	/nodecg/bundles/jr-layouts/package.json \
 	/nodecg/bundles/jr-layouts/yarn.lock \
 	./
