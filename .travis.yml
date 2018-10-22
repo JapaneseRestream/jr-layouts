@@ -6,9 +6,6 @@ addons:
     packages:
     - pv
 
-before_script:
-- if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
-
 script:
 - docker build . --tag jr-layouts
 
@@ -21,14 +18,6 @@ before_deploy:
 deploy:
   provider: script
   script:
-  - docker save jr-layouts | bzip2 | pv | ssh $SSH_USER@$SSH_HOST "bunzip 2 | docker load && docker run jr-layouts -d"
+  - docker save jr-layouts | bzip2 | pv | ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "bunzip 2 | docker load && docker run jr-layouts -d"
   on:
     branch: master
-
-before_cache:
-- mkdir -p $HOME/docker
-- docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
-
-cache:
-  directories:
-  - "$HOME/docker"
