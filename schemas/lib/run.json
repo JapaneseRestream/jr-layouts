@@ -2,13 +2,9 @@
 	"$schema": "http://json-schema.org/draft-04/schema",
 
 	"type": "object",
-	"additionalProperties": false,
 	"properties": {
 		"index": {
 			"type": "integer"
-		},
-		"pk": {
-			"$ref": "uuid.json"
 		},
 		"scheduled": {
 			"type": "string"
@@ -29,6 +25,12 @@
 			"type": "string"
 		},
 		"commentator": {
+			"type": "string"
+		},
+		"runTime": {
+			"type": "string"
+		},
+		"setupTime": {
 			"type": "string"
 		}
 	},

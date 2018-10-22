@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "commonjs",
+		"lib": ["esnext", "dom"],
+		"jsx": "react",
+		"sourceMap": true,
+		"noEmit": true,
+
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": ["./**/*.ts", "./**/*.tsx"],
+	"references": [{"path": "../../types"}]
+}

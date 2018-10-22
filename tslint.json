@@ -1,0 +1,10 @@
+{
+	"extends": "@hoishin/tslint-config",
+	"rules": {
+		"member-access": false,
+		"prefer-function-over-method": false
+	},
+	"linterOptions": {
+		"exclude": ["types/**/*"]
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../../extension"
+	},
+	"include": ["./**/*.ts"],
+	"references": [{"path": "../../types"}]
+}

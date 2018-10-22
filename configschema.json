@@ -3,10 +3,42 @@
 
 	"type": "object",
 	"additionalProperties": false,
+	"required": ["spreadsheet"],
 	"properties": {
-		"eventName": {
-			"type": "string",
-			"default": "SGDQ2018"
+		"spreadsheet": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "range"],
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"range": {
+					"type": "string"
+				}
+			}
+		},
+
+		"googleApiKey": {
+			"type": "string"
+		},
+
+		"eventStartTime": {
+			"type": "string"
+		},
+
+		"twitch": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["targetChannel", "ourChannel"],
+			"properties": {
+				"targetChannel": {
+					"type": "string"
+				},
+				"ourChannel": {
+					"type": "string"
+				}
+			}
 		}
 	}
 }

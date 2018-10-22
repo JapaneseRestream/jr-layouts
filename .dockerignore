@@ -6,5 +6,4 @@
 /dashboard
 /extension
 /graphics
-/types/schemas
-.DS_Store
+**/.DS_Store
