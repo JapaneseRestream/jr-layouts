@@ -1,0 +1,3 @@
+script:
+  - docker build . --tag jr-layouts
+  - docker save jr-layouts | bzip2 | pv | ssh $SSH_USER@$SSH_HOST "bunzip 2 | docker load && docker run jr-layouts -d"
