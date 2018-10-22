@@ -18,6 +18,6 @@ before_deploy:
 deploy:
   provider: script
   script:
-  - docker save jr-layouts | bzip2 | pv | ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "bunzip 2 | docker load && docker run jr-layouts -d"
+  - docker save jr-layouts | bzip2 | pv | ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "bunzip2 | docker load"
   on:
     branch: master
