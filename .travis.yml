@@ -1,5 +1,10 @@
-install:
-- apt install pv
+sudo: false
+dist: trusty
+
+addons:
+  apt:
+    packages:
+    - pv
 
 before_script:
 - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
