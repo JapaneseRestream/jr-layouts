@@ -1,3 +1,28 @@
+install:
+- apt install pv
+
+before_script:
+- if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+
 script:
-  - docker build . --tag jr-layouts
+- docker build . --tag jr-layouts
+
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_5fbc30c88e92_key -iv $encrypted_5fbc30c88e92_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+
+deploy:
+  provider: script
+  script:
   - docker save jr-layouts | bzip2 | pv | ssh $SSH_USER@$SSH_HOST "bunzip 2 | docker load && docker run jr-layouts -d"
+  on:
+    branch: master
+
+before_cache:
+- mkdir -p $HOME/docker
+- docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
+cache:
+  directories:
+  - "$HOME/docker"
