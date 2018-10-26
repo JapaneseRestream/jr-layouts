@@ -18,3 +18,10 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push japaneserestream/jr-layouts:$TAG
             docker push japaneserestream/jr-layouts:latest
+  deploy:
+    machine: true
+    steps:
+      - run:
+          name: Deploy
+          command: |
+            ssh $SSH_USER@$SSH_HOST "echo hogehoge"
