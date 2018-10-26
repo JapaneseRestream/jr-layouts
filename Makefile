@@ -1,37 +1,55 @@
 export PATH := ./node_modules/.bin:$(PATH)
-.DEFAULT_GOAL := build
+
+.PHONY: noop
+noop:
 
 .PHONY: build
-build: build-extension build-dashboard build-graphics
-prebuild:
-	node scripts/schema-types.js
-	tsc --build types
-build-extension: prebuild
-	tsc --build src/extension
-build-dashboard: prebuild
-	tsc --build src/extension
-	parcel build src/dashboard/*.html --out-dir dashboard --public-url . --detailed-report
-build-graphics: prebuild
-	tsc --build src/graphics
-	parcel build src/graphics/*.html --out-dir graphics --public-url . --detailed-report
+build: extension dashboard graphics
 
+.PHONY: dev
 dev: dev-tsc dev-dashboard dev-graphics dev-schema-types
-predev: prebuild
-dev-tsc: predev
-	tsc --build src/dashboard src/graphics src/extension --watch --preserveWatchOutput
-dev-dashboard: predev
+
+.PHONY: schemas
+schemas:
+	node scripts/schema-types.js
+
+.PHONY: extension
+extension: schemas
+	tsc --build src/extension
+
+.PHONY: dashboard
+dashboard: schemas
+	parcel build src/dashboard/*.html --out-dir dashboard --public-url .
+
+.PHONY: graphics
+graphics: schemas
+	parcel build src/graphics/*.html --out-dir graphics --public-url .
+
+.PHONY: dev-tsc
+dev-tsc: schemas
+	tsc --watch --preserveWatchOutput --build types src/dashboard src/graphics src/extension
+
+.PHONY: dev-dashboard
+dev-dashboard: schemas
 	parcel watch src/dashboard/*.html --out-dir dashboard --public-url .
-dev-graphics: predev
+
+.PHONY: dev-graphics
+dev-graphics: schemas
 	parcel watch src/graphics/*.html --out-dir graphics --public-url .
-dev-schema-types: predev
+
+.PHONY: dev-schema-types
+dev-schema-types: schemas
 	onchange schemas --initial -- node scripts/schema-types.js
 
+.PHONY: clean
 clean:
 	rm -rf dashboard graphics extension build types/schemas
 
+.PHONY: lint
 lint:
 	tslint --format stylish --project .
 
+.PHONY: format
 format:
 	tslint --format stylish --project . --fix
 	prettier "src/**/*.{ts,tsx}" --write
