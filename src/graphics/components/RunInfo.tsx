@@ -7,7 +7,6 @@ const currentRunRep = nodecg.Replicant<CurrentRun>('currentRun');
 
 const Container = styled.div`
 	display: grid;
-	color: #ffd56c;
 	grid-template-columns: auto 300px;
 	grid-template-rows: auto auto auto;
 	grid-auto-flow: column;
