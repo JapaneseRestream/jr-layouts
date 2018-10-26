@@ -20,7 +20,7 @@ COPY src ./src
 COPY types ./types
 COPY configschema.json Makefile package.json tsconfig.json yarn.lock ./
 
-RUN yarn install && make -j
+RUN yarn install && make build -j
 
 FROM node:10.12.0-alpine
 
