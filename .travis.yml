@@ -2,6 +2,10 @@ language: minimal
 dist: trusty
 sudo: false
 
+env:
+  DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
+  DOCKER_IMAGE_TAG: latest
+
 cache:
   directories:
     - $HOME/docker-cache
