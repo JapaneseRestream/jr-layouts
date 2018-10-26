@@ -3,13 +3,19 @@ version: 2
 jobs:
   build:
     machine: true
+    branches:
+      only:
+        - master
     steps:
       - run:
           name: Deploy
           command: |
             ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST " \
-              echo hogehoge && \
               export NVM_DIR=~/.nvm && \
               source ~/.nvm/nvm.sh && \
-              nvm current
+              cd ~/nodecg/bundles/jr-layouts && \
+              g pull && \
+              make -j && \
+              cd ~/nodecg && \
+              pm2 start index.js
             "
