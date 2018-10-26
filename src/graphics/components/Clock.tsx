@@ -17,7 +17,7 @@ export class Clock extends React.Component<{}, State> {
 	componentDidMount() {
 		this.timer = setInterval(() => {
 			const now = Date.now();
-			const time = new Date(now - 14 * 60 * 60 * 1000).toLocaleString(
+			const time = new Date(now - 16 * 60 * 60 * 1000).toLocaleString(
 				'ja-JP'
 			);
 			this.setState(state => {
