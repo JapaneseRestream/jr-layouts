@@ -6,8 +6,7 @@ WORKDIR /
 
 ADD https://github.com/nodecg/nodecg/archive/master.zip /tmp/nodecg.zip
 
-RUN unzip /tmp/nodecg.zip \
-	&& mv /nodecg-master /nodecg \
+RUN git clone https://github.com/nodecg/nodecg.git \
 	&& cp -R /nodecg /nodecg-raw
 
 WORKDIR /nodecg
