@@ -11,19 +11,14 @@ cache:
   directories:
     - $HOME/docker-cache
 
-# Restore cache
-before_script:
+script:
   - |
     if [[ -d ~/cache ]]
     then
       docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"
     fi
-
-script:
   - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
-
-# Save cache
-after_script:
   - mkdir -p $(dirname "~/docker-cache/$DOCKER_IMAGE_NAME")
-  - docker save --output "~/docker-cache/$DOCKER_IMAGE_NAME.tar" "$DOCKER_IMAGE_NAME" \
+  - |
+    docker save --output "~/docker-cache/$DOCKER_IMAGE_NAME.tar" "$DOCKER_IMAGE_NAME" \
     $(docker history --quiet "$DOCKER_IMAGE_NAME" | tail -n +2 | grep -v \<missing\> | tr '\n' ' ')
