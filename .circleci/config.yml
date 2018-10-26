@@ -16,7 +16,7 @@ jobs:
               cd ~/nodecg/bundles/jr-layouts && \
               git pull && \
               npm i && \
-              make -j && \
+              make && \
               cd ~/nodecg && \
               pm2 restart index.js
             "
