@@ -2,13 +2,16 @@ version: 2
 
 jobs:
   build:
-    machine: true
+    docker:
+      - image: node:10.12.0-alpine
     steps:
       - checkout
-      - run: echo hogehoge
-
-workflows:
-  version: 2
-  build:
-    jobs:
-      - build
+      - setup_remote_docker
+        version: 18.05.0-ce
+      - run: |
+        TAG=0.0.$CIRCLE_BUILD_NUM
+        docker build -t japaneserestream/jr-layouts:$TAG .
+        docker tag japaneserestream/jr-layouts:$TAG japaneserestream/jr-layouts:latest
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker push japaneserestream/jr-layouts:$TAG
+        docker push japaneserestream/jr-layouts:latest
