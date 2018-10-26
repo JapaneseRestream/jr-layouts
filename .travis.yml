@@ -1,5 +1,6 @@
-services:
-  - docker
+language: minimal
+dist: trusty
+sudo: false
 
 script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build .
