@@ -18,9 +18,6 @@ jobs:
             echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
             docker push japaneserestream/jr-layouts:$TAG
             docker push japaneserestream/jr-layouts:latest
-  deploy:
-    machine: true
-    steps:
       - run:
           name: Deploy
           command: |
