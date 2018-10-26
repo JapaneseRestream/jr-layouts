@@ -6,8 +6,8 @@ jobs:
       - image: node:10.12.0-alpine
     steps:
       - checkout
-      - setup_remote_docker
-        version: 18.05.0-ce
+      - setup_remote_docker:
+          version: 18.05.0-ce
       - run: |
         TAG=0.0.$CIRCLE_BUILD_NUM
         docker build -t japaneserestream/jr-layouts:$TAG .
