@@ -7,7 +7,9 @@ jobs:
       - run:
           name: Deploy
           command: |
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "echo hogehoge"
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "nvm current"
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "which node"
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "node -v"
+            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST " \
+              echo hogehoge && \
+              export NVM_DIR=~/.nvm && \
+              source ~/.nvm/nvm.sh && \
+              nvm current
+            "
