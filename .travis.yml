@@ -11,7 +11,11 @@ cache:
     - $HOME/docker-cache
 
 before_script:
-  - docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"
+  - |
+    if [[ -d ~/cache ]]
+    do
+      docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"
+    done
 
 script:
   - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
