@@ -3,7 +3,7 @@ export PATH := ./node_modules/.bin:$(PATH)
 
 .PHONY: build
 build: build-extension build-dashboard build-graphics
-prebuild: clean
+prebuild:
 	node scripts/schema-types.js
 	tsc --build types
 build-extension: prebuild
