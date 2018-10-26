@@ -3,15 +3,20 @@ dist: trusty
 sudo: false
 
 env:
-  DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
-  DOCKER_IMAGE_TAG: latest
+  global:
+    - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
+    - DOCKER_IMAGE_TAG: latest
 
 cache:
   directories:
     - $HOME/docker-cache
 
 before_script:
-  - if [[ -d ~/cache ]]; do docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"; done
+  - |
+    if [[ -d ~/cache ]]
+    then
+      docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"
+    fi
 
 script:
   - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
