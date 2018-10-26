@@ -1,0 +1,13 @@
+version: 2
+
+jobs:
+  build:
+    steps:
+      - checkout
+      - run: echo hogehoge
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
