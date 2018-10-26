@@ -2,5 +2,17 @@ language: minimal
 dist: trusty
 sudo: false
 
+cache:
+  directories:
+    - $HOME/docker-cache
+
+before_script:
+  - docker load --input "~/cache/$DOCKER_IMAGE_NAME.tar"
+
 script:
-  - docker build .
+  - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+
+after_script:
+  - mkdir -p ~/docker-cache
+  - docker save --output "~/docker-cache/$DOCKER_IMAGE_NAME.tar" "$DOCKER_IMAGE_NAME" \
+    $(docker history --quiet "$DOCKER_IMAGE_NAME" | tail -n +2 | grep -v \<missing\> | tr '\n' ' ')
