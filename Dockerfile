@@ -5,6 +5,7 @@ RUN apk --no-cache add unzip make git util-linux
 WORKDIR /
 
 RUN git clone https://github.com/nodecg/nodecg.git \
+	&& rm -rf nodecg/.git \
 	&& cp -R /nodecg /nodecg-raw
 
 WORKDIR /nodecg
