@@ -19,4 +19,4 @@ script:
     fi
   - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG --rm=false .
   - mkdir -p $HOME/docker-cache
-  - docker images -a --format '{{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker-cache/$1.tar.gz || docker save $1 | gzip -2 > $HOME/docker-cache/$1.tar.gz'
+  - docker images -a --format '{{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker-cache/$0.tar.gz || docker save $0 | gzip -2 > $HOME/docker-cache/$0.tar.gz'
