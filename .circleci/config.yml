@@ -4,5 +4,5 @@ jobs:
   build:
     machine: true
     steps:
-      - run: HOGE=hoge
+      - run: export HOGE=hoge
       - run: echo $HOGE
