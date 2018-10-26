@@ -15,7 +15,8 @@ jobs:
               source ~/.nvm/nvm.sh && \
               cd ~/nodecg/bundles/jr-layouts && \
               git pull && \
+              npm i && \
               make -j && \
               cd ~/nodecg && \
-              pm2 start index.js
+              pm2 restart index.js
             "
