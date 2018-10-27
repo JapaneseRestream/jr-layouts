@@ -57,7 +57,7 @@ format:
 
 .PHONY: docker-login
 docker-login:
-	echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+	@echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
 
 .PHONY: docker-build
 docker-build:
