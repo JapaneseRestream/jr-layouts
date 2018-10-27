@@ -24,10 +24,16 @@ script:
       --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
       --build-arg VERSION=$TRAVIS_BRANCH
   - |
-    if [[ $TRAVIS_PULL_REQUEST = "false" ]]
-    then
+    # Don't push pull requests image
+    if [[ $TRAVIS_PULL_REQUEST = "false" ]]; then
+      # Push with branch/tag name
       docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
       docker push $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
+      if [[ $TRAVIS_BRANCH = "master" ]]; then
+        # Push latest
+        docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:latest
+        docker push $DOCKER_IMAGE_NAME:latest
+      fi
     fi
 
 after_success:
