@@ -4,7 +4,6 @@
 	"private": true,
 	"dependencies": {
 		"axios": "^0.18.0",
-		"bower": "^1.8.4",
 		"date-fns": "^2.0.0-alpha.23",
 		"googleapis": "^34.0.0",
 		"joi": "^14.0.0",
