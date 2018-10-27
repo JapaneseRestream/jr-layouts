@@ -8,6 +8,11 @@ env:
 
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  - exit 1
   - docker build --tag $DOCKER_IMAGE_NAME:latest .
-  - if [[ $TRAVIS_TAG ]]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi
+  - docker push $DOCKER_IMAGE_NAME:latest
+  - |
+    if [[ $TRAVIS_BRANCH ]] && ! [[ $TRAVIS_PULL_REQUEST = "false" ]]
+    then
+      docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
+      docker push $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
+    fi
