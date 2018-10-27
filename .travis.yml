@@ -13,10 +13,7 @@ env:
     - DOCKER_BUILDKIT: 1
 
 before_script:
-  - sudo mkdir -p /etc/docker
-  - sudo touch /etc/docker/daemon.json
-  - sudo chmod 666 /etc/docker/daemon.json
-  - sudo echo '{"experimental":true}' > /etc/docker/daemon.json
+  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
   - sudo service docker restart
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
