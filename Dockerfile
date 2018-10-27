@@ -1,11 +1,12 @@
 FROM node:10.12.0-alpine as builder
 
-RUN apk --no-cache add unzip make git util-linux
+RUN apk --no-cache add curl make git util-linux
 
-WORKDIR /
+WORKDIR /tmp
 
-RUN git clone https://github.com/nodecg/nodecg.git \
-	&& (cd nodecg && rm -rf .git .idea scripts test tutorials) \
+RUN curl -L https://github.com/nodecg/nodecg/archive/master.tar.gz > ./nodecg.tar.gz \
+	&& tar xzf /tmp/nodecg.tar.gz \
+	&& mv /tmp/nodecg-master /nodecg \
 	&& cp -R /nodecg /nodecg-raw
 
 WORKDIR /nodecg
@@ -49,7 +50,5 @@ COPY --from=builder \
 RUN yarn install --production
 
 WORKDIR /nodecg
-
-EXPOSE 9090
 
 CMD ["node", "index.js"]
