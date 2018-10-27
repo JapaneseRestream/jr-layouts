@@ -2,10 +2,6 @@ language: minimal
 services:
   - docker
 
-env:
-  global:
-    - WEBHOOK_SCRIPT: https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-
 before_script:
   - make docker-login
 
@@ -13,14 +9,10 @@ script:
   - make docker-build
 
 after_success:
-  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
-  - chmod +x /tmp/send.sh
-  - /tmp/send.sh success $WEBHOOK_URL
+  - make discord-notify-success
 
 after_failure:
-  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
-  - chmod +x /tmp/send.sh
-  - /tmp/send.sh failure $WEBHOOK_URL
+  - make discord-notify-failure
 
 before_deploy:
   - eval "$(ssh-agent -s)"
