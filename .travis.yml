@@ -31,3 +31,7 @@ deploy:
     script: make docker-push-latest
     on:
       branch: master
+  - provider: script
+    script: make deploy-staging
+    on:
+      branch: staging
