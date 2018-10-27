@@ -1,4 +1,5 @@
 export PATH := ./node_modules/.bin:$(PATH)
+BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
 
 .PHONY: noop
 noop:
@@ -53,3 +54,26 @@ lint:
 format:
 	tslint --format stylish --project . --fix
 	prettier "src/**/*.{ts,tsx}" --write
+
+.PHONY: docker-login
+docker-login:
+	echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+
+.PHONY: docker-build
+docker-build:
+	docker build --tag $(DOCKER_IMAGE_NAME_TAG) . \
+		--build-arg VCS_REF=$$(git rev-parse --short HEAD) \
+		--build-arg BUILD_DATE=$(BUILD_DATE) \
+		--build-arg VERSION=$(TRAVIS_BRANCH)
+
+.PHONY: docker-push-branch
+docker-push-branch:
+	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):$(TRAVIS_BRANCH)
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_BRANCH_NAME_TAG)
+	docker push $(DOCKER_BRANCH_NAME_TAG)
+
+.PHONY: docker-push-latest
+docker-push-latest:
+	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):latest
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_BRANCH_NAME_TAG)
+	docker push $(DOCKER_BRANCH_NAME_TAG)

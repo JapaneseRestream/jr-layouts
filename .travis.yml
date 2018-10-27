@@ -5,34 +5,13 @@ services:
 env:
   global:
     - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
+    - DOCKER_IMAGE_NAME_TAG: $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID
 
 before_script:
-  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  - make docker-login
 
 script:
-  - |
-    docker build --tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID . \
-      --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-      --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-      --build-arg VERSION=$TRAVIS_BRANCH
-
-deploy:
-  - provider: script
-    script: |
-      docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH && \
-      docker push $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
-    on:
-      all_branches: true
-  - provider: script
-    script: echo start && sleep 60 && echo done
-    on:
-      all_branches: true
-  - provider: script
-    script: |
-      docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:latest && \
-      docker push $DOCKER_IMAGE_NAME:latest
-    on:
-      branch: master
+  - make docker-build
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
@@ -43,3 +22,20 @@ after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
+
+deploy:
+  # Push with branch name
+  - provider: script
+    script: make docker-push-branch
+    on:
+      all_branches: true
+  # Test purpose
+  - provider: script
+    script: echo start && sleep 60 && echo done
+    on:
+      all_branches: true
+  # Push latest tag
+  - provider: script
+    script: make docker-push-latest
+    on:
+      branch: master
