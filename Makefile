@@ -86,7 +86,7 @@ deploy-setup:
 		-iv $$encrypted_5fbc30c88e92_iv \
 		-in .travis/deploy_key.enc \
 		-out /tmp/deploy_key -d
-	eval "$$(ssh-agent -s)"
+	eval `ssh-agent -s`
 	chmod 600 /tmp/deploy_key
 	ssh-add /tmp/deploy_key
 	ssh-keygen -R $$SSH_HOST
