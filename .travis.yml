@@ -2,19 +2,11 @@ language: minimal
 services:
   - docker
 
-addons:
-  apt:
-    packages:
-      - docker-ce
-
 env:
   global:
     - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
-    - DOCKER_BUILDKIT: 1
 
 before_script:
-  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
-  - sudo service docker restart
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
 script:
@@ -23,6 +15,8 @@ script:
       --build-arg VCS_REF=$(git rev-parse --short HEAD) \
       --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
       --build-arg VERSION=$TRAVIS_BRANCH
+
+deploy:
   - |
     # Don't push pull requests image
     if [[ $TRAVIS_PULL_REQUEST = "false" ]]; then
