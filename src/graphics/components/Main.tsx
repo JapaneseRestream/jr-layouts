@@ -19,8 +19,8 @@ const Container = styled.div`
 	height: 1080px;
 	overflow: hidden;
 	display: grid;
-	grid-template-columns: 12% 1fr;
-	grid-template-rows: 1fr 12%;
+	grid-template-columns: 230px 1fr;
+	grid-template-rows: 1fr 130px;
 `;
 
 const BottomContainer = styled.div`

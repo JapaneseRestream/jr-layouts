@@ -27,7 +27,7 @@ graphics: schemas
 
 .PHONY: dev-tsc
 dev-tsc: schemas
-	tsc --watch --preserveWatchOutput --build types src/dashboard src/graphics src/extension
+	tsc --build types src/dashboard src/graphics src/extension  --watch
 
 .PHONY: dev-dashboard
 dev-dashboard: schemas
