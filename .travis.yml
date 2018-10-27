@@ -12,11 +12,15 @@ env:
     - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
     - DOCKER_BUILDKIT: 1
 
-script:
+before_script:
+  - sudo mkdir -p /etc/docker
+  - sudo touch /etc/docker/daemon.json
   - sudo chmod 666 /etc/docker/daemon.json
   - sudo echo '{"experimental":true}' > /etc/docker/daemon.json
   - sudo service docker restart
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+script:
   - docker build --tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID .
   - |
     if [[ $TRAVIS_BRANCH = "master" ]]
