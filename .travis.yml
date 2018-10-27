@@ -13,10 +13,14 @@ script:
   - make docker-build
 
 after_success:
-  - curl -sfL "$WEBHOOK_SCRIPT" | bash success $WEBHOOK_URL
+  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
+  - chmod +x /tmp/send.sh
+  - /tmp/send.sh success $WEBHOOK_URL
 
 after_failure:
-  - curl -sfL "$WEBHOOK_SCRIPT" | bash failure $WEBHOOK_URL
+  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
+  - chmod +x /tmp/send.sh
+  - /tmp/send.sh failure $WEBHOOK_URL
 
 deploy:
   - provider: script
