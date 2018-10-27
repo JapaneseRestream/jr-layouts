@@ -60,7 +60,7 @@ format:
 
 .PHONY: docker-login
 docker-login:
-	@echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin
+	echo $$DOCKER_PASSWORD | docker login -u $$DOCKER_USERNAME --password-stdin
 
 .PHONY: docker-build
 docker-build:
@@ -78,3 +78,24 @@ docker-push-branch:
 docker-push-latest:
 	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_IMAGE_NAME):latest
 	docker push $(DOCKER_IMAGE_NAME):latest
+
+.PHONY: deploy-setup
+deploy-setup:
+	openssl aes-256-cbc \
+		-K $$encrypted_5fbc30c88e92_key \
+		-iv $$encrypted_5fbc30c88e92_iv \
+		-in .travis/deploy_key.enc \
+		-out /tmp/deploy_key -d
+	eval "$$(ssh-agent -s)"
+	chmod 600 /tmp/deploy_key
+	ssh-add /tmp/deploy_key
+	ssh-keygen -R $$SSH_HOST
+	ssh-keyscan -H $$SSH_HOST >> ~/.ssh/known_hosts
+
+.PHONY: deploy-staging
+deploy-staging: deploy-setup
+	ssh $$SSH_USER@$$SSH_HOST ' \
+		docker pull "$(DOCKER_IMAGE_NAME):staging" \
+		&& cd staging-nodecg \
+		&& docker-compose up -d \
+	'
