@@ -32,6 +32,6 @@ deploy:
     on:
       branch: master
   - provider: script
-    script: eval $(ssh-agent -s) && make deploy-staging
+    script: eval "$(ssh-agent -s)" && make deploy-staging
     on:
       branch: staging
