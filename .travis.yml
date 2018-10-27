@@ -22,6 +22,9 @@ after_failure:
   - chmod +x /tmp/send.sh
   - /tmp/send.sh failure $WEBHOOK_URL
 
+before_deploy:
+  - eval "$(ssh-agent -s)"
+
 deploy:
   - provider: script
     script: make docker-push-branch
@@ -32,6 +35,6 @@ deploy:
     on:
       branch: master
   - provider: script
-    script: eval "$(ssh-agent -s)" && make deploy-staging
+    script: make deploy-staging
     on:
       branch: staging
