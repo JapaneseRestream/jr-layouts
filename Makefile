@@ -1,5 +1,5 @@
 export PATH := ./node_modules/.bin:$(PATH)
-BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`
+BUILD_DATE=$$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 .PHONY: noop
 noop:
@@ -69,11 +69,11 @@ docker-build:
 .PHONY: docker-push-branch
 docker-push-branch:
 	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):$(TRAVIS_BRANCH)
-	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_BRANCH_NAME_TAG)
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $$DOCKER_BRANCH_NAME_TAG
 	docker push $(DOCKER_BRANCH_NAME_TAG)
 
 .PHONY: docker-push-latest
 docker-push-latest:
 	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):latest
-	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_BRANCH_NAME_TAG)
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $$DOCKER_BRANCH_NAME_TAG
 	docker push $(DOCKER_BRANCH_NAME_TAG)
