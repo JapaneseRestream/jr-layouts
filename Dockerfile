@@ -32,7 +32,7 @@ WORKDIR /nodecg
 
 RUN npm install -g bower \
 	&& npm install --production \
-	&& bower install --allow-root
+	&& bower install --production --allow-root
 
 WORKDIR /nodecg/bundles/jr-layouts
 
