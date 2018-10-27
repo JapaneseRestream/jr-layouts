@@ -21,6 +21,9 @@ deploy:
     script: |
       docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH && \
       docker push $DOCKER_IMAGE_NAME:$TRAVIS_BRANCH
+    on:
+      tags: true
+      all_branches: true
   - provider: script
     script: |
       docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:latest && \
