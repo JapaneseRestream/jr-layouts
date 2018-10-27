@@ -4,8 +4,7 @@ services:
 
 env:
   global:
-    - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
-    - DOCKER_IMAGE_NAME_TAG: $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID
+    - WEBHOOK_SCRIPT: https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
 
 before_script:
   - make docker-login
@@ -14,22 +13,16 @@ script:
   - make docker-build
 
 after_success:
-  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh success $WEBHOOK_URL
+  - curl -sfL "$WEBHOOK_SCRIPT" | bash success $WEBHOOK_URL
 
 after_failure:
-  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh failure $WEBHOOK_URL
+  - curl -sfL "$WEBHOOK_SCRIPT" | bash failure $WEBHOOK_URL
 
 deploy:
-  # Push with branch/tag name
   - provider: script
     script: make docker-push-branch
     on:
       all_branches: true
-  # Push latest tag
   - provider: script
     script: make docker-push-latest
     on:

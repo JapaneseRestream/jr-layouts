@@ -1,5 +1,8 @@
 export PATH := ./node_modules/.bin:$(PATH)
-BUILD_DATE=$$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+BUILD_DATE = $$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+DOCKER_IMAGE_NAME = japaneserestream/jr-layouts
+DOCKER_IMAGE_NAME_TAG = $(DOCKER_IMAGE_NAME):$(TRAVIS_BUILD_ID)
 
 .PHONY: noop
 noop:
