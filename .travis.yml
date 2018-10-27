@@ -24,14 +24,9 @@ after_failure:
   - ./send.sh failure $WEBHOOK_URL
 
 deploy:
-  # Push with branch name
+  # Push with branch/tag name
   - provider: script
     script: make docker-push-branch
-    on:
-      all_branches: true
-  # Test purpose
-  - provider: script
-    script: echo start && sleep 60 && echo done
     on:
       all_branches: true
   # Push latest tag
