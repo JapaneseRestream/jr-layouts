@@ -37,4 +37,4 @@ deploy:
   - provider: script
     script: make deploy-staging
     on:
-      branch: staging
+      branch: master

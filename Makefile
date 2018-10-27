@@ -89,7 +89,7 @@ deploy-staging:
 	chmod 600 /tmp/deploy_key
 	ssh-add /tmp/deploy_key
 	ssh -o "StrictHostKeyChecking=no" $$SSH_USER@$$SSH_HOST ' \
-		docker pull "$(DOCKER_IMAGE_NAME):staging" \
+		docker pull "$(DOCKER_IMAGE_NAME):latest" \
 		&& cd staging-nodecg \
 		&& docker-compose up -d \
 	'
