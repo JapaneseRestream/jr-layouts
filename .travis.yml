@@ -12,15 +12,13 @@ env:
     - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
     - DOCKER_BUILDKIT: 1
 
-script:
+before_script:
+  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+  - sudo service docker restart
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+script:
   - docker build --tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID .
-  - |
-    if [[ $TRAVIS_BRANCH = "master" ]]
-    then
-      docker tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID $DOCKER_IMAGE_NAME:latest
-      docker push $DOCKER_IMAGE_NAME:latest
-    fi
   - |
     if [[ $TRAVIS_PULL_REQUEST = "false" ]]
     then
