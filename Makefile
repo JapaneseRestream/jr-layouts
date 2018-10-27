@@ -68,12 +68,10 @@ docker-build:
 
 .PHONY: docker-push-branch
 docker-push-branch:
-	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):$(TRAVIS_BRANCH)
-	docker tag $(DOCKER_IMAGE_NAME_TAG) $$DOCKER_BRANCH_NAME_TAG
-	docker push $(DOCKER_BRANCH_NAME_TAG)
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_IMAGE_NAME):$(TRAVIS_BRANCH)
+	docker push $(DOCKER_IMAGE_NAME):$(TRAVIS_BRANCH)
 
 .PHONY: docker-push-latest
 docker-push-latest:
-	DOCKER_BRANCH_NAME_TAG=$(DOCKER_IMAGE_NAME):latest
-	docker tag $(DOCKER_IMAGE_NAME_TAG) $$DOCKER_BRANCH_NAME_TAG
-	docker push $(DOCKER_BRANCH_NAME_TAG)
+	docker tag $(DOCKER_IMAGE_NAME_TAG) $(DOCKER_IMAGE_NAME):latest
+	docker push $(DOCKER_IMAGE_NAME):latest
