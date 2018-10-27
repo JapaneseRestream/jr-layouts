@@ -13,8 +13,8 @@ env:
     - DOCKER_BUILDKIT: 1
 
 script:
-  - echo '{"experimental":true}' > /etc/docker/daemon.json
-  - service docker restart
+  - sudo echo '{"experimental":true}' > /etc/docker/daemon.json
+  - sudo service docker restart
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   - docker build --tag $DOCKER_IMAGE_NAME:$TRAVIS_BUILD_ID .
   - |
