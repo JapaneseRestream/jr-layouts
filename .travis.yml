@@ -5,18 +5,9 @@ services:
 env:
   global:
     - DOCKER_IMAGE_NAME: japaneserestream/jr-layouts
-    - DOCKER_IMAGE_TAG: latest
-
-cache:
-  directories:
-    - $HOME/docker-cache
 
 script:
-  - |
-    if [[ -d ~/docker-cache ]]
-    then
-      ls $HOME/docker-cache/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"
-    fi
-  - docker build --tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG --rm=false .
-  - mkdir -p $HOME/docker-cache
-  - docker images -a --format '{{.ID}}' | xargs -n 2 -t sh -c 'test -e $HOME/docker-cache/$0.tar.gz || docker save $0 | gzip -2 > $HOME/docker-cache/$0.tar.gz'
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  - exit 1
+  - docker build --tag $DOCKER_IMAGE_NAME:latest .
+  - if [[ $TRAVIS_TAG ]]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi
