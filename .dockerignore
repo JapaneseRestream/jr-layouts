@@ -1,9 +1,8 @@
-/node_modules
-/*.log
-/.vscode
-/.cache
-/build
-/dashboard
-/extension
-/graphics
-**/.DS_Store
+.cache
+.vscode
+build
+dashboard
+extension
+graphics
+node_modules
+types/schemas
