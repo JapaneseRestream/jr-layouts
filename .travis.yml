@@ -39,5 +39,5 @@ deploy:
     on:
       branch: master
 
-after_script:
+after_deploy:
   - curl -XPOST $IMAGE_REFRESH_WEBHOOK_URL
