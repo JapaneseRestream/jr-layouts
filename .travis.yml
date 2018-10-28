@@ -40,4 +40,4 @@ deploy:
       branch: master
 
 after_deploy:
-  - curl -XPORT -d '{"content":"Deployment done for '"$TRAVIS_BRANCH"'."}' $WEBHOOK_URL
+  - curl -XPORT -H "Content-Type=application/json" -d '{"content":"Deployment done for '"$TRAVIS_BRANCH"'."}' $WEBHOOK_URL
