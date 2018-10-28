@@ -3,7 +3,6 @@ export PATH := ./node_modules/.bin:$(PATH)
 BUILD_DATE = $$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 DOCKER_IMAGE_NAME = japaneserestream/jr-layouts
 DOCKER_IMAGE_NAME_TAG = $(DOCKER_IMAGE_NAME):$(TRAVIS_BUILD_ID)
-WEBHOOK_SCRIPT = https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
 
 .PHONY: noop
 noop:
@@ -94,15 +93,3 @@ deploy-staging:
 		&& cd staging-nodecg \
 		&& docker-compose up -d \
 	'
-
-/tmp/send.sh:
-	curl -sfL "$$WEBHOOK_SCRIPT" > /tmp/send.sh
-	chmod +x /tmp/send.sh
-
-.PHONY: discord-notify-success
-discord-notify-success: /tmp/send.sh
-	/tmp/send.sh success $$WEBHOOK_URL
-
-.PHONY: discord-notify-failure
-discord-notify-failure: /tmp/send.sh
-	/tmp/send.sh failure $$WEBHOOK_URL
