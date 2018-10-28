@@ -4,7 +4,7 @@ services:
 
 env:
   global:
-    - WEBHOOK_SCRIPT: https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+    - DISCORD_WEBHOOK_SCRIPT: https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
 
 before_script:
   - make docker-login
@@ -13,14 +13,14 @@ script:
   - make docker-build
 
 after_success:
-  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
+  - curl -sfL "$DISCORD_WEBHOOK_SCRIPT" > /tmp/send.sh
   - chmod +x /tmp/send.sh
-  - /tmp/send.sh success $WEBHOOK_URL
+  - /tmp/send.sh success $DISCORD_WEBHOOK_URL
 
 after_failure:
-  - curl -sfL "$WEBHOOK_SCRIPT" > /tmp/send.sh
+  - curl -sfL "$DISCORD_WEBHOOK_SCRIPT" > /tmp/send.sh
   - chmod +x /tmp/send.sh
-  - /tmp/send.sh failure $WEBHOOK_URL
+  - /tmp/send.sh failure $DISCORD_WEBHOOK_URL
 
 before_deploy:
   - eval "$(ssh-agent -s)"
@@ -38,3 +38,6 @@ deploy:
     script: make deploy-staging
     on:
       branch: master
+
+after_script:
+  - curl -XPOST $IMAGE_REFRESH_WEBHOOK_URL
