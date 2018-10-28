@@ -41,7 +41,7 @@ deploy:
 
 after_deploy:
   - |
-    curl -f# -XPORT \
+    curl -f# -XPOST \
       -H "Content-Type:application/json" \
       -d '{"content":"Deployment done for '"$TRAVIS_BRANCH"'."}' \
       $WEBHOOK_URL
