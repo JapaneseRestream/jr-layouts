@@ -35,6 +35,12 @@ export class Clock extends React.Component<{}, State> {
 	}
 
 	render() {
-		return <Container>現地: {this.state.time}</Container>;
+		return (
+			<Container>
+				現地: {this.state.time}
+				<br /><br />
+				#agdq2019JPR
+			</Container>
+		);
 	}
 }
