@@ -59,7 +59,7 @@ class App extends React.Component<{}, State> {
 	};
 
 	private readonly updateCurrentRun = () => {
-		currentRunRep.value = {...currentRunRep.value, ...this.state};
+		Object.assign(currentRunRep.value, this.state)
 	};
 
 	render() {
