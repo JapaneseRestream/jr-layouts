@@ -8,6 +8,7 @@ import {Message, Replicant} from '../constants';
 import {CurrentRun} from '../replicants/current-run';
 import {Schedule} from '../replicants/schedule';
 import {Run} from '../replicants/lib';
+import {BundleConfig} from '../bundle-config';
 import {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 60 * 1000; // 1 minute
@@ -49,14 +50,9 @@ const addDuration = (date: Date, duration: string) => {
 };
 
 export const schedule = (nodecg: NodeCG) => {
-	const GOOGLE_API_KEY = nodecg.bundleConfig.googleApiKey;
-	const SPREADSHEET_ID = nodecg.bundleConfig.spreadsheet.id;
-	const SPREADSHEET_RANGE = nodecg.bundleConfig.spreadsheet.range;
-	const EVENT_START_TIME = new Date(nodecg.bundleConfig.eventStartTime);
-
-	if (EVENT_START_TIME.toString() === 'Invalid Date') {
-		throw new Error('Event Start Time is invalid date');
-	}
+	const config: BundleConfig = nodecg.bundleConfig;
+	const GOOGLE_API_KEY = config.googleApiKey;
+	const SPREADSHEET_ID = config.spreadsheetId;
 
 	const scheduleRep = nodecg.Replicant<Schedule>(Replicant.Schedule);
 	const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
@@ -66,7 +62,6 @@ export const schedule = (nodecg: NodeCG) => {
 	const fetchSchedule = async () => {
 		const res = await sheets.spreadsheets.values.get({
 			spreadsheetId: SPREADSHEET_ID,
-			range: SPREADSHEET_RANGE,
 		});
 		const sheetValues = res.data.values;
 		if (!sheetValues) {
@@ -78,7 +73,7 @@ export const schedule = (nodecg: NodeCG) => {
 			.map((value: (string | undefined)[]) => zipObject(labels, value));
 		const result = Joi.attempt(formattedValue, sheetValueSchema);
 
-		let startTime = EVENT_START_TIME;
+		let startTime = new Date(0);
 		return result.map((value, index) => {
 			const valueWithStartTime: Run = {
 				...(value as any),

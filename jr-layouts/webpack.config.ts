@@ -40,6 +40,9 @@ const extension: webpack.Configuration = merge(base, {
 		],
 	},
 	externals: [nodeExternals()],
+	optimization: {
+		minimize: false,
+	},
 });
 
 const generateBrowserConfig = (
