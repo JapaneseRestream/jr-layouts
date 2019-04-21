@@ -1,86 +1,51 @@
 {
-	"name": "jr-layouts",
-	"version": "1.0.0",
 	"private": true,
-	"dependencies": {
-		"axios": "^0.18.0",
-		"date-fns": "^2.0.0-alpha.23",
-		"googleapis": "^36.0.0",
-		"joi": "^14.3.1",
-		"lodash": "^4.17.11"
+	"scripts": {
+		"postinstall": "yarn --cwd=jr-layouts && ts-node -T scripts/postinstall.ts",
+		"start": "node node_modules/nodecg"
 	},
-	"devDependencies": {
-		"@hoishin/tslint-config": "^2.0.2",
-		"@material-ui/core": "^3.8.1",
-		"@material-ui/icons": "^3.0.1",
-		"@types/joi": "^14.0.1",
-		"@types/react": "^16.4.18",
-		"@types/react-dom": "^16.0.11",
-		"@types/styled-components": "^4.0.1",
-		"concurrently": "^4.1.0",
-		"del-cli": "^1.1.0",
-		"json-schema-to-typescript": "^6.1.0",
-		"make-dir": "^1.3.0",
-		"onchange": "^5.2.0",
-		"parcel-bundler": "^1.11.0",
-		"prettier": "^1.15.3",
-		"react": "^16.5.2",
-		"react-dom": "^16.5.2",
-		"styled-components": "^4.0.2",
-		"tslint": "^5.12.0",
-		"typescript": "^3.2.2"
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
 	},
-	"nodecg": {
-		"compatibleRange": "^1.0.0",
-		"dashboardPanels": [
-			{
-				"name": "current-game",
-				"title": "現在のゲーム",
-				"width": 3,
-				"file": "current-game.html",
-				"workspace": "配信管理"
-			},
-			{
-				"name": "twitch-info",
-				"title": "Twitch",
-				"width": 3,
-				"file": "twitch-info.html",
-				"workspace": "配信管理"
-			},
-			{
-				"name": "games-list",
-				"title": "ゲームリスト",
-				"width": 8,
-				"file": "games-list.html",
-				"workspace": "配信管理"
-			},
-			{
-				"name": "edit-modal",
-				"title": "編集",
-				"width": 4,
-				"file": "edit-modal.html",
-				"dialog": true,
-				"dialogButtons": [
-					{
-						"name": "save",
-						"type": "confirm"
-					},
-					{
-						"name": "cancel",
-						"type": "dismiss"
-					}
-				]
-			}
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,json,html,yml,yaml,md}": [
+			"prettier --write",
+			"git add"
 		],
-		"graphics": [
-			{
-				"file": "main.html",
-				"width": 1920,
-				"height": 1080
-			}
+		"*.{js,jsx,ts,tsx}": [
+			"eslint --fix",
+			"git add"
+		],
+		"package.json": [
+			"sort-package-json",
+			"git add"
 		]
 	},
-	"browserslist": [
-		"last 2 Chrome versions"
-	]
+	"dependencies": {
+		"nodecg": "^1.4.0"
+	},
+	"devDependencies": {
+		"@hoishin/eslint-config-ts": "^0.0.5",
+		"@hoishin/prettierrc": "^2.1.1",
+		"@hoishin/tsconfig": "^1.0.0",
+		"@types/node": "10",
+		"bower": "^1.8.8",
+		"del": "^4.1.0",
+		"eslint": "^5.16.0",
+		"eslint-plugin-react": "^7.12.4",
+		"eslint-plugin-react-hooks": "^1.6.0",
+		"execa": "^1.0.0",
+		"husky": "^1.3.1",
+		"lint-staged": "^8.1.5",
+		"prettier": "^1.17.0",
+		"sort-package-json": "^1.22.1",
+		"ts-node": "^8.1.0",
+		"tslib": "^1.9.3",
+		"typescript": "3.4.4"
+	},
+	"engines": {
+		"node": "10"
+	}
 }

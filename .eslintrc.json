@@ -1,0 +1,17 @@
+{
+	"root": true,
+	"plugins": ["react-hooks"],
+	"extends": ["plugin:react/recommended", "@hoishin/ts"],
+	"parserOptions": {
+		"project": "tsconfig.json"
+	},
+	"rules": {
+		"@typescript-eslint/explicit-function-return-type": 0,
+		"callback-return": 0,
+		"unicorn/no-unsafe-regex": 0,
+
+		"react/prop-types": 0,
+		"react-hooks/rules-of-hooks": 2,
+		"react-hooks/exhaustive-deps": 1
+	}
+}

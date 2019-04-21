@@ -1,0 +1,14 @@
+{
+	"extends": "../tsconfig",
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"jsx": "react",
+		"lib": ["esnext", "dom"]
+	},
+	"include": [
+		"src/graphics/*.ts",
+		"src/graphics/*.tsx",
+		"../node_modules/nodecg/types/browser.d.ts"
+	]
+}
