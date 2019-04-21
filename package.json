@@ -2,7 +2,7 @@
 	"private": true,
 	"scripts": {
 		"postinstall": "yarn --cwd=jr-layouts && ts-node -T scripts/postinstall.ts",
-		"start": "node node_modules/nodecg"
+		"start": "node -r source-map-support/register node_modules/nodecg"
 	},
 	"husky": {
 		"hooks": {
@@ -24,7 +24,8 @@
 		]
 	},
 	"dependencies": {
-		"nodecg": "^1.4.0"
+		"nodecg": "^1.4.0",
+		"source-map-support": "^0.5.12"
 	},
 	"devDependencies": {
 		"@hoishin/eslint-config-ts": "^0.0.5",
