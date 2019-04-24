@@ -5,6 +5,7 @@ import * as TJS from 'typescript-json-schema';
 import writeJson from 'write-json-file';
 import globby from 'globby';
 import del from 'del';
+import _ from 'lodash';
 
 const outputDir = path.resolve(__dirname, `../schemas`);
 
@@ -34,7 +35,7 @@ const program = TJS.getProgramFromFiles(
 for (const replicant of replicants) {
 	const schema = TJS.generateSchema(
 		program,
-		upperFirst(camelCase(replicant)),
+		_.upperFirst(_.camelCase(replicant)),
 		settings,
 	);
 	if (!schema) {

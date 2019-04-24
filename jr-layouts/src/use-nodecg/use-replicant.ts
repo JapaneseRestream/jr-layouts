@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
-import clone from 'lodash.clone';
-import isEqual from 'lodash.isequal';
+import _ from 'lodash';
 import {ReplicantBrowser} from 'nodecg/types/browser';
 
 /**
@@ -21,10 +20,10 @@ export const useReplicant = <T, U>(
 			if (newValue !== oldValue) {
 				return newValue;
 			}
-			if (isEqual(oldValue, newValue)) {
+			if (_.isEqual(oldValue, newValue)) {
 				return oldValue;
 			}
-			return clone(newValue);
+			return _.clone(newValue);
 		});
 	};
 

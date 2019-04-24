@@ -1,3 +1,6 @@
 {
-	"extends": "@hoishin/tsconfig"
+	"extends": "@hoishin/tsconfig",
+	"compilerOptions": {
+		"types": []
+	}
 }

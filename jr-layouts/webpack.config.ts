@@ -5,7 +5,6 @@ import globby from 'globby';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import nodeExternals from 'webpack-node-externals';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -17,33 +16,6 @@ const base: webpack.Configuration = {
 	plugins: [new CleanWebpackPlugin()],
 	devtool: 'cheap-source-map',
 };
-
-const extension: webpack.Configuration = merge(base, {
-	name: 'extension',
-	target: 'node',
-	context: __dirname,
-	entry: './src/extension/index.ts',
-	output: {
-		path: path.resolve(__dirname, 'extension'),
-		filename: 'index.js',
-		libraryTarget: 'commonjs2',
-	},
-	module: {
-		rules: [
-			{
-				test: /\.ts$/u,
-				loader: 'ts-loader',
-				options: {
-					configFile: 'tsconfig.extension.json',
-				},
-			},
-		],
-	},
-	externals: [nodeExternals()],
-	optimization: {
-		minimize: false,
-	},
-});
 
 const generateBrowserConfig = (
 	name: 'dashboard' | 'graphics',
@@ -125,7 +97,6 @@ const generateBrowserConfig = (
 };
 
 export default [
-	extension,
 	generateBrowserConfig('dashboard'),
 	generateBrowserConfig('graphics'),
 ];

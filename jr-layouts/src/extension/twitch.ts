@@ -1,85 +1,89 @@
+import {setInterval} from 'timers';
+import _ from 'lodash';
 import axios from 'axios';
-import isEqual from 'lodash.isequal';
+import {NodeCG} from 'nodecg/types/server';
 import {Replicant} from '../constants';
 import {Twitch} from '../replicants/twitch';
-import {NodeCG} from './nodecg';
+import {Spreadsheet} from '../replicants/spreadsheet';
 
-const TWITCH_API_URL = 'https://api.twitch.tv';
-const TWITCH_ACCEPT_TYPE = 'application/vnd.twitchtv.v5+json';
-const UPDATE_INTERVAL = 10 * 1000; // 30 seconds
+const UPDATE_INTERVAL = 10 * 1000;
 
-export const twitch = async (nodecg: NodeCG) => {
-	if (
-		!nodecg.config.login ||
-		!nodecg.config.login.twitch ||
-		!nodecg.bundleConfig.twitch
-	) {
-		nodecg.log.info(
-			'Config misses required properties for Twitch features',
+export const twitch = (nodecg: NodeCG) => {
+	if (!nodecg.config.login || !nodecg.config.login.twitch) {
+		nodecg.log.warn(
+			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
 		);
 		return;
 	}
 
-	const TARGET_CHANNEL = nodecg.bundleConfig.twitch.targetChannel;
-	const OUR_CHANNEL = nodecg.bundleConfig.twitch.ourChannel;
-
 	const twitchRep = nodecg.Replicant<Twitch>(Replicant.Twitch);
+	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
+
 	const twitchAxios = axios.create({
+		baseURL: 'https://api.twitch.tv',
 		headers: {
-			Accept: TWITCH_ACCEPT_TYPE,
+			Accept: 'application/vnd.twitchtv.v5+json',
 			'Client-ID': nodecg.config.login.twitch.clientID,
 		},
 	});
-	const fetchChannelId = async (): Promise<[string, string]> => {
-		const url = new URL('/kraken/users', TWITCH_API_URL);
-		url.searchParams.append(
-			'login',
-			[TARGET_CHANNEL, OUR_CHANNEL].join(','),
-		);
-		const {data} = await twitchAxios(url.toString());
-		return [data.users[0]._id, data.users[1]._id];
+
+	const fetchChannelInfo = async (channelId: string) => {
+		const {data} = await twitchAxios.get(`/kraken/channels/${channelId}`);
+		return {
+			title: data.status || '',
+			game: data.game || '',
+			logo: data.logo || '',
+		};
 	};
 
-	try {
-		const channelId = await fetchChannelId();
-		setInterval(async () => {
-			try {
-				const [target, ours] = await Promise.all<{
-					status: string | null;
-					game: string | null;
-					logo: string | null;
-				}>(
-					channelId.map(async (id) => {
-						const url = new URL(
-							`/kraken/channels/${id}`,
-							TWITCH_API_URL,
-						);
-						const res = await twitchAxios.get(url.toString());
-						return res.data;
-					}),
-				);
-				const channelInfo = {
-					target: {
-						title: target.status || '',
-						game: target.game || '',
-						logo: target.logo || '',
-					},
-					ours: {
-						title: ours.status || '',
-						game: ours.game || '',
-						logo: ours.logo || '',
+	let updateInterval: NodeJS.Timeout;
+
+	spreadsheetRep.on('change', async ({eventInfo}) => {
+		try {
+			if (!eventInfo) {
+				return;
+			}
+
+			const {data} = await twitchAxios.get('/kraken/users', {
+				params: {
+					login: [
+						eventInfo.ourTwitchChannel,
+						eventInfo.targetTwitchChannel,
+					].join(','),
+				},
+			});
+
+			const ourChannelId = data.users[0]._id;
+			const targetChannelId = data.users[1]._id;
+
+			const updateChannelInfo = async () => {
+				const [ourChannelInfo, targetChannelInfo] = await Promise.all([
+					fetchChannelInfo(ourChannelId),
+					fetchChannelInfo(targetChannelId),
+				]);
+				twitchRep.value = {
+					...twitchRep.value,
+					channelInfo: {
+						ours: ourChannelInfo,
+						target: targetChannelInfo,
 					},
 				};
-				if (!isEqual(channelInfo, twitchRep.value.channelInfo)) {
-					twitchRep.value.channelInfo = channelInfo;
+			};
+
+			clearInterval(updateInterval);
+			updateInterval = setInterval(async () => {
+				try {
+					await updateChannelInfo();
+				} catch (error) {
+					nodecg.log.error(`Failed to update Twitch channel info.`);
+					nodecg.log.error(error.stack);
 				}
-			} catch (error) {
-				nodecg.log.error('Failed to update channel info');
-				nodecg.log.error(error.stack);
-			}
-		}, UPDATE_INTERVAL);
-	} catch (error) {
-		nodecg.log.error('Failed to setup Twitch feature');
-		nodecg.log.error(error.stack);
-	}
+			}, UPDATE_INTERVAL);
+		} catch (error) {
+			nodecg.log.error(
+				'Failed to setup periodical fetching of Twitch channel info.',
+			);
+			nodecg.log.error(error.stack);
+		}
+	});
 };
