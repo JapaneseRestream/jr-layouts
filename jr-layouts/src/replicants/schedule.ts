@@ -1,3 +1,3 @@
-import {CurrentRun} from './current-run';
+import {Run} from './lib';
 
-export type Schedule = CurrentRun[];
+export type Schedule = Run[];

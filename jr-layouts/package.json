@@ -13,9 +13,8 @@
 		"watch:extension": "yarn build:extension -w --preserveWatchOutput",
 		"watch:dashboard": "yarn build:dashboard -w",
 		"watch:graphics": "yarn build:graphics -w",
-		"genschema": "run-p \"genschema:*\"",
-		"genschema:bundle-config": "del-cli configschema.json && typescript-json-schema --noExtraProps --required --strictNullChecks --out configschema.json src/bundle-config.ts BundleConfig",
-		"genschema:replicants": "ts-node scripts/generate-replicant-schema.ts"
+		"generate-schema": "ts-node scripts/generate-schema.ts",
+		"genschema": "run-p \"genschema:*\""
 	},
 	"dependencies": {
 		"axios": "^0.18.0",
