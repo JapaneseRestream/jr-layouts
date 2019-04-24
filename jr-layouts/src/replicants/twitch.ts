@@ -4,9 +4,9 @@ export interface ChannelInfo {
 	logo: string;
 }
 
-export interface Twitch {
+export type Twitch = {
 	channelInfo: {
 		target: ChannelInfo;
 		ours: ChannelInfo;
 	};
-}
+} | null;

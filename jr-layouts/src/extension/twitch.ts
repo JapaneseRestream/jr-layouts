@@ -8,7 +8,7 @@ import {Spreadsheet} from '../replicants/spreadsheet';
 
 const UPDATE_INTERVAL = 10 * 1000;
 
-export const twitch = (nodecg: NodeCG) => {
+export const setupTwitchInfo = (nodecg: NodeCG) => {
 	if (!nodecg.config.login || !nodecg.config.login.twitch) {
 		nodecg.log.warn(
 			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
@@ -16,8 +16,13 @@ export const twitch = (nodecg: NodeCG) => {
 		return;
 	}
 
-	const twitchRep = nodecg.Replicant<Twitch>(Replicant.Twitch);
-	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
+	const twitchRep = nodecg.Replicant<Twitch>(Replicant.Twitch, {
+		defaultValue: null,
+	});
+	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(
+		Replicant.Spreadsheet,
+		{defaultValue: {}},
+	);
 
 	const twitchAxios = axios.create({
 		baseURL: 'https://api.twitch.tv',

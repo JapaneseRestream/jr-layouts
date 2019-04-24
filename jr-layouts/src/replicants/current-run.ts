@@ -1,3 +1,3 @@
 import {Run} from './lib';
 
-export type CurrentRun = Run;
+export type CurrentRun = Run | null;

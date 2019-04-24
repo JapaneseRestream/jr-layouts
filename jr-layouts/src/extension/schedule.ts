@@ -8,9 +8,16 @@ import {Run} from '../replicants/lib';
 import {Spreadsheet} from '../replicants/spreadsheet';
 
 export const setupSchedule = (nodecg: NodeCG) => {
-	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
-	const scheduleRep = nodecg.Replicant<Schedule>(Replicant.Schedule);
-	const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
+	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(
+		Replicant.Spreadsheet,
+		{defaultValue: {}},
+	);
+	const scheduleRep = nodecg.Replicant<Schedule>(Replicant.Schedule, {
+		defaultValue: [],
+	});
+	const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun, {
+		defaultValue: null,
+	});
 
 	const setCurrentRun = (index: number) => {
 		const newCurrentRun = scheduleRep.value[index];
@@ -50,15 +57,22 @@ export const setupSchedule = (nodecg: NodeCG) => {
 	});
 
 	nodecg.listenFor(Message.PreviousRun, (__, cb) => {
-		setCurrentRun(currentRunRep.value.index - 1);
+		if (currentRunRep.value) {
+			setCurrentRun(currentRunRep.value.index - 1);
+		} else {
+			setCurrentRun(0);
+		}
 		if (cb && !cb.handled) {
 			cb();
 		}
 	});
 
 	nodecg.listenFor(Message.NextRun, (__, cb) => {
-		const nextIndex = currentRunRep.value.index + 1;
-		setCurrentRun(nextIndex);
+		if (currentRunRep.value) {
+			setCurrentRun(currentRunRep.value.index + 1);
+		} else {
+			setCurrentRun(0);
+		}
 		if (cb && !cb.handled) {
 			cb();
 		}

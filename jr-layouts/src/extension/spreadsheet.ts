@@ -46,7 +46,10 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 	const config: BundleConfig = nodecg.bundleConfig;
 	const GOOGLE_API_KEY = config.googleApiKey;
 	const SPREADSHEET_ID = config.spreadsheetId;
-	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
+	const spreadsheetRep = nodecg.Replicant<Spreadsheet>(
+		Replicant.Spreadsheet,
+		{defaultValue: {}},
+	);
 	const sheets = google.sheets({version: 'v4', auth: GOOGLE_API_KEY});
 
 	const fetchSpreadsheet = async () => {
