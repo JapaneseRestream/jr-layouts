@@ -8,6 +8,11 @@ import {FitText} from './fit-text';
 const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
 
 const Container = styled.div`
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 10%;
+	width: 90%;
 	display: grid;
 	grid-template-columns: auto 300px;
 	grid-template-rows: auto auto auto;

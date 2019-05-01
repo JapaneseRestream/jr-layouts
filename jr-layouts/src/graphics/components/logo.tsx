@@ -4,10 +4,11 @@ import JrLogo from '../images/banner.png';
 
 const GDQ_LOGO = 'https://gamesdonequick.com/static/res/img/gdqlogo.png';
 const ROTATE_INTERVAL = 10 * 1000;
+const IMAGE_WIDTH = 1920 * 0.1;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
-	{src: JrLogo, width: 230},
-	{src: GDQ_LOGO, width: 230},
+	{src: JrLogo, width: IMAGE_WIDTH},
+	{src: GDQ_LOGO, width: IMAGE_WIDTH},
 ];
 
 const LogoContainer = styled.div`
@@ -16,7 +17,7 @@ const LogoContainer = styled.div`
 	& > div {
 		position: absolute;
 		height: 150px;
-		width: 230px;
+		width: ${IMAGE_WIDTH}px;
 
 		& > img {
 			position: absolute;
@@ -27,14 +28,6 @@ const LogoContainer = styled.div`
 		}
 	}
 `;
-
-const showStyle: React.CSSProperties = {
-	opacity: 1,
-};
-
-const hiddenStyle: React.CSSProperties = {
-	opacity: 0,
-};
 
 export const Logo: React.FunctionComponent = () => {
 	const [rotateCounter, setRotateCounter] = useState(0);
@@ -54,11 +47,10 @@ export const Logo: React.FunctionComponent = () => {
 					<img
 						{...image}
 						key={image.src}
-						style={
-							rotateCounter % images.length === index
-								? showStyle
-								: hiddenStyle
-						}
+						style={{
+							opacity:
+								rotateCounter % images.length === index ? 1 : 0,
+						}}
 					/>
 				))}
 			</div>

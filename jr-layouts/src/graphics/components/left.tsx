@@ -4,26 +4,28 @@ import {Clock} from './clock';
 import {Logo} from './logo';
 import {UpcomingList} from './upcoming-list';
 
-const LeftContainer = styled.div`
-	grid-column: 1 / 2;
-	grid-row: 1 / 3;
+const Container = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 10%;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: flex-start;
 `;
 
 const UpcomingTitle = styled.div`
-	font-size: 30px;
+	font-size: 25px;
 	font-weight: 500;
 	text-align: center;
-	margin-top: 10px;
 `;
 
 export const Left = () => (
-	<LeftContainer>
+	<Container>
 		<Logo />
 		<UpcomingTitle>今後のゲーム</UpcomingTitle>
 		<UpcomingList />
 		<Clock />
-	</LeftContainer>
+	</Container>
 );
