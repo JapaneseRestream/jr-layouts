@@ -26,28 +26,6 @@
 		]
 	},
 	"prettier": "@hoishin/prettierrc",
-	"eslintConfig": {
-		"extends": [
-			"plugin:react/recommended",
-			"@hoishin/ts"
-		],
-		"parserOptions": {
-			"project": "tsconfig.json"
-		},
-		"plugins": [
-			"react-hooks"
-		],
-		"root": true,
-		"rules": {
-			"callback-return": 0,
-			"unicorn/no-unsafe-regex": 0,
-			"@typescript-eslint/explicit-function-return-type": 0,
-			"@typescript-eslint/promise-function-async": 0,
-			"react/prop-types": 0,
-			"react-hooks/rules-of-hooks": 2,
-			"react-hooks/exhaustive-deps": 1
-		}
-	},
 	"dependencies": {
 		"@hoishin/tsconfig": "^1.0.0",
 		"bower": "^1.8.8",

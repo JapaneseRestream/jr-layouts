@@ -7,6 +7,7 @@
 	],
 	"scripts": {
 		"clean": "del-cli dashboard graphics",
+		"prod-build": "cross-env NODE_ENV=production yarn build",
 		"build": "yarn clean && run-p \"build:*\"",
 		"build:extension": "tsc -p tsconfig.extension.json",
 		"build:dashboard": "webpack --config-name dashboard",
@@ -47,6 +48,7 @@
 		"babel-loader": "^8.0.5",
 		"clean-webpack-plugin": "^2.0.1",
 		"concurrently": "^4.1.0",
+		"cross-env": "^5.2.0",
 		"css-loader": "^2.1.1",
 		"del": "^4.1.0",
 		"del-cli": "^1.1.0",

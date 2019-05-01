@@ -5,6 +5,8 @@ import {CurrentRun} from '../../replicants/current-run';
 import {useReplicant} from '../../use-nodecg/use-replicant';
 import {GamePlate} from './game-plate';
 
+const GAME_PLATE_AMOUNT = 5;
+
 const scheduleRep = nodecg.Replicant<Schedule>(Replicant.Schedule);
 const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
 
@@ -16,7 +18,7 @@ export const UpcomingList: React.FunctionComponent = () => {
 	}
 	const upcomingRuns = schedule.slice(
 		currentRun.index + 1,
-		currentRun.index + 10,
+		currentRun.index + GAME_PLATE_AMOUNT + 1,
 	);
 	return (
 		<>

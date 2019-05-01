@@ -9,6 +9,13 @@ const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
 const Container = styled.div`
 	font-size: 20px;
 	text-align: center;
+	display: flex;
+	flex-flow: column nowrap;
+`;
+
+const HashtagText = styled.div`
+	margin-top: 8px;
+	font-family: monospace;
 `;
 
 export const Clock: React.FunctionComponent = () => {
@@ -16,7 +23,7 @@ export const Clock: React.FunctionComponent = () => {
 	const [spreadsheet] = useReplicant(spreadsheetRep, null);
 	useEffect(() => {
 		if (!spreadsheet || !spreadsheet.eventInfo) {
-			return () => {};
+			return;
 		}
 		const TIMEZONE_DIFF_MS =
 			spreadsheet.eventInfo.timezoneDifference * 60 * 60 * 1000;
@@ -32,10 +39,8 @@ export const Clock: React.FunctionComponent = () => {
 
 	return (
 		<Container>
-			現地: {time}
-			<br />
-			<br />
-			#RPGLB2019JPR
+			<div>現地: {time}</div>
+			<HashtagText>#RPGLB2019JPR</HashtagText>
 		</Container>
 	);
 };
