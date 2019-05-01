@@ -2,11 +2,6 @@
 /db/*
 !.gitkeep
 
-/jr-layouts/configschema.json
-/jr-layouts/schemas
-/jr-layouts/dashboard
-/jr-layouts/graphics
-
 bundle-analyzer
 
 # Logs
