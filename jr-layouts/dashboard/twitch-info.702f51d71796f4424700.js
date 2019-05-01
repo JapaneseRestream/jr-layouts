@@ -1,0 +1,13 @@
+!function(e){function t(t){for(var r,o,c=t[0],u=t[1],i=t[2],s=0,p=[];s<c.length;s++)o=c[s],a[o]&&p.push(a[o][0]),a[o]=0;for(r in u)Object.prototype.hasOwnProperty.call(u,r)&&(e[r]=u[r]);for(f&&f(t);p.length;)p.shift()();return l.push.apply(l,i||[]),n()}function n(){for(var e,t=0;t<l.length;t++){for(var n=l[t],r=!0,c=1;c<n.length;c++){var u=n[c];0!==a[u]&&(r=!1)}r&&(l.splice(t--,1),e=o(o.s=n[0]))}return e}var r={},a={4:0},l=[];function o(t){if(r[t])return r[t].exports;var n=r[t]={i:t,l:!1,exports:{}};return e[t].call(n.exports,n,n.exports,o),n.l=!0,n.exports}o.m=e,o.c=r,o.d=function(e,t,n){o.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},o.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.t=function(e,t){if(1&t&&(e=o(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)o.d(n,r,function(t){return e[t]}.bind(null,r));return n},o.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(t,"a",t),t},o.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},o.p="";var c=window.webpackJsonp=window.webpackJsonp||[],u=c.push.bind(c);c.push=t,c=c.slice();for(var i=0;i<c.length;i++)t(c[i]);var f=u;l.push([5550,0]),n()}({5550:function(e,t,n){"use strict";n.r(t);var r=n(5),a=n(0),l=n.n(a),o=n(16),c=n.n(o),u=n(19),i=n(17);const f=nodecg.Replicant("twitch"),s=u.a.div`
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+	align-items: center;
+`,p=u.a.div`
+	width: 100vw;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+`;c.a.render(l.a.createElement(()=>{const[e]=Object(i.a)(f,null);return e?l.a.createElement(s,null,l.a.createElement(p,null,l.a.createElement(r.l,{style:{width:"100%",textAlign:"center"}},"ずれていたら更新する→",l.a.createElement("a",{href:"https://www.twitch.tv/japanese_restream/dashboard/live",target:"new"},"Twitchダッシュボード")),l.a.createElement(r.c,null,l.a.createElement(r.d,null,l.a.createElement(r.a,{src:e.channelInfo.target.logo}),l.a.createElement(r.e,{primary:e.channelInfo.target.title,secondary:e.channelInfo.target.game})),l.a.createElement(r.d,null,l.a.createElement(r.a,{src:e.channelInfo.ours.logo}),l.a.createElement(r.e,{primary:e.channelInfo.ours.title,secondary:e.channelInfo.ours.game}))))):null},null),document.querySelector("#root"))}});
+//# sourceMappingURL=twitch-info.702f51d71796f4424700.js.map
