@@ -16,6 +16,8 @@ export interface Spreadsheet {
 		startTime: string;
 		targetTwitchChannel: string;
 		ourTwitchChannel: string;
+		venue: string;
+		timezoneDifference: number;
 	};
 	gamesList?: GamesListItem[];
 }

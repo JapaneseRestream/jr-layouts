@@ -14,10 +14,9 @@ export const UpcomingList: React.FunctionComponent = () => {
 	if (!currentRun || !schedule) {
 		return null;
 	}
-	const upcomingRuns = schedule.filter(
-		(run) =>
-			(run.index || 0) > currentRun.index &&
-			(run.index || 0) < currentRun.index + 10,
+	const upcomingRuns = schedule.slice(
+		currentRun.index + 1,
+		currentRun.index + 10,
 	);
 	return (
 		<>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
 import {Left} from './left';
 import {RunInfo} from './run-info';
@@ -29,12 +29,14 @@ const BottomContainer = styled.div`
 	margin-left: 10px;
 `;
 
-export const Main: React.StatelessComponent = () => (
-	<Container>
-		<Left />
-		<BottomContainer>
-			<RunInfo />
-		</BottomContainer>
-		<GlobalStyle />
-	</Container>
-);
+export const Main: React.StatelessComponent = () => {
+	return (
+		<Container>
+			<Left />
+			<BottomContainer>
+				<RunInfo />
+			</BottomContainer>
+			<GlobalStyle />
+		</Container>
+	);
+};

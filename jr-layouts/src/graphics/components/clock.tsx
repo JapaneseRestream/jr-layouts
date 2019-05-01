@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+import {Spreadsheet} from '../../replicants/spreadsheet';
+import {Replicant} from '../../constants';
+import {useReplicant} from '../../use-nodecg/use-replicant';
 
-const TIMEZONE_DIFF_MS = 14 * 60 * 60 * 1000;
+const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
 
 const Container = styled.div`
 	font-size: 20px;
@@ -10,16 +13,22 @@ const Container = styled.div`
 
 export const Clock: React.FunctionComponent = () => {
 	const [time, setTime] = useState('');
+	const [spreadsheet] = useReplicant(spreadsheetRep, null);
 	useEffect(() => {
+		if (!spreadsheet || !spreadsheet.eventInfo) {
+			return () => {};
+		}
+		const TIMEZONE_DIFF_MS =
+			spreadsheet.eventInfo.timezoneDifference * 60 * 60 * 1000;
 		const intervalTimer = setInterval(() => {
 			setTime(
-				new Date(Date.now() - TIMEZONE_DIFF_MS).toLocaleString('ja-JP'),
+				new Date(Date.now() + TIMEZONE_DIFF_MS).toLocaleString('ja-JP'),
 			);
 		}, 10);
 		return () => {
 			clearInterval(intervalTimer);
 		};
-	}, []);
+	}, [spreadsheet]);
 
 	return (
 		<Container>

@@ -25,7 +25,7 @@ export const setupSchedule = (nodecg: NodeCG) => {
 			nodecg.log.error('Invalid index to apply to current run replicant');
 			return;
 		}
-		currentRunRep.value = scheduleRep.value[index];
+		currentRunRep.value = _.clone(newCurrentRun);
 	};
 
 	spreadsheetRep.on('change', ({eventInfo, gamesList}) => {
@@ -52,7 +52,10 @@ export const setupSchedule = (nodecg: NodeCG) => {
 			return run;
 		});
 		if (!_.isEqual(scheduleRep.value, newScheduleValue)) {
-			scheduleRep.value = newScheduleValue;
+			scheduleRep.value = _.clone(newScheduleValue);
+		}
+		if (!currentRunRep.value) {
+			setCurrentRun(0);
 		}
 	});
 

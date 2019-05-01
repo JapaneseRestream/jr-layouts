@@ -18,10 +18,10 @@ interface Props {
 
 export const GamePlate: React.FunctionComponent<Props> = (props) => {
 	const game = props.run.game || props.run.english || '';
-	let misc = props.run.category || '';
-	if (props.run.console) {
-		misc += `- ${props.run.console}`;
-	}
+	const misc = [props.run.category, props.run.console]
+		.filter(Boolean)
+		.join(' - ');
+
 	return (
 		<Container>
 			<FitText style={{fontSize: '30px', fontWeight: 500}} text={game} />

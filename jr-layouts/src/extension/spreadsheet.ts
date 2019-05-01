@@ -21,13 +21,19 @@ const durationSchema = () =>
 const timeSchema = () =>
 	Joi.string()
 		.isoDate()
-		.required();
+		.default(new Date(0).toISOString());
 const eventInfoSchema = Joi.object({
 	eventName: stringSchema(),
 	originalEventName: stringSchema(),
 	startTime: timeSchema(),
 	targetTwitchChannel: stringSchema(),
 	ourTwitchChannel: stringSchema(),
+	venue: stringSchema(),
+	timezoneDifference: Joi.number()
+		.integer()
+		.max(36)
+		.min(-36)
+		.default(0),
 });
 const gamesListSchema = Joi.array().items(
 	Joi.object({

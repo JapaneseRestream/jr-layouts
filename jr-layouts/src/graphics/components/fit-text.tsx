@@ -18,6 +18,7 @@ interface Props {
 export const FitText: React.FunctionComponent<Props> = (props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
+
 	useEffect(() => {
 		const container = containerRef.current;
 		const text = textRef.current;
@@ -27,7 +28,8 @@ export const FitText: React.FunctionComponent<Props> = (props) => {
 		const MAX_WIDTH = container.clientWidth;
 		const currentWidth = text.clientWidth;
 		const scaleX = currentWidth > MAX_WIDTH ? MAX_WIDTH / currentWidth : 1;
-		text.style.transform = `scaleX(${scaleX})`;
+		const newTransform = `scaleX(${scaleX})`;
+		text.style.transform = newTransform;
 	});
 
 	return (
