@@ -1,17 +1,8 @@
+import '../styles/global.css';
 import React from 'react';
-import styled, {createGlobalStyle} from 'styled-components';
+import styled from 'styled-components';
 import {Left} from './left';
 import {RunInfo} from './run-info';
-
-const GlobalStyle = createGlobalStyle`
-	body {
-		color: #d1edfd;
-		background-color: #051113;
-		margin: 0 0;
-		font-family: 'Rounded Mplus 1c';
-		line-height: 1.25;
-	}
-`;
 
 const Container = styled.div`
 	position: absolute;
@@ -19,8 +10,8 @@ const Container = styled.div`
 	height: 1080px;
 	overflow: hidden;
 	display: grid;
-	grid-template-columns: 230px 1fr;
-	grid-template-rows: 1fr 130px;
+	grid-template-columns: 10% 1fr;
+	grid-template-rows: 1fr 10%;
 `;
 
 const BottomContainer = styled.div`
@@ -36,7 +27,6 @@ export const Main: React.StatelessComponent = () => {
 			<BottomContainer>
 				<RunInfo />
 			</BottomContainer>
-			<GlobalStyle />
 		</Container>
 	);
 };

@@ -14,21 +14,19 @@ const Container = styled.div`
 	grid-auto-flow: column;
 `;
 
-const Title = styled.div``;
-const Content = styled.div``;
+const Title = styled.div`
+	font-size: 20px;
+	font-weight: 400;
+`;
+const Content = styled.div`
+	font-size: 30px;
+	font-weight: 600;
+`;
 const CommentatorContainer = styled.div`
 	grid-row: 1 / 3;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
-	& > ${Title} {
-		font-size: 20px;
-		font-weight: 400;
-	}
-	& > ${Content} {
-		font-size: 30px;
-		font-weight: 600;
-	}
 `;
 
 export const RunInfo: React.FunctionComponent = () => {
@@ -36,10 +34,9 @@ export const RunInfo: React.FunctionComponent = () => {
 	if (!currentRun) {
 		return null;
 	}
-	let misc = `カテゴリー：${currentRun.category}`;
-	if (currentRun.console) {
-		misc += ` | 機種：${currentRun.console}`;
-	}
+	const misc = [currentRun.category, currentRun.console]
+		.filter(Boolean)
+		.join(' - ');
 	return (
 		<Container>
 			<FitText
