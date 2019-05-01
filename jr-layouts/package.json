@@ -62,9 +62,11 @@
 		"styled-components": "^4.2.0",
 		"ts-loader": "^5.3.3",
 		"ts-node": "^8.1.0",
+		"tslib": "^1.9.3",
 		"typescript": "3.4.4",
 		"typescript-json-schema": "^0.37.0",
 		"url-loader": "^1.1.2",
+		"use-nodecg": "^0.4.1-1",
 		"webpack": "^4.30.0",
 		"webpack-bundle-analyzer": "^3.3.2",
 		"webpack-cli": "^3.3.0",
@@ -94,6 +96,13 @@
 				"title": "ゲームリスト",
 				"width": 8,
 				"file": "games-list.html",
+				"workspace": "配信管理"
+			},
+			{
+				"name": "misc-controls",
+				"title": "その他操作",
+				"width": 3,
+				"file": "misc-controls.html",
 				"workspace": "配信管理"
 			},
 			{

@@ -9,4 +9,5 @@ export const enum Message {
 	PreviousRun = 'previous-run',
 	NextRun = 'next-run',
 	UpdateSpreadsheet = 'update-spreadsheet',
+	RefreshPlayer = 'refresh-player',
 }
