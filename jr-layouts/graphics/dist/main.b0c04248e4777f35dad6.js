@@ -47800,7 +47800,7 @@ const Container = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div.
 const HashtagText = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div.withConfig({
   displayName: "clock__HashtagText",
   componentId: "sc-156rrmj-1"
-})(["font-family:monospace;"]);
+})(["color:rgb(252,218,68);"]);
 const Clock = () => {
   const [time, setTime] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [spreadsheet] = Object(_use_nodecg_use_replicant__WEBPACK_IMPORTED_MODULE_2__["useReplicant"])(spreadsheetRep, null);
@@ -48366,4 +48366,4 @@ const useReplicant = (replicant, initialValue) => {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=main.2a675350d943e6973327.js.map
+//# sourceMappingURL=main.b0c04248e4777f35dad6.js.map

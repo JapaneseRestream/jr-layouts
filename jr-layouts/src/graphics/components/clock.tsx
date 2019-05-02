@@ -20,7 +20,7 @@ const Container = styled.div`
 `;
 
 const HashtagText = styled.div`
-	font-family: monospace;
+	color: rgb(252, 218, 68);
 `;
 
 export const Clock: React.FunctionComponent = () => {
