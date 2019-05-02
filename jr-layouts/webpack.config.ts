@@ -31,7 +31,7 @@ const generateBrowserConfig = (
 		entry: entryObject,
 		output: {
 			path: path.resolve(__dirname, name),
-			filename: '[name].[contenthash].js',
+			filename: 'dist/[name].[contenthash].js',
 		},
 		module: {
 			rules: [
@@ -53,7 +53,7 @@ const generateBrowserConfig = (
 						{
 							loader: 'file-loader',
 							options: {
-								name: '[name].[contenthash].[ext]',
+								name: 'dist/[name].[contenthash].[ext]',
 							},
 						},
 					],
@@ -70,7 +70,7 @@ const generateBrowserConfig = (
 		},
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: '[name].[contenthash].css',
+				filename: 'dist/[name].[contenthash].css',
 			}),
 			...Object.keys(entryObject).map(
 				(entryName) =>
