@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import characterImage from '../../images/character.png';
-import {Clock} from './clock';
 import {Logo} from './logo';
 import {UpcomingList} from './upcoming-list';
+import {DiscordStatus} from './discord-status';
 
 const Container = styled.div`
 	position: absolute;
@@ -14,6 +14,13 @@ const Container = styled.div`
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: flex-start;
+`;
+
+const CharacterImageWrapper = styled.div`
+	display: grid;
+	justify-content: center;
+	align-content: end;
+	transform: scale(1.1);
 `;
 
 const CharacterImage = styled.img`
@@ -31,7 +38,9 @@ export const Left = () => (
 		<Logo />
 		<UpcomingTitle>今後のゲーム</UpcomingTitle>
 		<UpcomingList />
-		<CharacterImage src={characterImage} />
-		<Clock />
+		<DiscordStatus />
+		<CharacterImageWrapper>
+			<CharacterImage src={characterImage} />
+		</CharacterImageWrapper>
 	</Container>
 );

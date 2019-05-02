@@ -10,28 +10,11 @@ const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
 const Container = styled.div`
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	left: 10%;
 	height: 10%;
-	width: 90%;
-	display: grid;
-	grid-template-columns: auto 300px;
-	grid-template-rows: auto auto auto;
-	grid-auto-flow: column;
-`;
-
-const Title = styled.div`
-	font-size: 20px;
-	font-weight: 400;
-`;
-const Content = styled.div`
-	font-size: 30px;
-	font-weight: 600;
-`;
-const CommentatorContainer = styled.div`
-	grid-row: 1 / 3;
+	width: 80%;
 	display: flex;
 	flex-flow: column nowrap;
-	justify-content: center;
 `;
 
 export const RunInfo: React.FunctionComponent = () => {
@@ -45,16 +28,10 @@ export const RunInfo: React.FunctionComponent = () => {
 	return (
 		<Container>
 			<FitText
-				style={{fontSize: '70px', fontWeight: 900}}
+				style={{fontSize: '60px', fontWeight: 900}}
 				text={currentRun.game || currentRun.english}
 			/>
-			<FitText style={{fontSize: '25px', fontWeight: 500}} text={misc} />
-			{currentRun.commentator && (
-				<CommentatorContainer>
-					<Title>解説</Title>
-					<Content>{currentRun.commentator}</Content>
-				</CommentatorContainer>
-			)}
+			<FitText style={{fontSize: '20px', fontWeight: 500}} text={misc} />
 		</Container>
 	);
 };

@@ -3,6 +3,7 @@ export const enum Replicant {
 	CurrentRun = 'current-run',
 	Twitch = 'twitch',
 	Spreadsheet = 'spreadsheet',
+	DiscordSpeakingStatus = 'discord-speaking-status',
 }
 
 export const enum Message {

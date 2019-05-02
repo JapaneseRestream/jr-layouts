@@ -95,7 +95,7 @@ const generateBrowserConfig = (
 				chunks: 'all',
 				cacheGroups: {
 					common: {
-						minChunks: entryFiles.length,
+						minChunks: Math.max(entryFiles.length, 2),
 					},
 					vendors: false,
 					default: false,

@@ -1,46 +1,56 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"anyOf": [
-		{
-			"additionalProperties": false,
-			"properties": {
-				"channelInfo": {
-					"additionalProperties": false,
-					"properties": {
-						"ours": {
-							"$ref": "#/definitions/ChannelInfo"
-						},
-						"target": {
-							"$ref": "#/definitions/ChannelInfo"
-						}
-					},
-					"required": ["ours", "target"],
-					"type": "object"
-				}
-			},
-			"required": ["channelInfo"],
-			"type": "object"
-		},
-		{
-			"type": "null"
-		}
-	],
-	"definitions": {
-		"ChannelInfo": {
-			"additionalProperties": false,
-			"properties": {
-				"game": {
-					"type": "string"
-				},
-				"logo": {
-					"type": "string"
-				},
-				"title": {
-					"type": "string"
-				}
-			},
-			"required": ["game", "logo", "title"],
-			"type": "object"
-		}
-	}
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "anyOf": [
+        {
+            "additionalProperties": false,
+            "properties": {
+                "channelInfo": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "ours": {
+                            "$ref": "#/definitions/ChannelInfo"
+                        },
+                        "target": {
+                            "$ref": "#/definitions/ChannelInfo"
+                        }
+                    },
+                    "required": [
+                        "ours",
+                        "target"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "channelInfo"
+            ],
+            "type": "object"
+        },
+        {
+            "type": "null"
+        }
+    ],
+    "definitions": {
+        "ChannelInfo": {
+            "additionalProperties": false,
+            "properties": {
+                "game": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "game",
+                "logo",
+                "title"
+            ],
+            "type": "object"
+        }
+    }
 }
+

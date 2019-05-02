@@ -1,57 +1,58 @@
 {
-	"$schema": "http://json-schema.org/draft-07/schema#",
-	"definitions": {
-		"Run": {
-			"additionalProperties": false,
-			"properties": {
-				"category": {
-					"type": "string"
-				},
-				"commentator": {
-					"type": "string"
-				},
-				"console": {
-					"type": "string"
-				},
-				"english": {
-					"type": "string"
-				},
-				"game": {
-					"type": "string"
-				},
-				"index": {
-					"type": "number"
-				},
-				"runTime": {
-					"type": "string"
-				},
-				"runners": {
-					"type": "string"
-				},
-				"scheduled": {
-					"type": "string"
-				},
-				"setupTime": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"category",
-				"commentator",
-				"console",
-				"english",
-				"game",
-				"index",
-				"runTime",
-				"runners",
-				"scheduled",
-				"setupTime"
-			],
-			"type": "object"
-		}
-	},
-	"items": {
-		"$ref": "#/definitions/Run"
-	},
-	"type": "array"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Run": {
+            "additionalProperties": false,
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "commentator": {
+                    "type": "string"
+                },
+                "console": {
+                    "type": "string"
+                },
+                "english": {
+                    "type": "string"
+                },
+                "game": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "number"
+                },
+                "runTime": {
+                    "type": "string"
+                },
+                "runners": {
+                    "type": "string"
+                },
+                "scheduled": {
+                    "type": "string"
+                },
+                "setupTime": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "category",
+                "commentator",
+                "console",
+                "english",
+                "game",
+                "index",
+                "runTime",
+                "runners",
+                "scheduled",
+                "setupTime"
+            ],
+            "type": "object"
+        }
+    },
+    "items": {
+        "$ref": "#/definitions/Run"
+    },
+    "type": "array"
 }
+

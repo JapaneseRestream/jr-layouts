@@ -7,14 +7,19 @@ import {useReplicant} from '../../use-nodecg/use-replicant';
 const spreadsheetRep = nodecg.Replicant<Spreadsheet>(Replicant.Spreadsheet);
 
 const Container = styled.div`
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	height: 10%;
+	width: 10%;
 	font-size: 20px;
 	text-align: center;
 	display: flex;
 	flex-flow: column nowrap;
+	justify-content: center;
 `;
 
 const HashtagText = styled.div`
-	margin-top: 8px;
 	font-family: monospace;
 `;
 

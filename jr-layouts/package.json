@@ -16,16 +16,18 @@
 		"watch:extension": "yarn build:extension -w --preserveWatchOutput",
 		"watch:dashboard": "yarn build:dashboard -w",
 		"watch:graphics": "yarn build:graphics -w",
-		"generate-schema": "ts-node scripts/generate-schema.ts",
-		"genschema": "run-p \"genschema:*\""
+		"generate-schema": "ts-node scripts/generate-schema.ts"
 	},
 	"dependencies": {
 		"axios": "^0.18.0",
 		"date-fns": "^2.0.0-alpha.27",
+		"discord.js": "^11.4.2",
+		"ffmpeg-binaries": "^4.0.0",
 		"googleapis": "^39.2.0",
 		"joi": "^14.3.1",
 		"lodash": "^4.17.11",
-		"moment": "^2.24.0"
+		"moment": "^2.24.0",
+		"node-opus": "^0.3.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.3",

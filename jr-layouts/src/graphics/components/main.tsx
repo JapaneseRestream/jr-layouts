@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Left} from './left';
 import {RunInfo} from './run-info';
 import {TwitchPlayer} from './twitch-player';
+import {Clock} from './clock';
 
 const Container = styled.div`
 	position: absolute;
@@ -17,6 +18,7 @@ export const Main: React.FunctionComponent = () => {
 			<Left />
 			<RunInfo />
 			<TwitchPlayer />
+			<Clock />
 		</Container>
 	);
 };

@@ -5,7 +5,7 @@ import JrLogo from '../images/banner.png';
 const RPGLB_LOGO =
 	'https://www.rpglimitbreak.com/assets/images/logo_1200x424.png';
 const ROTATE_INTERVAL = 10 * 1000;
-const IMAGE_WIDTH = 1920 * 0.1;
+const IMAGE_WIDTH = 1920 * 0.1 - 8;
 const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
@@ -15,6 +15,7 @@ const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
 
 const LogoContainer = styled.div`
 	height: ${IMAGE_AREA_HEIGHT}px;
+	padding: 4px;
 
 	& > div {
 		position: absolute;
