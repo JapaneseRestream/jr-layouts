@@ -2,11 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {useListenFor} from 'use-nodecg';
 import styled from 'styled-components';
 import {Message} from '../../constants';
+import {useReplicant} from '../../use-nodecg/use-replicant';
 
-const iframeSrc = new URL('https://player.twitch.tv/');
-iframeSrc.searchParams.set('channel', 'overwatchleague');
-iframeSrc.searchParams.set('autoplay', 'true');
-iframeSrc.searchParams.set('muted', 'false');
+const targetChannelRep = nodecg.Replicant<string>('target-channel');
 
 const PlayerIframe = styled.iframe`
 	position: absolute;
@@ -18,6 +16,8 @@ const PlayerIframe = styled.iframe`
 
 export const TwitchPlayer: React.FunctionComponent = () => {
 	const [showPlayer, setShowPlayer] = useState(true);
+	const [targetChannel] = useReplicant(targetChannelRep, null);
+
 	useListenFor(Message.RefreshPlayer, () => {
 		setShowPlayer(false);
 	});
@@ -27,9 +27,14 @@ export const TwitchPlayer: React.FunctionComponent = () => {
 		}
 	}, [showPlayer]);
 
-	if (!showPlayer) {
+	if (!showPlayer || !targetChannel) {
 		return null;
 	}
+
+	const iframeSrc = new URL('https://player.twitch.tv/');
+	iframeSrc.searchParams.set('channel', targetChannel);
+	iframeSrc.searchParams.set('autoplay', 'true');
+	iframeSrc.searchParams.set('muted', 'false');
 
 	return (
 		<PlayerIframe
