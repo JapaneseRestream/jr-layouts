@@ -8,8 +8,8 @@ const Container = styled.div`
 	padding: 5px 5px;
 	max-height: 114px;
 	overflow: hidden;
-	background-color: rgba(9, 5, 19, 1);
-	border: 1px solid rgb(234, 2, 142);
+	background-color: #004ba1;
+	border: 2px solid #ff9000;
 `;
 
 interface Props {
