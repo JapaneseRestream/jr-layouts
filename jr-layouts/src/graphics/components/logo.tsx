@@ -2,14 +2,13 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import JrLogo from '../images/banner.png';
 
-const RPGLB_LOGO =
-	'https://www.rpglimitbreak.com/assets/images/logo_1200x424.png';
+const GDQ_LOGO = 'https://gamesdonequick.com/static/res/img/gdqlogo.png';
 const ROTATE_INTERVAL = 10 * 1000;
 const IMAGE_WIDTH = 1920 * 0.1 - 8;
 const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
-	{src: RPGLB_LOGO, width: IMAGE_WIDTH},
+	{src: GDQ_LOGO, width: IMAGE_WIDTH},
 	{src: JrLogo, width: IMAGE_WIDTH},
 ];
 
