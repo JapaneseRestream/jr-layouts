@@ -33,15 +33,8 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 		'解説（放送にのります）',
 	);
 	await liveChannel.join();
-	const removeMember = (id: string) => {
-		speakingStatusRep.value = speakingStatusRep.value.filter(
-			(speakingMember) => speakingMember.id !== id,
-		);
-	};
-	client.on('guildMemberRemove', (member) => {
-		removeMember(member.id);
-	});
 	client.on('guildMemberSpeaking', (member, speaking) => {
+		let newStatus: DiscordSpeakingStatus;
 		if (speaking) {
 			const alreadySpeaking = speakingStatusRep.value.some(
 				(speakingMember) => speakingMember.id === member.id,
@@ -49,7 +42,7 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 			if (alreadySpeaking) {
 				return;
 			}
-			speakingStatusRep.value = [
+			newStatus = [
 				...speakingStatusRep.value,
 				{
 					id: member.id,
@@ -60,7 +53,16 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 				},
 			];
 		} else {
-			removeMember(member.id);
+			newStatus = speakingStatusRep.value.filter(
+				(speakingMember) => speakingMember.id !== member.id,
+			);
 		}
+		speakingStatusRep.value = newStatus;
 	});
+
+	setInterval(() => {
+		speakingStatusRep.value = speakingStatusRep.value.filter(({id}) =>
+			liveChannel.members.some((member) => member.id === id),
+		);
+	}, 100);
 };
