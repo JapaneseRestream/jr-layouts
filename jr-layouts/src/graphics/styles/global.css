@@ -1,8 +1,9 @@
 @import './fonts.css';
 
 body {
-	color: white;
-	background-color: #1a75d4;
+	color: #ceecfd;
+	background-color: #080811;
+	text-shadow: #ceecfd 0px 0px 5px ;
 	margin: 0 0;
 	font-family: 'Rounded Mplus 1c';
 	line-height: 1.25;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {CurrentRun} from '../../replicants/current-run';
 import {Replicant} from '../../constants';
 import {useReplicant} from '../../use-nodecg/use-replicant';
-import {FitText} from './fit-text';
+import {FitText, Text as FitTextText} from './fit-text';
 
 const currentRunRep = nodecg.Replicant<CurrentRun>(Replicant.CurrentRun);
 
@@ -17,6 +17,28 @@ const Container = styled.div`
 	flex-flow: column nowrap;
 `;
 
+const Title = styled(FitText)`
+	& > ${FitTextText} {
+		font-size: 60px;
+		font-weight: 900;
+		background: linear-gradient(to bottom, #fbd379 0%, #e28600 100%);
+		-webkit-background-clip: text;
+		color: transparent;
+		text-shadow: none;
+	}
+`;
+
+const Misc = styled(FitText)`
+	& > ${FitTextText} {
+		font-size: 20px;
+		font-weight: 500;
+		background: linear-gradient(to bottom, #feca66 0%, #fd8022 100%);
+		-webkit-background-clip: text;
+		color: transparent;
+		text-shadow: none;
+	}
+`;
+
 export const RunInfo: React.FunctionComponent = () => {
 	const [currentRun] = useReplicant(currentRunRep, null);
 	if (!currentRun) {
@@ -27,11 +49,8 @@ export const RunInfo: React.FunctionComponent = () => {
 		.join(' - ');
 	return (
 		<Container>
-			<FitText
-				style={{fontSize: '60px', fontWeight: 900}}
-				text={currentRun.game || currentRun.english}
-			/>
-			<FitText style={{fontSize: '20px', fontWeight: 500}} text={misc} />
+			<Title text={currentRun.game || currentRun.english} />
+			<Misc text={misc} />
 		</Container>
 	);
 };

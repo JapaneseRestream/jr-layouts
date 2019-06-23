@@ -21,6 +21,11 @@ const findLiveChannel = (
 
 export const setupDiscord = async (nodecg: NodeCG) => {
 	const {discordToken}: BundleConfig = nodecg.bundleConfig;
+	if (discordToken === '') {
+		nodecg.log.warn('Discord token is empty');
+		return;
+	}
+
 	const speakingStatusRep = nodecg.Replicant<DiscordSpeakingStatus>(
 		Replicant.DiscordSpeakingStatus,
 		{defaultValue: [], persistent: false},

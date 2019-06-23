@@ -6,13 +6,14 @@ const Container = styled.div`
 	justify-content: center;
 `;
 
-const Text = styled.div`
+export const Text = styled.div`
 	white-space: nowrap;
 `;
 
 interface Props {
 	text: string;
 	style?: React.CSSProperties;
+	className?: string;
 }
 
 export const FitText: React.FunctionComponent<Props> = (props) => {
@@ -33,7 +34,11 @@ export const FitText: React.FunctionComponent<Props> = (props) => {
 	});
 
 	return (
-		<Container style={props.style} ref={containerRef}>
+		<Container
+			className={props.className}
+			style={props.style}
+			ref={containerRef}
+		>
 			<Text ref={textRef}>{props.text}</Text>
 		</Container>
 	);

@@ -1,15 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Run} from '../../replicants/lib';
-import {FitText} from './fit-text';
+import {FitText, Text as FitTextText} from './fit-text';
 
 const Container = styled.div`
 	margin: 8px 5px;
 	padding: 5px 5px;
 	max-height: 114px;
 	overflow: hidden;
-	background-color: #004ba1;
-	border: 2px solid #ff9000;
+	border: 1px solid #f09;
+`;
+
+const Text = styled(FitText)`
+	& > ${FitTextText} {
+	}
+`;
+
+const Title = styled(Text)`
+	font-size: 30px;
+	font-weight: 400;
+`;
+
+const Misc = styled(Text)`
+	font-weight: 400;
+	height: 1.25em;
+	overflow: hidden;
 `;
 
 interface Props {
@@ -24,11 +39,8 @@ export const GamePlate: React.FunctionComponent<Props> = (props) => {
 
 	return (
 		<Container>
-			<FitText style={{fontSize: '30px', fontWeight: 500}} text={game} />
-			<FitText
-				style={{fontWeight: 400, height: '1.25em', overflow: 'hidden'}}
-				text={misc}
-			/>
+			<Title text={game} />
+			<Misc text={misc} />
 		</Container>
 	);
 };
