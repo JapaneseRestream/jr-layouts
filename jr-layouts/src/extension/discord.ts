@@ -33,6 +33,14 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 		'解説（放送にのります）',
 	);
 	await liveChannel.join();
+	const removeMember = (id: string) => {
+		speakingStatusRep.value = speakingStatusRep.value.filter(
+			(speakingMember) => speakingMember.id !== id,
+		);
+	};
+	client.on('guildMemberRemove', (member) => {
+		removeMember(member.id);
+	});
 	client.on('guildMemberSpeaking', (member, speaking) => {
 		if (speaking) {
 			const alreadySpeaking = speakingStatusRep.value.some(
@@ -52,9 +60,7 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 				},
 			];
 		} else {
-			speakingStatusRep.value = speakingStatusRep.value.filter(
-				(speakingMember) => speakingMember.id !== member.id,
-			);
+			removeMember(member.id);
 		}
 	});
 };
