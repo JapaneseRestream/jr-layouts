@@ -1,5 +1,6 @@
 import discord from 'discord.js';
 import {NodeCG} from 'nodecg/types/server';
+import {isEqual} from 'lodash';
 import {BundleConfig} from '../bundle-config';
 import {DiscordSpeakingStatus} from '../replicants/discord-speaking-status';
 import {Replicant} from '../constants';
@@ -66,8 +67,11 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 	});
 
 	setInterval(() => {
-		speakingStatusRep.value = speakingStatusRep.value.filter(({id}) =>
+		const filteredStatus = speakingStatusRep.value.filter(({id}) =>
 			liveChannel.members.some((member) => member.id === id),
 		);
-	}, 100);
+		if (!isEqual(speakingStatusRep.value, filteredStatus)) {
+			speakingStatusRep.value = filteredStatus;
+		}
+	}, 200);
 };

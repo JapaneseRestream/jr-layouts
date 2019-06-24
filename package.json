@@ -4,7 +4,7 @@
 	"scripts": {
 		"postinstall": "yarn --cwd=jr-layouts && ts-node -T scripts/postinstall.ts",
 		"reset": "del-cli \"db/*\" \"!.gitkeep\"",
-		"start": "node -r ts-node/register node_modules/nodecg"
+		"start": "node node_modules/nodecg"
 	},
 	"husky": {
 		"hooks": {

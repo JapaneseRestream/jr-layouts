@@ -115,6 +115,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 	output: {
 		path: path.resolve(__dirname, 'extension'),
 		filename: 'index.js',
+		libraryTarget: 'commonjs2',
 	},
 	module: {
 		rules: [
