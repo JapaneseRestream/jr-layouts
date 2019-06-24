@@ -5,6 +5,7 @@ import merge from 'webpack-merge';
 import globby from 'globby';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import nodeExternals from 'webpack-node-externals';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -106,7 +107,35 @@ const generateBrowserConfig = (
 	return config;
 };
 
+const extensionConfig: webpack.Configuration = merge(base, {
+	name: 'extension',
+	target: 'node',
+	context: __dirname,
+	entry: path.resolve(__dirname, 'src/extension/index.ts'),
+	output: {
+		path: path.resolve(__dirname, 'extension'),
+		filename: 'index.js',
+	},
+	module: {
+		rules: [
+			{
+				test: /\.ts$/u,
+				loaders: [
+					{
+						loader: 'ts-loader',
+						options: {
+							configFile: 'tsconfig.extension.json',
+						},
+					},
+				],
+			},
+		],
+	},
+	externals: [nodeExternals()],
+});
+
 export default [
 	generateBrowserConfig('dashboard'),
 	generateBrowserConfig('graphics'),
+	extensionConfig,
 ];

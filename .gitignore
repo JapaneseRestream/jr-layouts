@@ -3,6 +3,11 @@
 !.gitkeep
 
 bundle-analyzer
+/jr-layouts/dashboard
+/jr-layouts/graphics
+/jr-layouts/schemas
+/jr-layouts/configschema.json
+/jr-layouts/extension
 
 # Logs
 logs

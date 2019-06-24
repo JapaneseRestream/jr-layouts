@@ -1,7 +1,4 @@
 {
 	"extends": "../tsconfig",
-	"compilerOptions": {
-		"noEmit": true
-	},
-	"include": ["src/extension/**/*.ts"]
+	"include": ["src/extension/index.ts"]
 }

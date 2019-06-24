@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import {NodeCG} from 'nodecg/types/server';
 import {setupSpreadsheet} from './spreadsheet';
 import {setupSchedule} from './schedule';
