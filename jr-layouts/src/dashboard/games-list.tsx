@@ -47,11 +47,8 @@ const App: React.FunctionComponent = () => {
 			<Table>
 				<TableHead>
 					<TableRow>
-						<TableCell>開始時刻</TableCell>
 						<TableCell>ゲーム名</TableCell>
 						<TableCell>カテゴリ</TableCell>
-						<TableCell>走者</TableCell>
-						<TableCell>解説</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -60,10 +57,6 @@ const App: React.FunctionComponent = () => {
 							selected={run.index === currentRun.index}
 							key={run.index}
 						>
-							<TableCell>
-								{run.scheduled &&
-									new Date(run.scheduled).toLocaleString()}
-							</TableCell>
 							<TableCell>
 								<span
 									ref={
@@ -75,8 +68,6 @@ const App: React.FunctionComponent = () => {
 								</span>
 							</TableCell>
 							<TableCell>{run.category}</TableCell>
-							<TableCell>{run.runners}</TableCell>
-							<TableCell>{run.commentator}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
