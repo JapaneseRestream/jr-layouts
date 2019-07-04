@@ -8,7 +8,7 @@ const Container = styled.div`
 	padding: 5px 5px;
 	max-height: 114px;
 	overflow: hidden;
-	border: 1px solid #f09;
+	border: 1px solid #fefefe;
 `;
 
 const Text = styled(FitText)`

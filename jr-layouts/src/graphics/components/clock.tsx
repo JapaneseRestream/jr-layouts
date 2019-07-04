@@ -20,8 +20,7 @@ const Container = styled.div`
 `;
 
 const HashtagText = styled.div`
-	color: #f09;
-	text-shadow: #f09 0px 0px 10px;
+	color: #f37f50;
 `;
 
 export const Clock: React.FunctionComponent = () => {

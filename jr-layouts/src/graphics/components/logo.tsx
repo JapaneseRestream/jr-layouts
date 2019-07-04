@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import JrLogo from '../images/banner.png';
 
-const GDQ_LOGO = 'https://gamesdonequick.com/static/res/img/gdqlogo.png';
+const GDQ_LOGO =
+	'https://dreamhack.es/wp-content/themes/dreamhack2019/images/DH-valencia.png';
 const ROTATE_INTERVAL = 10 * 1000;
 const IMAGE_WIDTH = 1920 * 0.1 - 8;
 const IMAGE_AREA_HEIGHT = 150;

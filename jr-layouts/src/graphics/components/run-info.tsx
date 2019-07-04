@@ -21,10 +21,6 @@ const Title = styled(FitText)`
 	& > ${FitTextText} {
 		font-size: 60px;
 		font-weight: 900;
-		background: linear-gradient(to bottom, #fbd379 0%, #e28600 100%);
-		-webkit-background-clip: text;
-		color: transparent;
-		text-shadow: none;
 	}
 `;
 
@@ -32,10 +28,6 @@ const Misc = styled(FitText)`
 	& > ${FitTextText} {
 		font-size: 20px;
 		font-weight: 500;
-		background: linear-gradient(to bottom, #feca66 0%, #fd8022 100%);
-		-webkit-background-clip: text;
-		color: transparent;
-		text-shadow: none;
 	}
 `;
 

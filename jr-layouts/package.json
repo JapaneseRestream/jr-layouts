@@ -8,11 +8,11 @@
 	"scripts": {
 		"clean": "del-cli dashboard graphics extension schemas configschema.json bundle-analyzer",
 		"prod-build": "cross-env NODE_ENV=production yarn build",
-		"build": "run-s clean generate-schema && yarn webpack",
+		"build": "run-s clean generate-schema && run-p \"build:*\"",
 		"build:extension": "webpack --config-name extension",
 		"build:dashboard": "webpack --config-name dashboard",
 		"build:graphics": "webpack --config-name graphics",
-		"watch": "yarn clean && webpack -w",
+		"watch": "run-p \"watch:*\"",
 		"watch:extension": "yarn build:extension -w",
 		"watch:dashboard": "yarn build:dashboard -w",
 		"watch:graphics": "yarn build:graphics -w",
