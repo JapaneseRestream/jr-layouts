@@ -2,7 +2,7 @@
 	"extends": "@hoishin/tsconfig",
 	"compilerOptions": {
 		"target": "esnext",
-		"lib": ["esnext", "dom"],
+		"lib": ["es2018", "dom"],
 		"sourceMap": true,
 		"types": ["node", "soundjs", "socket.io", "socket.io-client"],
 		"keyofStringsOnly": true
