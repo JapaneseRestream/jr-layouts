@@ -1,0 +1,91 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"additionalProperties": false,
+	"definitions": {
+		"GamesListItem": {
+			"additionalProperties": false,
+			"properties": {
+				"category": {
+					"type": "string"
+				},
+				"commentators": {
+					"type": "string"
+				},
+				"originalCategory": {
+					"type": "string"
+				},
+				"originalTitle": {
+					"type": "string"
+				},
+				"platform": {
+					"type": "string"
+				},
+				"runDuration": {
+					"type": "string"
+				},
+				"setupDuration": {
+					"type": "string"
+				},
+				"title": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"category",
+				"commentators",
+				"originalCategory",
+				"originalTitle",
+				"platform",
+				"runDuration",
+				"setupDuration",
+				"title"
+			],
+			"type": "object"
+		}
+	},
+	"properties": {
+		"eventInfo": {
+			"additionalProperties": false,
+			"properties": {
+				"eventName": {
+					"type": "string"
+				},
+				"originalEventName": {
+					"type": "string"
+				},
+				"ourTwitchChannel": {
+					"type": "string"
+				},
+				"startTime": {
+					"type": "string"
+				},
+				"targetTwitchChannel": {
+					"type": "string"
+				},
+				"timezoneDifference": {
+					"type": "number"
+				},
+				"venue": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"eventName",
+				"originalEventName",
+				"ourTwitchChannel",
+				"startTime",
+				"targetTwitchChannel",
+				"timezoneDifference",
+				"venue"
+			],
+			"type": "object"
+		},
+		"gamesList": {
+			"items": {
+				"$ref": "#/definitions/GamesListItem"
+			},
+			"type": "array"
+		}
+	},
+	"type": "object"
+}
