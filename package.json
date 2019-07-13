@@ -35,7 +35,7 @@
 	],
 	"prettier": "@hoishin/prettierrc",
 	"dependencies": {
-		"axios": "^0.18.0",
+		"axios": "0.18.1",
 		"discord.js": "11.4.2",
 		"ffmpeg-binaries": "4.0.0",
 		"googleapis": "39.2.0",
