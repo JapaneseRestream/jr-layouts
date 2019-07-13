@@ -119,9 +119,6 @@ const extensionConfig: webpack.Configuration = merge(base, {
 						loader: 'ts-loader',
 						options: {
 							transpileOnly: true,
-							compilerOptions: {
-								module: 'esnext',
-							},
 						},
 					},
 				],

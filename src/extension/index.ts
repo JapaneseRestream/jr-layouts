@@ -5,7 +5,7 @@ import {setupTwitchInfo} from './twitch';
 import {setupDiscord} from './discord';
 import {NodeCG} from './nodecg';
 
-module.exports = (nodecg: NodeCG) => {
+export = (nodecg: NodeCG) => {
 	setupSpreadsheet(nodecg);
 	setupSchedule(nodecg);
 	setupTwitchInfo(nodecg);
