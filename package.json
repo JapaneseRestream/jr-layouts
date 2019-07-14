@@ -46,7 +46,7 @@
 		"node-opus": "0.3.1",
 		"nodecg": "1.4.0",
 		"source-map-support": "0.5.12",
-		"tslib": "1.9.3",
+		"tslib": "1.10.0",
 		"typescript": "3.5.3"
 	},
 	"devDependencies": {
