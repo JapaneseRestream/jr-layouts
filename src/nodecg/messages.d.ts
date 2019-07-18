@@ -4,4 +4,5 @@ export type MessageMap = {
 	nextRun: {};
 	updateSpreadsheet: {};
 	refreshPlayer: {};
+	'twitch:putMarker': {result: boolean};
 };

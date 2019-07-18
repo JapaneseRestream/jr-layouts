@@ -54,4 +54,8 @@ export type ReplicantMap = {
 		};
 	} | null;
 	targetChannel: string;
+	twitchOauth: {
+		token: string;
+		channelId: string;
+	} | null;
 };
