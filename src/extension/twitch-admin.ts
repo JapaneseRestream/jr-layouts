@@ -121,6 +121,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		}
 	});
 
+	// https://dev.twitch.tv/docs/api/reference/#create-stream-marker
 	nodecg.listenFor('twitch:putMarker', async (_, cb) => {
 		try {
 			if (!twitchOauthRep.value) {
