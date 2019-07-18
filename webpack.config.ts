@@ -76,7 +76,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 						chunks: [entryName],
 						title: entryName,
 						template: `webpack-templates/${name}.html`,
-					}),
+					}) as any,
 			),
 			new BundleAnalyzerPlugin({
 				openAnalyzer: false,
