@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {ReplicantBrowser} from 'ts-nodecg/helper/replicant';
+
 import {ReplicantMap} from '../../../nodecg/replicants';
 
 export const useReplicantOnce = <

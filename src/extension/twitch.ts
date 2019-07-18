@@ -1,6 +1,7 @@
 import {setInterval} from 'timers';
-import _ from 'lodash';
+
 import axios from 'axios';
+
 import {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 10 * 1000;
@@ -52,8 +53,8 @@ export const setupTwitchInfo = (nodecg: NodeCG) => {
 				},
 			});
 
-			const ourChannelId = data.users[0]._id;
-			const targetChannelId = data.users[1]._id;
+			const ourChannelId = data.users[0]._id; // eslint-disable-line no-underscore-dangle
+			const targetChannelId = data.users[1]._id; // eslint-disable-line no-underscore-dangle
 
 			const updateChannelInfo = async () => {
 				const [ourChannelInfo, targetChannelInfo] = await Promise.all([

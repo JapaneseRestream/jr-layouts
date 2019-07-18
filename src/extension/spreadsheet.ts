@@ -1,9 +1,12 @@
 import {setInterval} from 'timers';
+
 import {google} from 'googleapis';
 import _ from 'lodash';
 import Joi from 'joi';
+
 import {BundleConfig} from '../nodecg/bundle-config';
 import {Spreadsheet} from '../nodecg/replicants';
+
 import {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 60 * 1000;

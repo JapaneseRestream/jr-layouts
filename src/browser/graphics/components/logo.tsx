@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+
 import JrLogo from '../images/banner.png';
 
 const GDQ_LOGO =

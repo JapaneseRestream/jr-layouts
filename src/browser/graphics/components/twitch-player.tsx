@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+
 import {useReplicant} from '../../shared/use-nodecg/use-replicant';
 
 const targetChannelRep = nodecg.Replicant('targetChannel');

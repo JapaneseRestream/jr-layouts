@@ -19,7 +19,7 @@ export interface ChannelInfo {
 
 export type DiscordSpeakingStatus = {id: string; name: string}[];
 
-export type Spreadsheet = {
+export interface Spreadsheet {
 	eventInfo?: {
 		eventName: string;
 		originalEventName: string;
@@ -39,8 +39,9 @@ export type Spreadsheet = {
 		runDuration: string;
 		setupDuration: string;
 	}[];
-};
+}
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ReplicantMap = {
 	currentRun: Run | null;
 	discordSpeakingStatus: DiscordSpeakingStatus;

@@ -1,4 +1,5 @@
 import path from 'path';
+
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
@@ -128,8 +129,10 @@ const extensionConfig: webpack.Configuration = merge(base, {
 	externals: [nodeExternals()],
 });
 
-export default [
+const config: webpack.Configuration[] = [
 	browserConfig('dashboard'),
 	browserConfig('graphics'),
 	extensionConfig,
 ];
+
+export default config;

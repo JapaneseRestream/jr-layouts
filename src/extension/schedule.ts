@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
+
 import {Run} from '../nodecg/replicants';
+
 import {NodeCG} from './nodecg';
 
 export const setupSchedule = (nodecg: NodeCG) => {

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import {useReplicant} from '../../shared/use-nodecg/use-replicant';
+
 import {FitText, Text as FitTextText} from './fit-text';
 
 const currentRunRep = nodecg.Replicant('currentRun');

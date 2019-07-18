@@ -1,7 +1,9 @@
 import discord from 'discord.js';
 import {isEqual} from 'lodash';
+
 import {BundleConfig} from '../nodecg/bundle-config';
 import {DiscordSpeakingStatus} from '../nodecg/replicants';
+
 import {NodeCG} from './nodecg';
 
 const findLiveChannel = (

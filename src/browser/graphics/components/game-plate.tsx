@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import {Run} from '../../../nodecg/replicants';
+
 import {FitText, Text as FitTextText} from './fit-text';
 
 const Container = styled.div`

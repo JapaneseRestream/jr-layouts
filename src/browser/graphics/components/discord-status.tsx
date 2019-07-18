@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import {useReplicant} from '../../shared/use-nodecg/use-replicant';
 import DiscordLogo from '../../shared/images/discord-logo-white.png';
+
 import {FitText} from './fit-text';
 
 const MAX_NAMES = 6;

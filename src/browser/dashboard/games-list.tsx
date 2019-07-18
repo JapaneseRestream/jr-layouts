@@ -8,6 +8,7 @@ import {
 import React, {useRef, useEffect, createRef} from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+
 import {useReplicant} from '../shared/use-nodecg/use-replicant';
 
 const scheduleRep = nodecg.Replicant('schedule');

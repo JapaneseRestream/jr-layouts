@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {useReplicant} from '../../shared/use-nodecg/use-replicant';
+
 import {GamePlate} from './game-plate';
 
 const GAME_PLATE_AMOUNT = 5;

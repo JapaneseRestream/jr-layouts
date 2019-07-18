@@ -1,18 +1,18 @@
 {
-	"extends": ["plugin:react/recommended", "@hoishin/ts"],
-	"parserOptions": {
-		"project": "tsconfig.json"
-	},
-	"plugins": ["react-hooks"],
 	"root": true,
+	"extends": ["hoishin", "hoishin/react", "hoishin/typescript"],
+	"env": {"node": true},
 	"rules": {
-		"callback-return": 0,
-		"unicorn/no-unsafe-regex": 0,
-		"@typescript-eslint/explicit-function-return-type": 0,
-		"@typescript-eslint/promise-function-async": 0,
-		"react/prop-types": 0,
-		"react-hooks/rules-of-hooks": 2,
-		"react-hooks/exhaustive-deps": 1,
-		"consistent-return": 0
+		"new-cap": [2, {"capIsNewExceptions": ["nodecg.Replicant"]}],
+
+		// TODO: tmp
+		"max-statements": 0,
+		"@typescript-eslint/strict-boolean-expressions": 0,
+		"@typescript-eslint/no-floating-promises": 0
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }

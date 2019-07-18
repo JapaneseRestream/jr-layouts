@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import {Button, TextField} from '@material-ui/core';
+
 import {useReplicant} from '../shared/use-nodecg/use-replicant';
 
 const targetChannelRep = nodecg.Replicant('targetChannel');

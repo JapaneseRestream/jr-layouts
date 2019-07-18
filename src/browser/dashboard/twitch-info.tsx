@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+
 import {useReplicant} from '../shared/use-nodecg/use-replicant';
 
 const twitchRep = nodecg.Replicant('twitch');
