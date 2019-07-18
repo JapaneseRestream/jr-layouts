@@ -2,8 +2,7 @@
 	"name": "jr-layouts",
 	"private": true,
 	"scripts": {
-		"build": "run-p test bundle",
-		"bundle": "webpack",
+		"build": "webpack",
 		"clean": "del-cli dashboard graphics extension bundle-analyzer",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"postinstall": "include-nodecg postinstall",
