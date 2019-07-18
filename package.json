@@ -92,7 +92,7 @@
 		"ts-loader": "6.0.4",
 		"ts-node": "8.3.0",
 		"ts-nodecg": "0.1.1",
-		"webpack": "4.35.3",
+		"webpack": "4.36.1",
 		"webpack-bundle-analyzer": "3.3.2",
 		"webpack-cli": "3.3.6",
 		"webpack-merge": "4.2.1",
