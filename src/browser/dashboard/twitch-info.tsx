@@ -1,17 +1,9 @@
-import {
-	Avatar,
-	List,
-	ListItem,
-	ListItemText,
-	Typography,
-} from '@material-ui/core';
-import React from 'react';
+import {Button, Typography} from '@material-ui/core';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
 import {useReplicant} from '../shared/use-nodecg/use-replicant';
-
-const twitchRep = nodecg.Replicant('twitch');
 
 const Container = styled.div`
 	display: flex;
@@ -28,39 +20,31 @@ const InfoContainer = styled.div`
 	align-items: flex-start;
 `;
 
+const markerTimeRep = nodecg.Replicant('lastMarkerTime');
 const App: React.FunctionComponent = () => {
-	const [twitch] = useReplicant(twitchRep);
-	if (!twitch) {
-		return null;
-	}
+	const [markerTime] = useReplicant(markerTimeRep);
+	const [pending, setPending] = useState(false);
 	return (
 		<Container>
 			<InfoContainer>
-				<Typography style={{width: '100%', textAlign: 'center'}}>
-					ずれていたら更新する→
-					<a
-						href={`https://www.twitch.tv/japanese_restream/dashboard/live`}
-						target='new'
-					>
-						Twitchダッシュボード
-					</a>
-				</Typography>
-				<List>
-					<ListItem>
-						<Avatar src={twitch.channelInfo.target.logo} />
-						<ListItemText
-							primary={twitch.channelInfo.target.title}
-							secondary={twitch.channelInfo.target.game}
-						/>
-					</ListItem>
-					<ListItem>
-						<Avatar src={twitch.channelInfo.ours.logo} />
-						<ListItemText
-							primary={twitch.channelInfo.ours.title}
-							secondary={twitch.channelInfo.ours.game}
-						/>
-					</ListItem>
-				</List>
+				<Button
+					style={{alignSelf: 'center'}}
+					variant='contained'
+					onClick={() => {
+						setPending(true);
+						nodecg.sendMessage('twitch:putMarker').then(() => {
+							setPending(false);
+						});
+					}}
+					disabled={pending}
+				>
+					マーカーをうつ
+				</Button>
+				<Typography
+					style={{width: '100%', textAlign: 'center'}}
+				>{`最後のマーカー: ${
+					markerTime ? new Date(markerTime).toLocaleString() : 'N/A'
+				}`}</Typography>
 			</InfoContainer>
 		</Container>
 	);

@@ -58,4 +58,5 @@ export type ReplicantMap = {
 		token: string;
 		channelId: string;
 	} | null;
+	lastMarkerTime: number;
 };

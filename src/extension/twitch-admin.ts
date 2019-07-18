@@ -28,10 +28,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const loginLib = require('nodecg/lib/login');
 	loginLib.on('login', (session: any) => {
 		const {user} = session.passport;
-		if (
-			user.privider !== 'twitch' ||
-			user.username !== 'japanese_restream'
-		) {
+		if (user.provider !== 'twitch' || user.username !== 'hoishin') {
 			return;
 		}
 		twitchOauthRep.value = {token: user.accessToken, channelId: user.id};
@@ -41,12 +38,6 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	let lastUpdatedTitle = '';
 	nodecg.Replicant('currentRun').on('change', async (newRun) => {
 		try {
-			if (!twitchOauthRep.value) {
-				nodecg.log.warn(
-					`You must login as japanese_restream to update Twitch status`,
-				);
-				return;
-			}
 			if (!newRun || !newRun.game) {
 				nodecg.log.warn(
 					'Current run is empty, not going to update Twitch status',
@@ -58,6 +49,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			}
 			nodecg.log.info(`Updating Twitch status to ${newRun.game}`);
 			lastUpdatedTitle = newRun.game;
+			if (!twitchOauthRep.value) {
+				nodecg.log.warn(
+					`You must login as japanese_restream to update Twitch status`,
+				);
+				return;
+			}
 
 			await axios.put(
 				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
@@ -77,19 +74,13 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			);
 		} catch (error) {
 			nodecg.log.error('Failed to update Twitch status');
-			nodecg.log.error(error.stack);
+			nodecg.log.error(error);
 		}
 	});
 
 	let lastUpdatedGame = '';
 	nodecg.Replicant('twitch').on('change', async (newVal) => {
 		try {
-			if (!twitchOauthRep.value) {
-				nodecg.log.warn(
-					`You must login as japanese_restream to update Twitch status`,
-				);
-				return;
-			}
 			const newGame = newVal && newVal.channelInfo.target.game;
 			if (!newGame) {
 				nodecg.log.warn(`New game status "${newGame}" is empty`);
@@ -99,6 +90,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return;
 			}
 			lastUpdatedGame = newGame;
+			if (!twitchOauthRep.value) {
+				nodecg.log.warn(
+					`You must login as japanese_restream to update Twitch status`,
+				);
+				return;
+			}
 			await axios.put(
 				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
 				{
@@ -117,10 +114,11 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			);
 		} catch (error) {
 			nodecg.log.error('Failed to update Twitch status');
-			nodecg.log.error(error.stack);
+			nodecg.log.error(error);
 		}
 	});
 
+	const lastMarkerTimeRep = nodecg.Replicant('lastMarkerTime');
 	// https://dev.twitch.tv/docs/api/reference/#create-stream-marker
 	nodecg.listenFor('twitch:putMarker', async (_, cb) => {
 		try {
@@ -128,6 +126,9 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				nodecg.log.warn(
 					`You must login as japanese_restream to put stream marker`,
 				);
+				if (cb && !cb.handled) {
+					return cb(null, true);
+				}
 				return;
 			}
 			await axios.post(
@@ -141,11 +142,13 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					},
 				},
 			);
+			lastMarkerTimeRep.value = Date.now();
 			if (cb && !cb.handled) {
-				return cb(null, false);
+				return cb(null, true);
 			}
 		} catch (error) {
 			nodecg.log.error('Failed to put marker on Twitch stream');
+			nodecg.log.error(error);
 			if (cb && !cb.handled) {
 				return cb(null, false);
 			}
