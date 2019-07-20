@@ -3,10 +3,11 @@
 set -u
 
 rsync -avh --delete \
---exclude=.* \
---exclude=db \
+--exclude=.git \
+--exclude=bundle-analyzer \
 --exclude=cfg \
+--exclude=db \
 --exclude=node_modules \
---exclude=jr-layouts/node_modules \
---exclude=jr-layouts/src \
+--exclude=src \
+--exclude=webpack-templates \
 . $1
