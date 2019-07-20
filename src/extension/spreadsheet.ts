@@ -7,7 +7,7 @@ import {BundleConfig} from '../nodecg/bundle-config';
 
 import {NodeCG} from './nodecg';
 
-const UPDATE_INTERVAL = 60 * 1000;
+const UPDATE_INTERVAL = 10 * 1000;
 
 export const setupSpreadsheet = (nodecg: NodeCG) => {
 	const config: BundleConfig = nodecg.bundleConfig;

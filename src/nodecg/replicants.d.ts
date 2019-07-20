@@ -19,7 +19,8 @@ export type ReplicantMap = {
 	twitch: Twitch;
 	targetChannel: string;
 	twitchOauth: {
-		token: string;
+		accessToken: string;
+		refreshToken: string;
 		channelId: string;
 	} | null;
 	lastMarkerTime: number;

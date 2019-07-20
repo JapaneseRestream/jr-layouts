@@ -8,7 +8,8 @@
 		// TODO: tmp
 		"max-statements": 0,
 		"@typescript-eslint/strict-boolean-expressions": 0,
-		"@typescript-eslint/no-floating-promises": 0
+		"@typescript-eslint/no-floating-promises": 0,
+		"require-atomic-updates": 1
 	},
 	"settings": {
 		"react": {
