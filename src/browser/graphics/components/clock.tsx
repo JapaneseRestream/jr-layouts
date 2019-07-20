@@ -36,7 +36,7 @@ export const Clock: React.FunctionComponent = () => {
 	return (
 		<Container>
 			<div>現地: {time}</div>
-			<HashtagText>#DHVLC19JP</HashtagText>
+			<HashtagText>#ESAS19jp</HashtagText>
 		</Container>
 	);
 };

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import JrLogo from '../images/banner.png';
 
 const GDQ_LOGO =
-	'https://dreamhack.es/wp-content/themes/dreamhack2019/images/DH-valencia.png';
+	'https://esamarathon.com/static/img/logos/2019-summer-logo.png';
 const ROTATE_INTERVAL = 10 * 1000;
-const IMAGE_WIDTH = 1920 * 0.1 - 8;
+const IMAGE_WIDTH = 1920 * 0.1 - 24;
 const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
@@ -16,7 +16,7 @@ const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
 
 const LogoContainer = styled.div`
 	height: ${IMAGE_AREA_HEIGHT}px;
-	padding: 4px;
+	padding: 12px;
 
 	& > div {
 		position: absolute;
