@@ -11,7 +11,6 @@ import {
 	ArrowBack,
 	ArrowForward,
 	Category,
-	DirectionsRun,
 	Mic,
 	VideogameAsset,
 } from '@material-ui/icons';
@@ -120,22 +119,13 @@ const Info: React.FunctionComponent = () => {
 					<Avatar>
 						<VideogameAsset />
 					</Avatar>
-					<ListItemText
-						primary={currentRun.game}
-						secondary={currentRun.english}
-					/>
+					<ListItemText primary={currentRun.game} />
 				</ListItem>
 				<ListItem>
 					<Avatar>
 						<Category />
 					</Avatar>
 					<ListItemText primary={currentRun.category} />
-				</ListItem>
-				<ListItem>
-					<Avatar>
-						<DirectionsRun />
-					</Avatar>
-					<ListItemText primary={currentRun.runners} />
 				</ListItem>
 				<ListItem>
 					<Avatar>

@@ -1,15 +1,8 @@
-export interface Run {
-	index: number;
-	scheduled: string;
-	game: string;
-	category: string;
-	console: string;
-	runners: string;
-	english: string;
-	commentator: string;
-	runTime: string;
-	setupTime: string;
-}
+import {CurrentRun} from './generated/current-run';
+import {Schedule} from './generated/schedule';
+import {DiscordSpeakingStatus} from './generated/discord-speaking-status';
+import {Spreadsheet} from './generated/spreadsheet';
+import {Twitch} from './generated/twitch';
 
 export interface ChannelInfo {
 	title: string;
@@ -17,42 +10,13 @@ export interface ChannelInfo {
 	logo: string;
 }
 
-export type DiscordSpeakingStatus = {id: string; name: string}[];
-
-export interface Spreadsheet {
-	eventInfo?: {
-		eventName: string;
-		originalEventName: string;
-		startTime: string;
-		targetTwitchChannel: string;
-		ourTwitchChannel: string;
-		venue: string;
-		timezoneDifference: number;
-	};
-	gamesList?: {
-		originalTitle: string;
-		title: string;
-		originalCategory: string;
-		category: string;
-		commentators: string;
-		platform: string;
-		runDuration: string;
-		setupDuration: string;
-	}[];
-}
-
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ReplicantMap = {
-	currentRun: Run | null;
+	currentRun: CurrentRun;
 	discordSpeakingStatus: DiscordSpeakingStatus;
-	schedule: Run[];
+	schedule: Schedule;
 	spreadsheet: Spreadsheet;
-	twitch: {
-		channelInfo: {
-			target: ChannelInfo;
-			ours: ChannelInfo;
-		};
-	} | null;
+	twitch: Twitch;
 	targetChannel: string;
 	twitchOauth: {
 		token: string;

@@ -1,6 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"additionalProperties": false,
+
+	"type": "object",
 	"properties": {
 		"discordToken": {
 			"type": "string"
@@ -10,8 +11,20 @@
 		},
 		"spreadsheetId": {
 			"type": "string"
+		},
+		"twitch": {
+			"type": "object",
+			"properties": {
+				"ourChannel": {"type": "string"},
+				"originalChannel": {"type": "string"}
+			},
+			"required": ["ourChannel", "originalChannel"],
+			"additionalProperties": false
+		},
+		"timezoneDifference": {
+			"type": "number"
 		}
 	},
-	"required": ["discordToken", "googleApiKey", "spreadsheetId"],
-	"type": "object"
+	"required": ["googleApiKey", "spreadsheetId", "timezoneDifference"],
+	"additionalProperties": false
 }

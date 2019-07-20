@@ -11,75 +11,18 @@
 				"commentators": {
 					"type": "string"
 				},
-				"originalCategory": {
-					"type": "string"
-				},
-				"originalTitle": {
-					"type": "string"
-				},
 				"platform": {
-					"type": "string"
-				},
-				"runDuration": {
-					"type": "string"
-				},
-				"setupDuration": {
 					"type": "string"
 				},
 				"title": {
 					"type": "string"
 				}
 			},
-			"required": [
-				"category",
-				"commentators",
-				"originalCategory",
-				"originalTitle",
-				"platform",
-				"runDuration",
-				"setupDuration",
-				"title"
-			],
+			"required": ["category", "commentators", "platform", "title"],
 			"type": "object"
 		}
 	},
 	"properties": {
-		"eventInfo": {
-			"additionalProperties": false,
-			"properties": {
-				"eventName": {
-					"type": "string"
-				},
-				"originalEventName": {
-					"type": "string"
-				},
-				"ourTwitchChannel": {
-					"type": "string"
-				},
-				"startTime": {
-					"type": "string"
-				},
-				"targetTwitchChannel": {
-					"type": "string"
-				},
-				"timezoneDifference": {
-					"type": "number"
-				},
-				"venue": {
-					"type": "string"
-				}
-			},
-			"required": [
-				"eventName",
-				"originalEventName",
-				"ourTwitchChannel",
-				"startTime",
-				"targetTwitchChannel",
-				"timezoneDifference",
-				"venue"
-			],
-			"type": "object"
-		},
 		"gamesList": {
 			"items": {
 				"$ref": "#/definitions/GamesListItem"

@@ -41,7 +41,7 @@ export const RunInfo: React.FunctionComponent = () => {
 		.join(' - ');
 	return (
 		<Container>
-			<Title text={currentRun.game || currentRun.english} />
+			<Title text={currentRun.game} />
 			<Misc text={misc} />
 		</Container>
 	);

@@ -11,6 +11,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	}
 
 	const twitchConfig = nodecg.config.login.twitch;
+	const ourChannel =
+		nodecg.bundleConfig.twitch && nodecg.bundleConfig.twitch.ourChannel;
+	if (!ourChannel) {
+		nodecg.log.warn('Twitch config is missing in bundle config');
+		return;
+	}
 
 	const hasEditorScope = twitchConfig.scope
 		.split(' ')
@@ -28,7 +34,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const loginLib = require('nodecg/lib/login');
 	loginLib.on('login', (session: any) => {
 		const {user} = session.passport;
-		if (user.provider !== 'twitch' || user.username !== 'hoishin') {
+		if (user.provider !== 'twitch' || user.username !== ourChannel) {
 			return;
 		}
 		twitchOauthRep.value = {token: user.accessToken, channelId: user.id};
@@ -48,30 +54,32 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return;
 			}
 			nodecg.log.info(`Updating Twitch status to ${newRun.game}`);
-			lastUpdatedTitle = newRun.game;
 			if (!twitchOauthRep.value) {
 				nodecg.log.warn(
-					`You must login as japanese_restream to update Twitch status`,
+					`You must login as ${ourChannel} to update Twitch status`,
 				);
 				return;
 			}
-
-			await axios.put(
-				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
-				{
-					channel: {
-						status: `[JPN] ESA Summer 2019: ${lastUpdatedTitle}`,
+			await axios
+				.put(
+					`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
+					{
+						channel: {
+							status: `[JPN] ESA Summer 2019: ${newRun.game}`,
+						},
 					},
-				},
-				{
-					headers: {
-						Accept: 'application/vnd.twitchtv.v5+json',
-						Authorization: `OAuth ${twitchOauthRep.value.token}`,
-						'Client-ID': twitchConfig.clientID,
-						'Content-Type': 'application/json',
+					{
+						headers: {
+							Accept: 'application/vnd.twitchtv.v5+json',
+							Authorization: `OAuth ${twitchOauthRep.value.token}`,
+							'Client-ID': twitchConfig.clientID,
+							'Content-Type': 'application/json',
+						},
 					},
-				},
-			);
+				)
+				.then(() => {
+					lastUpdatedTitle = newRun.game;
+				});
 		} catch (error) {
 			nodecg.log.error('Failed to update Twitch status');
 			nodecg.log.error(error);
@@ -89,29 +97,32 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			if (newGame === lastUpdatedGame) {
 				return;
 			}
-			lastUpdatedGame = newGame;
 			if (!twitchOauthRep.value) {
 				nodecg.log.warn(
-					`You must login as japanese_restream to update Twitch status`,
+					`You must login as ${ourChannel} to update Twitch status`,
 				);
 				return;
 			}
-			await axios.put(
-				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
-				{
-					channel: {
-						game: lastUpdatedGame,
+			await axios
+				.put(
+					`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
+					{
+						channel: {
+							game: newGame,
+						},
 					},
-				},
-				{
-					headers: {
-						Accept: 'application/vnd.twitchtv.v5+json',
-						Authorization: `OAuth ${twitchOauthRep.value.token}`,
-						'Client-ID': twitchConfig.clientID,
-						'Content-Type': 'application/json',
+					{
+						headers: {
+							Accept: 'application/vnd.twitchtv.v5+json',
+							Authorization: `OAuth ${twitchOauthRep.value.token}`,
+							'Client-ID': twitchConfig.clientID,
+							'Content-Type': 'application/json',
+						},
 					},
-				},
-			);
+				)
+				.then(() => {
+					lastUpdatedGame = newGame;
+				});
 		} catch (error) {
 			nodecg.log.error('Failed to update Twitch status');
 			nodecg.log.error(error);
@@ -124,7 +135,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		try {
 			if (!twitchOauthRep.value) {
 				nodecg.log.warn(
-					`You must login as japanese_restream to put stream marker`,
+					`You must login as ${ourChannel} to put stream marker`,
 				);
 				if (cb && !cb.handled) {
 					return cb(null, true);
@@ -137,7 +148,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				{
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `OAuth ${twitchOauthRep.value.token}`,
+						Authorization: `Bearer ${twitchOauthRep.value.token}`,
 						'Client-ID': twitchConfig.clientID,
 					},
 				},

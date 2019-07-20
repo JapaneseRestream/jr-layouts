@@ -24,6 +24,9 @@ const markerTimeRep = nodecg.Replicant('lastMarkerTime');
 const App: React.FunctionComponent = () => {
 	const [markerTime] = useReplicant(markerTimeRep);
 	const [pending, setPending] = useState(false);
+	if (!nodecg.bundleConfig.twitch) {
+		return null;
+	}
 	return (
 		<Container>
 			<InfoContainer>

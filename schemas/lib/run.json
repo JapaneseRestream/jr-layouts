@@ -1,0 +1,22 @@
+{
+	"type": "object",
+	"properties": {
+		"category": {
+			"type": "string"
+		},
+		"commentator": {
+			"type": "string"
+		},
+		"console": {
+			"type": "string"
+		},
+		"game": {
+			"type": "string"
+		},
+		"index": {
+			"type": "number"
+		}
+	},
+	"required": ["category", "commentator", "console", "game", "index"],
+	"additionalProperties": false
+}

@@ -1,5 +1,3 @@
-export interface BundleConfig {
-	spreadsheetId: string;
-	googleApiKey: string;
-	discordToken: string;
-}
+import {Configschema} from './generated/configschema';
+
+export type BundleConfig = Configschema;

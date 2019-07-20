@@ -62,7 +62,7 @@ const App: React.FunctionComponent = () => {
 										rowRefs.current[index]
 									}
 								>
-									{run.game || run.english}
+									{run.game}
 								</span>
 							</TableCell>
 							<TableCell>{run.category}</TableCell>

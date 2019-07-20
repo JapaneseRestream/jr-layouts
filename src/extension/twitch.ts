@@ -13,11 +13,15 @@ export const setupTwitchInfo = (nodecg: NodeCG) => {
 		);
 		return;
 	}
+	const twitchConfig = nodecg.bundleConfig.twitch;
+	if (!twitchConfig) {
+		nodecg.log.warn('Bundle config does not have Twitch configuration');
+		return;
+	}
 
 	const twitchRep = nodecg.Replicant('twitch', {
 		defaultValue: null,
 	});
-	const spreadsheetRep = nodecg.Replicant('spreadsheet', {defaultValue: {}});
 
 	const twitchAxios = axios.create({
 		baseURL: 'https://api.twitch.tv',
@@ -36,54 +40,45 @@ export const setupTwitchInfo = (nodecg: NodeCG) => {
 		};
 	};
 
-	let updateInterval: NodeJS.Timeout;
-
-	spreadsheetRep.on('change', async ({eventInfo}) => {
-		try {
-			if (!eventInfo) {
-				return;
-			}
-
-			const {data} = await twitchAxios.get('/kraken/users', {
-				params: {
-					login: [
-						eventInfo.ourTwitchChannel,
-						eventInfo.targetTwitchChannel,
-					].join(','),
-				},
-			});
-
+	twitchAxios
+		.get('/kraken/users', {
+			params: {
+				login: [
+					twitchConfig.ourChannel,
+					twitchConfig.originalChannel,
+				].join(','),
+			},
+		})
+		.then(({data}) => {
 			const ourChannelId = data.users[0]._id; // eslint-disable-line no-underscore-dangle
 			const targetChannelId = data.users[1]._id; // eslint-disable-line no-underscore-dangle
 
-			const updateChannelInfo = async () => {
-				const [ourChannelInfo, targetChannelInfo] = await Promise.all([
-					fetchChannelInfo(ourChannelId),
-					fetchChannelInfo(targetChannelId),
-				]);
-				twitchRep.value = {
-					...twitchRep.value,
-					channelInfo: {
-						ours: ourChannelInfo,
-						target: targetChannelInfo,
-					},
-				};
-			};
-
-			clearInterval(updateInterval);
-			updateInterval = setInterval(async () => {
+			setInterval(async () => {
 				try {
-					await updateChannelInfo();
+					const [
+						ourChannelInfo,
+						targetChannelInfo,
+					] = await Promise.all([
+						fetchChannelInfo(ourChannelId),
+						fetchChannelInfo(targetChannelId),
+					]);
+					if (twitchRep.value) {
+						twitchRep.value.channelInfo = {
+							ours: ourChannelInfo,
+							target: targetChannelInfo,
+						};
+					} else {
+						twitchRep.value = {
+							channelInfo: {
+								ours: ourChannelInfo,
+								target: targetChannelInfo,
+							},
+						};
+					}
 				} catch (error) {
 					nodecg.log.error(`Failed to update Twitch channel info.`);
 					nodecg.log.error(error.stack);
 				}
 			}, UPDATE_INTERVAL);
-		} catch (error) {
-			nodecg.log.error(
-				'Failed to setup periodical fetching of Twitch channel info.',
-			);
-			nodecg.log.error(error.stack);
-		}
-	});
+		});
 };

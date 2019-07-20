@@ -56,7 +56,6 @@ const App: React.FunctionComponent = () => {
 				<TextField
 					label='ゲーム'
 					value={game}
-					helperText={currentRun.english}
 					onChange={(changeEvent) => {
 						updateGame(changeEvent.target.value);
 					}}

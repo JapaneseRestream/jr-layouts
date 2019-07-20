@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
 
-import {Run} from '../nodecg/replicants';
+import {CurrentRun} from '../nodecg/generated/current-run';
 
 import {NodeCG} from './nodecg';
 
@@ -20,33 +19,26 @@ export const setupSchedule = (nodecg: NodeCG) => {
 		}
 		const newCurrentRun = scheduleRep.value[index];
 		if (!newCurrentRun) {
-			nodecg.log.error('Invalid index to apply to current run replicant');
+			nodecg.log.error(
+				'Invalid index to apply to current run replicant. The desired index does not exist',
+			);
 			return;
 		}
 		currentRunRep.value = _.clone(newCurrentRun);
 	};
 
-	spreadsheetRep.on('change', ({eventInfo, gamesList}) => {
-		if (!eventInfo || !gamesList) {
+	spreadsheetRep.on('change', ({gamesList}) => {
+		if (!gamesList) {
 			return;
 		}
-		const startTime = moment(eventInfo.startTime);
 		const newScheduleValue = gamesList.map((game, index) => {
-			const run: Run = {
-				category: game.category || game.originalCategory,
-				commentator: game.commentators,
+			const run: NonNullable<CurrentRun> = {
+				category: game.category,
+				commentator: '',
 				console: game.platform,
-				english: game.originalTitle,
 				game: game.title,
 				index,
-				runTime: game.runDuration,
-				runners: '',
-				scheduled: startTime.toISOString(),
-				setupTime: game.setupDuration,
 			};
-			startTime
-				.add(moment.duration(game.runDuration))
-				.add(moment.duration(game.setupDuration));
 			return run;
 		});
 		if (!_.isEqual(scheduleRep.value, newScheduleValue)) {

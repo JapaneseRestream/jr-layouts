@@ -2,7 +2,7 @@ import discord from 'discord.js';
 import {isEqual} from 'lodash';
 
 import {BundleConfig} from '../nodecg/bundle-config';
-import {DiscordSpeakingStatus} from '../nodecg/replicants';
+import {DiscordSpeakingStatus} from '../nodecg/generated/discord-speaking-status';
 
 import {NodeCG} from './nodecg';
 
@@ -23,7 +23,7 @@ const findLiveChannel = (
 
 export const setupDiscord = async (nodecg: NodeCG) => {
 	const {discordToken}: BundleConfig = nodecg.bundleConfig;
-	if (discordToken === '') {
+	if (!discordToken) {
 		nodecg.log.warn('Discord token is empty');
 		return;
 	}

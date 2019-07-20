@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {Run} from '../../../nodecg/replicants';
+import {CurrentRun} from '../../../nodecg/generated/current-run';
 
 import {FitText, Text as FitTextText} from './fit-text';
 
@@ -30,11 +30,11 @@ const Misc = styled(Text)`
 `;
 
 interface Props {
-	run: Run;
+	run: NonNullable<CurrentRun>;
 }
 
 export const GamePlate: React.FunctionComponent<Props> = (props) => {
-	const game = props.run.game || props.run.english || '';
+	const {game} = props.run;
 	const misc = [props.run.category, props.run.console]
 		.filter(Boolean)
 		.join(' - ');
