@@ -20,7 +20,7 @@ export const FitText: React.FunctionComponent<Props> = (props) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
+	const fit = () => {
 		const container = containerRef.current;
 		const text = textRef.current;
 		if (!container || !text) {
@@ -31,6 +31,27 @@ export const FitText: React.FunctionComponent<Props> = (props) => {
 		const scaleX = currentWidth > MAX_WIDTH ? MAX_WIDTH / currentWidth : 1;
 		const newTransform = `scaleX(${scaleX})`;
 		text.style.transform = newTransform;
+	};
+
+	useEffect(() => {
+		const text = textRef.current;
+		if (!text) {
+			return;
+		}
+		const {font} = getComputedStyle(text);
+		if (!font) {
+			fit();
+			return;
+		}
+		let cancelled = false;
+		document.fonts.load(font).then(() => {
+			if (!cancelled) {
+				fit();
+			}
+		});
+		return () => {
+			cancelled = true;
+		};
 	});
 
 	return (
