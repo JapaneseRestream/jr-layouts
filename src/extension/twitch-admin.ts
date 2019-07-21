@@ -94,6 +94,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					},
 				},
 			);
+			titleRetryCount = 0;
 			lastUpdatedTitle = newRun.game;
 			log.info(`Updated title to ${lastUpdatedTitle}`);
 		} catch (error) {
@@ -138,6 +139,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					},
 				},
 			);
+			gameRetryCount = 0;
 			lastUpdatedGame = newGame;
 			log.info(`Updated game to ${lastUpdatedGame}`);
 		} catch (error) {
@@ -175,6 +177,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					'Client-ID': twitchConfig.clientID,
 				},
 			});
+			markerRetryCount = 0;
 			const now = Date.now();
 			lastMarkerTimeRep.value = now;
 			log.info(`Put marker at ${new Date(now).toISOString()}`);
