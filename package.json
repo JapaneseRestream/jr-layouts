@@ -76,7 +76,7 @@
 		"cross-env": "^5.2.0",
 		"css-loader": "^3.1.0",
 		"del-cli": "^2.0.0",
-		"eslint": "^6.0.1",
+		"eslint": "^6.1.0",
 		"eslint-config-hoishin": "^0.1.0-8",
 		"file-loader": "^4.1.0",
 		"globby": "^10.0.1",
