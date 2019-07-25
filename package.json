@@ -60,7 +60,7 @@
 		"@hoishin/tsconfig": "^2.0.0",
 		"@material-ui/core": "^4.2.1",
 		"@material-ui/icons": "^4.2.1",
-		"@types/got": "^9.6.2",
+		"@types/got": "^9.6.4",
 		"@types/html-webpack-plugin": "^3.2.1",
 		"@types/lodash": "^4.14.136",
 		"@types/mini-css-extract-plugin": "^0.2.1",
