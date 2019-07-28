@@ -1110,7 +1110,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.13.tgz#ac786d623860adf39a3f51d629480aacd6a6eec7"
   integrity sha512-yN/FNNW1UYsRR1wwAoyOwqvDuLDtVXnaJTZ898XIw/Q5cCaeVAlVwvsmXLX5PuiScBYwZsZU4JYSHB3TvfdwvQ==
 
-"@types/node@^10.14.4", "@types/node@^10.14.8":
+"@types/node@^10.14.4":
   version "10.14.12"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.12.tgz#0eec3155a46e6c4db1f27c3e588a205f767d622f"
   integrity sha512-QcAKpaO6nhHLlxWBvpc4WeLrTvPqlHOvaj0s5GriKkA1zq+bsFBPpfYCvQhLqLgYlIko8A9YrPdaMHCo5mBcpg==
@@ -9367,13 +9367,13 @@ ts-node@^8.3.0:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-ts-nodecg@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/ts-nodecg/-/ts-nodecg-0.1.1.tgz#5a1157909f3ecd13f4d59b5813ae3030d3853dfa"
-  integrity sha512-dCQek0fXQsbUgL3iTp9JL6tBRS3Z5muNQ1z4zaZoOwhuE0uyCIKuEv3DdlGUx6TvifeKHlQtXnLZYWmyKssjXw==
+ts-nodecg@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ts-nodecg/-/ts-nodecg-0.2.0.tgz#9c08d81731424d3e3ab81fac2c331e45dbfffa5e"
+  integrity sha512-/MWNl2noxPld/wyQ2FXpDqMWqfirUKhjpFvSCIXPC/yFKm99IpY/VegQF1cR1m+dlNRokZuWBsLGK1pKiVS/Fg==
   dependencies:
     "@types/express" "^4.17.0"
-    "@types/node" "^10.14.8"
+    "@types/node" "^10.14.13"
     "@types/socket.io" "^2.1.2"
     "@types/socket.io-client" "^1.4.32"
     "@types/soundjs" "^0.6.27"
