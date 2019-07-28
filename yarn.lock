@@ -9367,10 +9367,10 @@ ts-node@^8.3.0:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-ts-nodecg@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ts-nodecg/-/ts-nodecg-0.2.0.tgz#9c08d81731424d3e3ab81fac2c331e45dbfffa5e"
-  integrity sha512-/MWNl2noxPld/wyQ2FXpDqMWqfirUKhjpFvSCIXPC/yFKm99IpY/VegQF1cR1m+dlNRokZuWBsLGK1pKiVS/Fg==
+ts-nodecg@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/ts-nodecg/-/ts-nodecg-0.2.2.tgz#287c73ac58c7d71409d38985270be342a552ac8e"
+  integrity sha512-eXHS1Q4TO52dbu1oIWOt228KPqJXcHL5IKQRVhPi3qj7uH9/PoQNjNc+Z6Ff2zkpsxQhdXy2sgi3TNX0u1bGlw==
   dependencies:
     "@types/express" "^4.17.0"
     "@types/node" "^10.14.13"
