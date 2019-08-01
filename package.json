@@ -49,7 +49,7 @@
 		"moment": "^2.24.0",
 		"node-opus": "^0.3.2",
 		"nodecg": "hoishin/nodecg#twitch-refresh-token",
-		"source-map-support": "^0.5.12",
+		"source-map-support": "^0.5.13",
 		"tslib": "^1.10.0",
 		"typescript": "^3.5.3"
 	},
