@@ -54,7 +54,7 @@
 		"typescript": "^3.6.2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.5.5",
+		"@babel/core": "^7.6.0",
 		"@babel/preset-env": "^7.6.0",
 		"@hoishin/prettierrc": "^2.1.1",
 		"@hoishin/tsconfig": "^2.0.0",
