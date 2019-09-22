@@ -9,7 +9,7 @@
 		"@typescript-eslint/strict-boolean-expressions": 0,
 		"@typescript-eslint/no-floating-promises": 0,
 		"require-atomic-updates": 1,
-		"max-statements": 1
+		"max-statements": 0
 	},
 	"settings": {
 		"react": {

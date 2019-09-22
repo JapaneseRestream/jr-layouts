@@ -2,7 +2,7 @@ import {setInterval} from 'timers';
 import path from 'path';
 
 import appRootPath from 'app-root-path';
-import axios from 'axios';
+import * as got from 'got';
 
 import {NodeCG} from './nodecg';
 
@@ -28,33 +28,33 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 		defaultValue: null,
 	});
 
-	const twitchAxios = axios.create({
-		baseURL: 'https://api.twitch.tv',
+	const twitchGot = got.extend({
+		baseUrl: 'https://api.twitch.tv',
 		headers: {
 			Accept: 'application/vnd.twitchtv.v5+json',
 			'Client-ID': nodecg.config.login.twitch.clientID,
 		},
+		retry: 5,
+		json: true,
 	});
 
 	const fetchChannelInfo = async (channelId: string) => {
-		const {data} = await twitchAxios.get(`/kraken/channels/${channelId}`);
+		const {body} = await twitchGot.get(`/kraken/channels/${channelId}`);
 		return {
-			title: data.status || '',
-			game: data.game || '',
-			logo: data.logo || '',
+			title: body.status || '',
+			game: body.game || '',
+			logo: body.logo || '',
 		};
 	};
 
-	const {data} = await twitchAxios.get('/kraken/users', {
-		params: {
-			login: [twitchConfig.ourChannel, twitchConfig.originalChannel].join(
-				',',
-			),
+	const {body} = await twitchGot.get('/kraken/users', {
+		query: {
+			login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,
 		},
 	});
 
-	const ourChannelId = data.users[0]._id; // eslint-disable-line no-underscore-dangle
-	const targetChannelId = data.users[1]._id; // eslint-disable-line no-underscore-dangle
+	const ourChannelId = body.users[0]._id; // eslint-disable-line no-underscore-dangle
+	const targetChannelId = body.users[1]._id; // eslint-disable-line no-underscore-dangle
 
 	setInterval(async () => {
 		try {
