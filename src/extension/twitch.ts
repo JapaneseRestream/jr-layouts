@@ -1,21 +1,26 @@
 import {setInterval} from 'timers';
+import path from 'path';
 
+import appRootPath from 'app-root-path';
 import axios from 'axios';
 
 import {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 10 * 1000;
 
-export const setupTwitchInfo = (nodecg: NodeCG) => {
+export const setupTwitchInfo = async (nodecg: NodeCG) => {
+	const logger = new nodecg.Logger(
+		path.relative(appRootPath.path, __filename),
+	);
 	if (!nodecg.config.login || !nodecg.config.login.twitch) {
-		nodecg.log.warn(
+		logger.warn(
 			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
 		);
 		return;
 	}
 	const twitchConfig = nodecg.bundleConfig.twitch;
 	if (!twitchConfig) {
-		nodecg.log.warn('Bundle config does not have Twitch configuration');
+		logger.warn('Bundle config does not have Twitch configuration');
 		return;
 	}
 
@@ -40,45 +45,39 @@ export const setupTwitchInfo = (nodecg: NodeCG) => {
 		};
 	};
 
-	twitchAxios
-		.get('/kraken/users', {
-			params: {
-				login: [
-					twitchConfig.ourChannel,
-					twitchConfig.originalChannel,
-				].join(','),
-			},
-		})
-		.then(({data}) => {
-			const ourChannelId = data.users[0]._id; // eslint-disable-line no-underscore-dangle
-			const targetChannelId = data.users[1]._id; // eslint-disable-line no-underscore-dangle
+	const {data} = await twitchAxios.get('/kraken/users', {
+		params: {
+			login: [twitchConfig.ourChannel, twitchConfig.originalChannel].join(
+				',',
+			),
+		},
+	});
 
-			setInterval(async () => {
-				try {
-					const [
-						ourChannelInfo,
-						targetChannelInfo,
-					] = await Promise.all([
-						fetchChannelInfo(ourChannelId),
-						fetchChannelInfo(targetChannelId),
-					]);
-					if (twitchRep.value) {
-						twitchRep.value.channelInfo = {
-							ours: ourChannelInfo,
-							target: targetChannelInfo,
-						};
-					} else {
-						twitchRep.value = {
-							channelInfo: {
-								ours: ourChannelInfo,
-								target: targetChannelInfo,
-							},
-						};
-					}
-				} catch (error) {
-					nodecg.log.error(`Failed to update Twitch channel info.`);
-					nodecg.log.error(error.stack);
-				}
-			}, UPDATE_INTERVAL);
-		});
+	const ourChannelId = data.users[0]._id; // eslint-disable-line no-underscore-dangle
+	const targetChannelId = data.users[1]._id; // eslint-disable-line no-underscore-dangle
+
+	setInterval(async () => {
+		try {
+			const [ourChannelInfo, targetChannelInfo] = await Promise.all([
+				fetchChannelInfo(ourChannelId),
+				fetchChannelInfo(targetChannelId),
+			]);
+			if (twitchRep.value) {
+				twitchRep.value.channelInfo = {
+					ours: ourChannelInfo,
+					target: targetChannelInfo,
+				};
+			} else {
+				twitchRep.value = {
+					channelInfo: {
+						ours: ourChannelInfo,
+						target: targetChannelInfo,
+					},
+				};
+			}
+		} catch (error) {
+			nodecg.log.error(`Failed to update Twitch channel info.`);
+			nodecg.log.error(error.stack);
+		}
+	}, UPDATE_INTERVAL);
 };
