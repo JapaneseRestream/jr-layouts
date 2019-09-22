@@ -37,9 +37,9 @@ export const TwitchPlayer: React.FunctionComponent = () => {
 	}
 
 	const iframeSrc = new URL('https://player.twitch.tv/');
-	iframeSrc.searchParams.set('channel', targetChannel);
-	iframeSrc.searchParams.set('autoplay', 'true');
+	iframeSrc.searchParams.set('volume', '1');
 	iframeSrc.searchParams.set('muted', 'false');
+	iframeSrc.searchParams.set('channel', targetChannel);
 
 	return (
 		<PlayerIframe
