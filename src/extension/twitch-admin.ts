@@ -190,6 +190,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return false;
 			}
 			log.error('retrying');
+			markerRetryCount += 1;
 			await refreshToken();
 			return putMarker();
 		}
