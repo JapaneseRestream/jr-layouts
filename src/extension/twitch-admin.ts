@@ -84,7 +84,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					json: true,
 					body: {
 						channel: {
-							status: `[JPN] ESA Summer 2019: ${newRun.game}`,
+							status: `[JPN] GDQx 2019: ${newRun.game}`,
 						},
 					},
 					headers: {
