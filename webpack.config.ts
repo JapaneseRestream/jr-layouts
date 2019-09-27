@@ -49,7 +49,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 					],
 				},
 				{
-					test: /\.(png|woff2)$/u,
+					test: /\.(png|woff2|gif)$/u,
 					loaders: [
 						{
 							loader: 'file-loader',

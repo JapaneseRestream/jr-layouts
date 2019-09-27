@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import characterImage from '../../shared/images/character.png';
+import characterImage from '../../shared/images/character.gif';
 
 import {Logo} from './logo';
 import {UpcomingList} from './upcoming-list';
