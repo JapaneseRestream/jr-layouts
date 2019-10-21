@@ -7,7 +7,7 @@
 		"clean": "del-cli dashboard graphics extension bundle-analyzer",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"postinstall": "include-nodecg postinstall",
-		"lint": "eslint --cache --ext .ts,.tsx .",
+		"lint": "eslint --cache \"**/*.{ts,tsx}\"",
 		"prod-build": "cross-env NODE_ENV=production yarn build",
 		"start": "include-nodecg start",
 		"test": "run-s lint test:*",
