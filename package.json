@@ -100,6 +100,9 @@
 		"webpack-merge": "^4.2.2",
 		"webpack-node-externals": "^1.7.2"
 	},
+	"resolutions": {
+		"jss": "10.0.0-alpha.17"
+	},
 	"engines": {
 		"node": "10"
 	},
