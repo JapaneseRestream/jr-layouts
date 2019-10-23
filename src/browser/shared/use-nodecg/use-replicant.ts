@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {ReplicantBrowser} from 'ts-nodecg/helper/replicant';
+import {Replicant} from 'ts-nodecg/browser';
+
+import {ReplicantMap} from '../../../nodecg/replicants';
 
 /**
  * Subscribe to a replicant, returns tuple of the replicant value and `setValue` function.
@@ -10,11 +12,12 @@ import {ReplicantBrowser} from 'ts-nodecg/helper/replicant';
  * @param initialValue Initial value to pass to `useState` function
  */
 export const useReplicant = <
-	TSchema,
-	TRepName extends string,
-	TBundleName extends string
+	TBundleName extends string,
+	TRepMap extends ReplicantMap,
+	TRepName extends keyof ReplicantMap,
+	TSchema extends TRepMap[TRepName]
 >(
-	replicant: ReplicantBrowser<TSchema, TBundleName, TRepName>,
+	replicant: Replicant<TBundleName, TRepMap, TRepName, TSchema | undefined>,
 ): [TSchema | null, (newValue: TSchema) => void] => {
 	const [value, updateValue] = useState<TSchema | null>(null);
 
@@ -31,9 +34,9 @@ export const useReplicant = <
 	};
 
 	useEffect(() => {
-		replicant.on('change', changeHandler);
+		replicant.on('change', changeHandler as any);
 		return () => {
-			replicant.removeListener('change', changeHandler);
+			replicant.removeListener('change', changeHandler as any);
 		};
 	}, [replicant]);
 
