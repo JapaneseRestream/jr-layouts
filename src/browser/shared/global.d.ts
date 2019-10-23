@@ -13,14 +13,14 @@ export interface FontFaceSet {
 
 declare global {
 	const nodecg: CreateNodecgInstance<
-		BundleConfig,
 		'jr-layouts',
+		BundleConfig,
 		ReplicantMap,
 		MessageMap
 	>;
 	const NodeCG: CreateNodecgConstructor<
-		BundleConfig,
 		'jr-layouts',
+		BundleConfig,
 		ReplicantMap,
 		MessageMap
 	>;
