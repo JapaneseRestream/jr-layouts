@@ -44,7 +44,7 @@
 		"ffmpeg-binaries": "^4.0.0",
 		"googleapis": "^44.0.0",
 		"got": "^9.6.0",
-		"include-nodecg": "^0.0.1-6",
+		"include-nodecg": "^0.0.3",
 		"lodash": "^4.17.15",
 		"moment": "^2.24.0",
 		"node-opus": "^0.3.3",
