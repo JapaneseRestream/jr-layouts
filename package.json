@@ -39,7 +39,7 @@
 	],
 	"prettier": "@hoishin/prettierrc",
 	"dependencies": {
-		"app-root-path": "^2.2.1",
+		"app-root-path": "^3.0.0",
 		"discord.js": "^11.5.1",
 		"ffmpeg-binaries": "^4.0.0",
 		"googleapis": "^44.0.0",
