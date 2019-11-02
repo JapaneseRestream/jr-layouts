@@ -103,6 +103,9 @@
 	"resolutions": {
 		"jss": "10.0.0-alpha.17"
 	},
+	"engines": {
+		"node": "10"
+	},
 	"nodecg": {
 		"compatibleRange": "^1.0.0",
 		"dashboardPanels": [
