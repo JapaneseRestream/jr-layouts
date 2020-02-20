@@ -5,6 +5,7 @@
 	"scripts": {
 		"build": "webpack",
 		"clean": "del-cli dashboard graphics extension bundle-analyzer",
+		"dev": "run-p watch-type watch",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"postinstall": "include-nodecg postinstall",
 		"lint": "eslint --cache \"**/*.{ts,tsx}\"",
@@ -13,7 +14,8 @@
 		"test": "run-s lint test:*",
 		"test:format": "prettier --list-different \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"test:type": "tsc -b src/browser src/extension",
-		"watch": "webpack -w"
+		"watch": "webpack -w",
+		"watch-type": "yarn test:type -w --preserveWatchOutput"
 	},
 	"husky": {
 		"hooks": {
