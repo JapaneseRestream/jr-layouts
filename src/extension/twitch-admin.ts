@@ -1,4 +1,5 @@
 import got from 'got';
+import appRootPath from 'app-root-path';
 
 import {CurrentRun} from '../nodecg/generated/current-run';
 import {Twitch} from '../nodecg/generated/twitch';
@@ -34,7 +35,9 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const twitchRep = nodecg.Replicant('twitch');
 	const lastMarkerTimeRep = nodecg.Replicant('lastMarkerTime');
 	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-	const {clientSecret} = require('nodecg/cfg/nodecg.json').login.twitch; //
+	const {clientSecret} = appRootPath.require(
+		'./.nodecg/cfg/nodecg.json',
+	).login.twitch; //
 
 	const refreshToken = async () => {
 		try {
@@ -209,7 +212,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	});
 
 	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-	const loginLib = require('nodecg/lib/login');
+	const loginLib = appRootPath.require('./.nodecg/lib/login');
 	loginLib.on('login', (session: any) => {
 		const {user} = session.passport;
 		if (
