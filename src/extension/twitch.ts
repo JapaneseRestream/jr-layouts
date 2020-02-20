@@ -12,7 +12,11 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 	const logger = new nodecg.Logger(
 		path.relative(appRootPath.path, __filename),
 	);
-	if (!nodecg.config.login || !nodecg.config.login.twitch) {
+	if (
+		!nodecg.config.login ||
+		!nodecg.config.login.twitch ||
+		!nodecg.config.login.twitch.clientID
+	) {
 		logger.warn(
 			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
 		);

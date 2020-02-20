@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import characterImage from '../../shared/images/character.gif';
-
 import {Logo} from './logo';
 import {UpcomingList} from './upcoming-list';
 import {DiscordStatus} from './discord-status';
@@ -18,17 +16,6 @@ const Container = styled.div`
 	justify-content: flex-start;
 `;
 
-const CharacterImageWrapper = styled.div`
-	display: grid;
-	justify-content: center;
-	align-content: end;
-	transform: scale(1.1);
-`;
-
-const CharacterImage = styled.img`
-	width: 100%;
-`;
-
 const UpcomingTitle = styled.div`
 	font-size: 25px;
 	font-weight: 500;
@@ -41,8 +28,5 @@ export const Left = () => (
 		<UpcomingTitle>今後のゲーム</UpcomingTitle>
 		<UpcomingList />
 		<DiscordStatus />
-		<CharacterImageWrapper>
-			<CharacterImage src={characterImage} />
-		</CharacterImageWrapper>
 	</Container>
 );

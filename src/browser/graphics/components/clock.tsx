@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const HashtagText = styled.div`
 	color: #f37f50;
+	text-shadow: #f37f50 0px 0px 5px;
 `;
 
 export const Clock: React.FunctionComponent = () => {
@@ -36,7 +37,7 @@ export const Clock: React.FunctionComponent = () => {
 	return (
 		<Container>
 			<div>現地: {time}</div>
-			<HashtagText>#gdqx19jp</HashtagText>
+			<HashtagText>#agdq2020jp</HashtagText>
 		</Container>
 	);
 };
