@@ -3837,9 +3837,9 @@ dir-glob@^3.0.1:
     path-type "^4.0.0"
 
 discord.js@^11.5.1:
-  version "11.6.0"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-11.6.0.tgz#c6c3e2cddb90ec35c132616e9f1bc4aa689fcf82"
-  integrity sha512-W40KJp8FYmSFJVLgPGfS0WiDwivDctK1z0DyJFlV/Ocy2v5QfNuQ4Eey/K7718bcMcHbST7EyZWcAUvBirquLA==
+  version "11.6.3"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-11.6.3.tgz#134dbc6b4878a1dd4e32c85a670010799bf8d33e"
+  integrity sha512-dwIzHB5GPU9O/WiNw42d0yco0JED5bOjCPiHwU9VSSCkEhnyOdx5iqt7Dl2PQZAMNzWPI/t9oyCziOuzFlwm3Q==
   dependencies:
     long "^4.0.0"
     prism-media "^0.0.4"
