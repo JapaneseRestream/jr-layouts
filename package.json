@@ -52,7 +52,7 @@
 		"node-opus": "^0.3.3",
 		"nodecg": "^1.5.0",
 		"source-map-support": "^0.5.13",
-		"tslib": "^1.10.0",
+		"tslib": "^2.0.0",
 		"typescript": "^3.6.4"
 	},
 	"devDependencies": {
