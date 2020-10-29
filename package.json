@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"build": "npx nodecg-cli@6 schema-types -o src/nodecg/generated && webpack",
+		"build": "webpack",
 		"clean": "del-cli dashboard graphics extension bundle-analyzer",
 		"dev": "run-p watch-type watch",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
@@ -41,16 +41,16 @@
 	],
 	"prettier": "@hoishin/prettierrc",
 	"dependencies": {
-		"@discordjs/opus": "^0.3.2",
 		"app-root-path": "^3.0.0",
-		"discord.js": "^12.3.1",
-		"ffmpeg-static": "^4.2.7",
-		"googleapis": "^47.0.0",
+		"discord.js": "^11.5.1",
+		"ffmpeg-binaries": "^4.0.0",
+		"googleapis": "^48.0.0",
 		"got": "^9.6.0",
 		"include-nodecg": "^0.0.3",
 		"lodash": "^4.17.15",
 		"moment": "^2.24.0",
-		"nodecg": "^1.6.1",
+		"node-opus": "^0.3.3",
+		"nodecg": "^1.5.0",
 		"source-map-support": "^0.5.13",
 		"tslib": "^1.10.0",
 		"typescript": "^3.6.4"
@@ -72,7 +72,7 @@
 		"@types/react-dom": "^16.9.2",
 		"@types/styled-components": "^5.0.0",
 		"@types/webpack": "^4.39.3",
-		"@types/webpack-bundle-analyzer": "^2.13.3",
+		"@types/webpack-bundle-analyzer": "^3.0.0",
 		"@types/webpack-merge": "^4.1.5",
 		"@types/webpack-node-externals": "^1.6.3",
 		"babel-loader": "^8.0.6",
@@ -101,6 +101,9 @@
 		"webpack-cli": "^3.3.9",
 		"webpack-merge": "^4.2.2",
 		"webpack-node-externals": "^1.7.2"
+	},
+	"engines": {
+		"node": "10"
 	},
 	"nodecg": {
 		"compatibleRange": "^1.0.0",
