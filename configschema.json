@@ -6,6 +6,9 @@
 		"discordToken": {
 			"type": "string"
 		},
+		"discordChannel": {
+			"type": "string"
+		},
 		"googleApiKey": {
 			"type": "string"
 		},

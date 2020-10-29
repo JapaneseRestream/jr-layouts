@@ -7,6 +7,7 @@
 
 export interface Configschema {
 	discordToken?: string;
+	discordChannel?: string;
 	googleApiKey: string;
 	spreadsheetId: string;
 	twitch?: {

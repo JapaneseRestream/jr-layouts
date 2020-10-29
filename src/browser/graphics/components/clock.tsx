@@ -20,7 +20,7 @@ const HashtagText = styled.div`
 `;
 
 export const Clock: React.FunctionComponent = () => {
-	const [time, setTime] = useState('');
+	const [, setTime] = useState('');
 	useEffect(() => {
 		const TIMEZONE_DIFF_MS =
 			nodecg.bundleConfig.timezoneDifference * 60 * 60 * 1000;
@@ -36,8 +36,8 @@ export const Clock: React.FunctionComponent = () => {
 
 	return (
 		<Container>
-			<div>現地: {time}</div>
-			<HashtagText>#agdq2020jp</HashtagText>
+			{/* <div>現地: {time}</div> */}
+			<HashtagText>#SGDQ2020JP</HashtagText>
 		</Container>
 	);
 };

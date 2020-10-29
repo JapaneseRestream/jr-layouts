@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import JrLogo from '../images/banner.png';
 
-const GDQ_LOGO = 'https://gamesdonequick.com/static/res/img/gdqlogo.png';
+const GDQ_LOGO = 'https://i.imgur.com/pdEcGWB.png';
 const ROTATE_INTERVAL = 10 * 1000;
 const IMAGE_WIDTH = 1920 * 0.1 - 24;
 const IMAGE_AREA_HEIGHT = 150;

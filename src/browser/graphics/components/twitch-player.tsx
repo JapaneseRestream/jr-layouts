@@ -40,6 +40,8 @@ export const TwitchPlayer: React.FunctionComponent = () => {
 	iframeSrc.searchParams.set('volume', '1');
 	iframeSrc.searchParams.set('muted', 'false');
 	iframeSrc.searchParams.set('channel', targetChannel);
+	iframeSrc.searchParams.set('parent', location.host);
+	iframeSrc.searchParams.set('player', 'popout');
 
 	return (
 		<PlayerIframe
