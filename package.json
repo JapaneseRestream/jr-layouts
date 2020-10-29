@@ -48,7 +48,7 @@
 		"googleapis": "^47.0.0",
 		"got": "^9.6.0",
 		"include-nodecg": "^0.0.3",
-		"lodash": "^4.17.15",
+		"lodash": "^4.17.19",
 		"moment": "^2.24.0",
 		"nodecg": "^1.6.1",
 		"source-map-support": "^0.5.13",
