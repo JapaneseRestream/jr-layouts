@@ -6,6 +6,10 @@
  */
 
 export interface Configschema {
+	obs?: {
+		address: string;
+		password: string;
+	};
 	discordToken?: string;
 	discordChannelId?: string;
 	googleApiKey: string;

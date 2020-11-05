@@ -5,6 +5,7 @@ import {setupTwitchInfo} from './twitch';
 import {setupDiscord} from './discord';
 import {NodeCG} from './nodecg';
 import {setupTwitchAdmin} from './twitch-admin';
+import {setupObs} from './obs';
 
 export = (nodecg: NodeCG) => {
 	setupSpreadsheet(nodecg);
@@ -12,4 +13,5 @@ export = (nodecg: NodeCG) => {
 	setupTwitchInfo(nodecg);
 	setupDiscord(nodecg);
 	setupTwitchAdmin(nodecg);
+	setupObs(nodecg);
 };

@@ -5,4 +5,5 @@ export type MessageMap = {
 	updateSpreadsheet: {};
 	refreshPlayer: {};
 	'twitch:putMarker': {result: boolean};
+	'obs:take-screenshot': {result: string};
 };

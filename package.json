@@ -24,16 +24,13 @@
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx,json,html,yml,yaml,md}": [
-			"prettier --write",
-			"git add"
+			"prettier --write"
 		],
 		"*.{js,jsx,ts,tsx}": [
-			"eslint --fix",
-			"git add"
+			"eslint --fix"
 		],
 		"package.json": [
-			"sort-package-json",
-			"git add"
+			"sort-package-json"
 		]
 	},
 	"browserslist": [
@@ -51,6 +48,7 @@
 		"lodash": "^4.17.15",
 		"moment": "^2.24.0",
 		"nodecg": "^1.6.1",
+		"obs-websocket-js": "^4.0.2",
 		"source-map-support": "^0.5.13",
 		"tslib": "^1.10.0",
 		"typescript": "^3.6.4"
@@ -85,7 +83,7 @@
 		"globby": "^11.0.1",
 		"html-webpack-plugin": "^4.5.0",
 		"husky": "^4.0.0",
-		"lint-staged": "^10.0.0",
+		"lint-staged": "^10.5.1",
 		"mini-css-extract-plugin": "^1.2.1",
 		"nodecg-cli": "~6.0.0",
 		"npm-run-all": "^4.1.5",
@@ -112,6 +110,13 @@
 				"title": "現在のゲーム",
 				"width": 3,
 				"file": "current-game.html",
+				"workspace": "配信管理"
+			},
+			{
+				"name": "obs",
+				"title": "OBS",
+				"width": 3,
+				"file": "obs.html",
 				"workspace": "配信管理"
 			},
 			{
