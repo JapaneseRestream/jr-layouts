@@ -2,6 +2,7 @@ import {Button, Typography} from '@material-ui/core';
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import {format} from 'date-fns';
 
 const Container = styled.div`
 	display: flex;
@@ -37,12 +38,12 @@ const App: React.FunctionComponent = () => {
 							.then((img) => {
 								const a = document.createElement('a');
 								a.href = img;
-								const now = new Date();
 								a.setAttribute(
 									'download',
-									`obs-${now.getFullYear()}-${
-										now.getMonth() + 1
-									}-${now.getDate()}`,
+									`obs-screenshot-${format(
+										new Date(),
+										'yyyyMMdd-HHmmss',
+									)}`,
 								);
 								a.click();
 								setState('downloading');

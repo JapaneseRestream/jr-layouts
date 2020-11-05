@@ -10,3 +10,5 @@ rsync -avh --delete \
 --exclude=src \
 --exclude=webpack-templates \
 . restream:~/nodecg
+
+ssh restream ". .nvm/nvm.sh && cd nodecg && yarn install --prod"
