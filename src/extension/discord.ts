@@ -8,9 +8,13 @@ import {DiscordSpeakingStatus} from '../nodecg/generated/discord-speaking-status
 import {NodeCG} from './nodecg';
 
 export const setupDiscord = async (nodecg: NodeCG) => {
-	const {discordToken}: BundleConfig = nodecg.bundleConfig;
+	const {discordToken, discordChannelId}: BundleConfig = nodecg.bundleConfig;
 	if (!discordToken) {
 		nodecg.log.warn('Discord token is empty');
+		return;
+	}
+	if (!discordChannelId) {
+		nodecg.log.warn('Discord channel ID is empty');
 		return;
 	}
 
@@ -24,9 +28,7 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 
 	client.on('ready', async () => {
 		nodecg.log.info('Discord client is ready.');
-		const liveChannel = await client.channels.fetch(
-			nodecg.bundleConfig.discordChannelId,
-		);
+		const liveChannel = await client.channels.fetch(discordChannelId);
 
 		if (liveChannel.type !== 'voice') {
 			nodecg.log.error(

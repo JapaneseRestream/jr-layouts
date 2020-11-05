@@ -7,6 +7,7 @@ import globby from 'globby';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import nodeExternals from 'webpack-node-externals';
+import Webpackbar from 'webpackbar';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -16,6 +17,7 @@ const base: webpack.Configuration = {
 		extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
 	},
 	devtool: 'cheap-source-map',
+	stats: 'errors-warnings',
 };
 
 const browserConfig = (name: string): webpack.Configuration => {
@@ -28,13 +30,14 @@ const browserConfig = (name: string): webpack.Configuration => {
 		entry,
 		output: {
 			path: path.resolve(__dirname, name),
+			publicPath: './',
 			filename: '[name].js',
 		},
 		module: {
 			rules: [
 				{
 					test: /\.tsx?$/u,
-					loaders: [
+					use: [
 						'babel-loader',
 						{
 							loader: 'ts-loader',
@@ -50,7 +53,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 				},
 				{
 					test: /\.(png|woff2|gif)$/u,
-					loaders: [
+					use: [
 						{
 							loader: 'file-loader',
 							options: {
@@ -61,7 +64,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 				},
 				{
 					test: /\.css$/u,
-					loaders: [MiniCssExtractPlugin.loader, 'css-loader'],
+					use: [MiniCssExtractPlugin.loader, 'css-loader'],
 				},
 			],
 		},
@@ -86,7 +89,8 @@ const browserConfig = (name: string): webpack.Configuration => {
 					`bundle-analyzer/${name}.html`,
 				),
 			}),
-		],
+			new Webpackbar({name}),
+		] as any,
 		optimization: {
 			splitChunks: {
 				chunks: 'all',
@@ -115,7 +119,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 		rules: [
 			{
 				test: /\.ts$/u,
-				loaders: [
+				use: [
 					{
 						loader: 'ts-loader',
 						options: {
@@ -127,6 +131,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 		],
 	},
 	externals: [nodeExternals()],
+	plugins: [new Webpackbar({name: 'extension'})] as any,
 });
 
 const config: webpack.Configuration[] = [

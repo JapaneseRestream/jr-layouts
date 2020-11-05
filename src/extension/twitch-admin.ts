@@ -87,7 +87,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					json: true,
 					body: {
 						channel: {
-							status: `[JP] Summer Games Done Quick (!sgdq) | ${newRun.game}`,
+							status: `[JP] Questing For Glory: Hope and Healing | ${newRun.game}`,
 						},
 					},
 					headers: {

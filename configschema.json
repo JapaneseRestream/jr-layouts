@@ -6,7 +6,7 @@
 		"discordToken": {
 			"type": "string"
 		},
-		"discordChannel": {
+		"discordChannelId": {
 			"type": "string"
 		},
 		"googleApiKey": {

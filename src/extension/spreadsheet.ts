@@ -37,14 +37,16 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 			);
 
 			if (spreadsheetRep.value) {
-				spreadsheetRep.value.gamesList = games.map((g) => {
-					return {
-						title: g.title || '',
-						category: g.category || '',
-						platform: g.platform || '',
-						commentators: '',
-					};
-				});
+				spreadsheetRep.value.gamesList = games
+					.map((g) => {
+						return {
+							title: g.title || '',
+							category: g.category || '',
+							platform: g.platform || '',
+							commentators: '',
+						};
+					})
+					.filter((game) => game.title);
 			}
 		} else {
 			nodecg.log.error("Couldn't get games list values from spreadsheet");

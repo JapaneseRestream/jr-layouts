@@ -9,4 +9,4 @@ rsync -avh --delete \
 --exclude=node_modules \
 --exclude=src \
 --exclude=webpack-templates \
-. $1
+. restream:~/nodecg
