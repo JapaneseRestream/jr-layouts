@@ -1,5 +1,5 @@
 # Japanese Restream Layouts
 
-[![Build Status](https://travis-ci.org/JapaneseRestream/jr-layouts.svg?branch=master)](https://travis-ci.org/JapaneseRestream/jr-layouts)
+![CI](https://github.com/JapaneseRestream/jr-layouts/workflows/CI/badge.svg)
 
 This [NodeCG](https://nodecg.com/) layouts is used for Japanese Restream overlay.
