@@ -29,8 +29,6 @@ jobs:
           path: |
             ~/.npm
             ~/.yarn
-            ./node_modules
-            ./.nodecg/node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}
       - name: Install
         run: yarn install --frozen-lockfile --network-timeout 1000000
