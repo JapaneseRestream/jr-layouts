@@ -43,7 +43,7 @@
 		"discord.js": "12.4.1",
 		"ffmpeg-static": "4.2.7",
 		"googleapis": "47.0.0",
-		"got": "10.7.0",
+		"got": "11.8.0",
 		"include-nodecg": "0.0.3",
 		"lodash": "4.17.20",
 		"nodecg": "1.6.1",
