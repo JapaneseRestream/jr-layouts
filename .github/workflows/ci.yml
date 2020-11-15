@@ -11,6 +11,8 @@ on:
 jobs:
     build:
         runs-on: ${{ matrix.os }}
+        env:
+            YARN_CACHE_FOLDER: ~/.yarn
         strategy:
             matrix:
                 node-version: [12.x]
@@ -22,6 +24,14 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
+            - uses: actions/cache@v2
+              with:
+                  path: |
+                      ~/.npm
+                      ~/.yarn
+                      ./node_modules
+                      ./.nodecg/node_modules
+                  key: ${{ runner.os }}-${{ matrix.node-version }}
             - name: Install
               run: yarn install --frozen-lockfile
             - name: Test
