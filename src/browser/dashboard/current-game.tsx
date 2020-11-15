@@ -62,7 +62,7 @@ const PreviousRunButton: React.FunctionComponent = () => {
 		<Button
 			color='primary'
 			onClick={() => {
-				nodecg.sendMessage('previousRun');
+				void nodecg.sendMessage('previousRun');
 			}}
 			disabled={currentRun.index === 0}
 		>
@@ -88,7 +88,7 @@ const NextRunButton: React.FunctionComponent = () => {
 		<Button
 			color='primary'
 			onClick={() => {
-				nodecg.sendMessage('nextRun');
+				void nodecg.sendMessage('nextRun');
 			}}
 			disabled={currentRun.index === schedule.length}
 		>

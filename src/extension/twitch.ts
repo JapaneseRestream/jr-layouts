@@ -2,9 +2,9 @@ import {setInterval} from 'timers';
 import path from 'path';
 
 import appRootPath from 'app-root-path';
-import * as got from 'got';
+import got from 'got';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 10 * 1000;
 
@@ -12,11 +12,7 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 	const logger = new nodecg.Logger(
 		path.relative(appRootPath.path, __filename),
 	);
-	if (
-		!nodecg.config.login ||
-		!nodecg.config.login.twitch ||
-		!nodecg.config.login.twitch.clientID
-	) {
+	if (!nodecg.config.login?.twitch?.clientID) {
 		logger.warn(
 			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
 		);
@@ -33,29 +29,35 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 	});
 
 	const twitchGot = got.extend({
-		baseUrl: 'https://api.twitch.tv',
+		prefixUrl: 'https://api.twitch.tv',
 		headers: {
 			Accept: 'application/vnd.twitchtv.v5+json',
 			'Client-ID': nodecg.config.login.twitch.clientID,
 		},
 		retry: 5,
-		json: true,
 	});
 
 	const fetchChannelInfo = async (channelId: string) => {
-		const {body} = await twitchGot.get(`/kraken/channels/${channelId}`);
+		const {body} = await twitchGot.get<{
+			status?: string;
+			game?: string;
+			logo?: string;
+		}>(`/kraken/channels/${channelId}`);
 		return {
-			title: body.status || '',
-			game: body.game || '',
-			logo: body.logo || '',
+			title: body.status ?? '',
+			game: body.game ?? '',
+			logo: body.logo ?? '',
 		};
 	};
 
-	const {body} = await twitchGot.get('/kraken/users', {
-		query: {
-			login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,
+	const {body} = await twitchGot.get<{users: {_id: string}[]}>(
+		'/kraken/users',
+		{
+			searchParams: {
+				login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,
+			},
 		},
-	});
+	);
 
 	const ourChannelId = body.users[0]._id; // eslint-disable-line no-underscore-dangle
 	const targetChannelId = body.users[1]._id; // eslint-disable-line no-underscore-dangle
@@ -79,9 +81,8 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 					},
 				};
 			}
-		} catch (error) {
-			nodecg.log.error(`Failed to update Twitch channel info.`);
-			nodecg.log.error(error.stack);
+		} catch (error: unknown) {
+			nodecg.log.error(`Failed to update Twitch channel info:`, error);
 		}
 	}, UPDATE_INTERVAL);
 };

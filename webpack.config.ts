@@ -1,7 +1,7 @@
 import path from 'path';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import webpack from 'webpack';
+import type webpack from 'webpack';
 import merge from 'webpack-merge';
 import globby from 'globby';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
@@ -22,7 +22,7 @@ const base: webpack.Configuration = {
 
 const browserConfig = (name: string): webpack.Configuration => {
 	const entryFiles = globby.sync(`./src/browser/${name}/*.tsx`);
-	const entry: {[x: string]: string} = {};
+	const entry: Record<string, string> = {};
 	for (const file of entryFiles) {
 		entry[path.basename(file, '.tsx')] = file;
 	}
@@ -90,7 +90,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 				),
 			}),
 			new Webpackbar({name}),
-		] as any,
+		],
 		optimization: {
 			splitChunks: {
 				chunks: 'all',
@@ -131,7 +131,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 		],
 	},
 	externals: [nodeExternals()],
-	plugins: [new Webpackbar({name: 'extension'})] as any,
+	plugins: [new Webpackbar({name: 'extension'})],
 });
 
 const config: webpack.Configuration[] = [
@@ -140,4 +140,4 @@ const config: webpack.Configuration[] = [
 	extensionConfig,
 ];
 
-export default config;
+export default config; // eslint-disable-line import/no-unused-modules

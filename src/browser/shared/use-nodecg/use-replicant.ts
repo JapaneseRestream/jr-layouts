@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import _ from 'lodash';
-import {Replicant} from 'ts-nodecg/browser';
+import type {Replicant} from 'ts-nodecg/browser';
 
-import {ReplicantMap} from '../../../nodecg/replicants';
+import type {ReplicantMap} from '../../../nodecg/replicants';
 
 /**
  * Subscribe to a replicant, returns tuple of the replicant value and `setValue` function.

@@ -35,7 +35,7 @@ const App: React.FunctionComponent = () => {
 					variant='contained'
 					onClick={() => {
 						setPending(true);
-						nodecg.sendMessage('twitch:putMarker').then(() => {
+						void nodecg.sendMessage('twitch:putMarker').then(() => {
 							setPending(false);
 						});
 					}}

@@ -22,9 +22,7 @@ const Container = styled.div`
 const App: React.FunctionComponent = () => {
 	const [currentRun] = useReplicant(currentRunRep);
 	const [schedule] = useReplicant(scheduleRep);
-	const rowRefs = useRef(
-		schedule && schedule.map(() => createRef<HTMLSpanElement>()),
-	);
+	const rowRefs = useRef(schedule?.map(() => createRef<HTMLSpanElement>()));
 	useEffect(() => {
 		if (!currentRun || !schedule || !rowRefs.current) {
 			return;
@@ -33,7 +31,7 @@ const App: React.FunctionComponent = () => {
 			(run) => run.index === currentRun.index,
 		);
 		const currentRunRef = rowRefs.current[currentRunIndex];
-		if (currentRunRef && currentRunRef.current) {
+		if (currentRunRef?.current) {
 			currentRunRef.current.scrollIntoView({behavior: 'smooth'});
 		}
 	}, [currentRun, schedule]);
@@ -56,12 +54,7 @@ const App: React.FunctionComponent = () => {
 							key={run.index}
 						>
 							<TableCell>
-								<span
-									ref={
-										rowRefs.current &&
-										rowRefs.current[index]
-									}
-								>
+								<span ref={rowRefs.current?.[index]}>
 									{run.game}
 								</span>
 							</TableCell>

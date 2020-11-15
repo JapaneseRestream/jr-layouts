@@ -19,6 +19,19 @@ const InfoContainer = styled.div`
 	align-items: flex-start;
 `;
 
+const stateToMessage = (state: string) => {
+	switch (state) {
+		case 'waiting':
+			return '待機中';
+		case 'downloading':
+			return 'ダウンロード中';
+		case 'failed':
+			return '失敗した';
+		default:
+			return '';
+	}
+};
+
 const App: React.FunctionComponent = () => {
 	const [pending, setPending] = useState(false);
 	const [state, setState] = useState<'waiting' | 'downloading' | 'failed'>(
@@ -61,13 +74,7 @@ const App: React.FunctionComponent = () => {
 					スクショをダウンロード
 				</Button>
 				<Typography style={{width: '100%', textAlign: 'center'}}>
-					{state === 'waiting'
-						? '待機中'
-						: state === 'downloading'
-						? 'ダウンロード中'
-						: state === 'failed'
-						? '失敗した'
-						: ''}
+					{stateToMessage(state)}
 				</Typography>
 			</InfoContainer>
 		</Container>
