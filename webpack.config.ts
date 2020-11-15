@@ -8,6 +8,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import nodeExternals from 'webpack-node-externals';
 import Webpackbar from 'webpackbar';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -69,6 +70,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 			],
 		},
 		plugins: [
+			new CleanWebpackPlugin(),
 			new MiniCssExtractPlugin({
 				filename: '[name].css',
 			}),
