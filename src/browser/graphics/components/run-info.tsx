@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import {useReplicant} from '../../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 
-import {FitText, Text as FitTextText} from './fit-text';
+import {FitText, Text as FitTextText} from "./fit-text";
 
-const currentRunRep = nodecg.Replicant('currentRun');
+const currentRunRep = nodecg.Replicant("currentRun");
 
 const Container = styled.div`
 	position: absolute;
@@ -38,7 +38,7 @@ export const RunInfo: React.FunctionComponent = () => {
 	}
 	const misc = [currentRun.category, currentRun.console]
 		.filter(Boolean)
-		.join(' - ');
+		.join(" - ");
 	return (
 		<Container>
 			<Title text={currentRun.game} />

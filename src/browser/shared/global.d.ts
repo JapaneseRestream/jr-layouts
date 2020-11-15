@@ -1,14 +1,14 @@
 import type {
 	CreateNodecgInstance,
 	CreateNodecgConstructor,
-} from 'ts-nodecg/browser';
+} from "ts-nodecg/browser";
 
-import type {BundleConfig} from '../../nodecg/bundle-config';
-import type {ReplicantMap} from '../../nodecg/replicants';
-import type {MessageMap} from '../../nodecg/messages';
+import type {BundleConfig} from "../../nodecg/bundle-config";
+import type {ReplicantMap} from "../../nodecg/replicants";
+import type {MessageMap} from "../../nodecg/messages";
 
 export interface FontFaceSet {
-	status: 'loading' | 'loaded';
+	status: "loading" | "loaded";
 	ready: Promise<FontFaceSet>;
 	check: (font: string, text?: string) => boolean;
 	load: (font: string, text?: string) => Promise<void>;
@@ -16,13 +16,13 @@ export interface FontFaceSet {
 
 declare global {
 	const nodecg: CreateNodecgInstance<
-		'jr-layouts',
+		"jr-layouts",
 		BundleConfig,
 		ReplicantMap,
 		MessageMap
 	>;
 	const NodeCG: CreateNodecgConstructor<
-		'jr-layouts',
+		"jr-layouts",
 		BundleConfig,
 		ReplicantMap,
 		MessageMap

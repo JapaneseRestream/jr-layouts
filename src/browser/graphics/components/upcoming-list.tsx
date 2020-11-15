@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import {useReplicant} from '../../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 
-import {GamePlate} from './game-plate';
+import {GamePlate} from "./game-plate";
 
 const GAME_PLATE_AMOUNT = 5;
 
-const scheduleRep = nodecg.Replicant('schedule');
-const currentRunRep = nodecg.Replicant('currentRun');
+const scheduleRep = nodecg.Replicant("schedule");
+const currentRunRep = nodecg.Replicant("currentRun");
 
 export const UpcomingList: React.FunctionComponent = () => {
 	const [currentRun] = useReplicant(currentRunRep);

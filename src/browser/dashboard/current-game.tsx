@@ -6,27 +6,27 @@ import {
 	ListItemText,
 	createMuiTheme,
 	MuiThemeProvider,
-} from '@material-ui/core';
+} from "@material-ui/core";
 import {
 	ArrowBack,
 	ArrowForward,
 	Category,
 	Mic,
 	VideogameAsset,
-} from '@material-ui/icons';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+} from "@material-ui/icons";
+import React from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
-import {useReplicant} from '../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const currentRunRep = nodecg.Replicant('currentRun');
-const scheduleRep = nodecg.Replicant('schedule');
+const currentRunRep = nodecg.Replicant("currentRun");
+const scheduleRep = nodecg.Replicant("schedule");
 
 const theme = createMuiTheme({
 	props: {
 		MuiButton: {
-			variant: 'contained',
+			variant: "contained",
 		},
 	},
 });
@@ -62,7 +62,7 @@ const PreviousRunButton: React.FunctionComponent = () => {
 		<Button
 			color='primary'
 			onClick={() => {
-				void nodecg.sendMessage('previousRun');
+				void nodecg.sendMessage("previousRun");
 			}}
 			disabled={currentRun.index === 0}
 		>
@@ -88,7 +88,7 @@ const NextRunButton: React.FunctionComponent = () => {
 		<Button
 			color='primary'
 			onClick={() => {
-				void nodecg.sendMessage('nextRun');
+				void nodecg.sendMessage("nextRun");
 			}}
 			disabled={currentRun.index === schedule.length}
 		>
@@ -149,4 +149,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));

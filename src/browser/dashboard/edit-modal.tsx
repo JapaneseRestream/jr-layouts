@@ -1,11 +1,11 @@
-import {createMuiTheme, MuiThemeProvider, TextField} from '@material-ui/core';
-import React, {useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import {createMuiTheme, MuiThemeProvider, TextField} from "@material-ui/core";
+import React, {useState, useEffect} from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
-import {useReplicant} from '../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const currentRunRep = nodecg.Replicant('currentRun');
+const currentRunRep = nodecg.Replicant("currentRun");
 
 const Container = styled.div`
 	margin: 8px;
@@ -16,15 +16,15 @@ const Container = styled.div`
 
 const theme = createMuiTheme({
 	palette: {
-		type: 'dark',
+		type: "dark",
 	},
 });
 
 const App: React.FunctionComponent = () => {
 	const [currentRun, setCurrentRun] = useReplicant(currentRunRep);
-	const [game, updateGame] = useState('');
-	const [category, updateCategory] = useState('');
-	const [commentator, updateCommentator] = useState('');
+	const [game, updateGame] = useState("");
+	const [category, updateCategory] = useState("");
+	const [commentator, updateCommentator] = useState("");
 	useEffect(() => {
 		const onOpen = () => {
 			if (!currentRun) {
@@ -40,11 +40,11 @@ const App: React.FunctionComponent = () => {
 			}
 			setCurrentRun({...currentRun, game, category, commentator});
 		};
-		document.addEventListener('dialog-opened', onOpen);
-		document.addEventListener('dialog-confirmed', onConfirm);
+		document.addEventListener("dialog-opened", onOpen);
+		document.addEventListener("dialog-confirmed", onConfirm);
 		return () => {
-			document.removeEventListener('dialog-opened', onOpen);
-			document.removeEventListener('dialog-confirmed', onConfirm);
+			document.removeEventListener("dialog-opened", onOpen);
+			document.removeEventListener("dialog-confirmed", onConfirm);
 		};
 	});
 	if (!currentRun) {
@@ -79,4 +79,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));

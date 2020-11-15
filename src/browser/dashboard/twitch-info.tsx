@@ -1,9 +1,9 @@
-import {Button, Typography} from '@material-ui/core';
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import {Button, Typography} from "@material-ui/core";
+import React, {useState} from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
-import {useReplicant} from '../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
 const Container = styled.div`
 	display: flex;
@@ -20,7 +20,7 @@ const InfoContainer = styled.div`
 	align-items: flex-start;
 `;
 
-const markerTimeRep = nodecg.Replicant('lastMarkerTime');
+const markerTimeRep = nodecg.Replicant("lastMarkerTime");
 const App: React.FunctionComponent = () => {
 	const [markerTime] = useReplicant(markerTimeRep);
 	const [pending, setPending] = useState(false);
@@ -31,11 +31,11 @@ const App: React.FunctionComponent = () => {
 		<Container>
 			<InfoContainer>
 				<Button
-					style={{alignSelf: 'center'}}
+					style={{alignSelf: "center"}}
 					variant='contained'
 					onClick={() => {
 						setPending(true);
-						void nodecg.sendMessage('twitch:putMarker').then(() => {
+						void nodecg.sendMessage("twitch:putMarker").then(() => {
 							setPending(false);
 						});
 					}}
@@ -44,13 +44,13 @@ const App: React.FunctionComponent = () => {
 					マーカーをうつ
 				</Button>
 				<Typography
-					style={{width: '100%', textAlign: 'center'}}
+					style={{width: "100%", textAlign: "center"}}
 				>{`最後のマーカー: ${
-					markerTime ? new Date(markerTime).toLocaleString() : 'N/A'
+					markerTime ? new Date(markerTime).toLocaleString() : "N/A"
 				}`}</Typography>
 			</InfoContainer>
 		</Container>
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));

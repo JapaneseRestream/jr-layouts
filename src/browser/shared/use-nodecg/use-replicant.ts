@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react';
-import _ from 'lodash';
-import type {Replicant} from 'ts-nodecg/browser';
+import {useEffect, useState} from "react";
+import _ from "lodash";
+import type {Replicant} from "ts-nodecg/browser";
 
-import type {ReplicantMap} from '../../../nodecg/replicants';
+import type {ReplicantMap} from "../../../nodecg/replicants";
 
 /**
  * Subscribe to a replicant, returns tuple of the replicant value and `setValue` function.
@@ -34,9 +34,9 @@ export const useReplicant = <
 	};
 
 	useEffect(() => {
-		replicant.on('change', changeHandler as any);
+		replicant.on("change", changeHandler as any);
 		return () => {
-			replicant.removeListener('change', changeHandler as any);
+			replicant.removeListener("change", changeHandler as any);
 		};
 	}, [replicant]);
 

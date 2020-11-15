@@ -1,17 +1,15 @@
-import {setInterval} from 'timers';
-import path from 'path';
+import {setInterval} from "timers";
+import path from "path";
 
-import appRootPath from 'app-root-path';
-import got from 'got';
+import appRootPath from "app-root-path";
+import got from "got";
 
-import type {NodeCG} from './nodecg';
+import type {NodeCG} from "./nodecg";
 
 const UPDATE_INTERVAL = 10 * 1000;
 
 export const setupTwitchInfo = async (nodecg: NodeCG) => {
-	const logger = new nodecg.Logger(
-		path.relative(appRootPath.path, __filename),
-	);
+	const logger = new nodecg.Logger(path.relative(appRootPath.path, __filename));
 	if (!nodecg.config.login?.twitch?.clientID) {
 		logger.warn(
 			"NodeCG config doesn't have Twitch configuration. jr-layouts can't fetch Twitch information.",
@@ -20,19 +18,19 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 	}
 	const twitchConfig = nodecg.bundleConfig.twitch;
 	if (!twitchConfig) {
-		logger.warn('Bundle config does not have Twitch configuration');
+		logger.warn("Bundle config does not have Twitch configuration");
 		return;
 	}
 
-	const twitchRep = nodecg.Replicant('twitch', {
+	const twitchRep = nodecg.Replicant("twitch", {
 		defaultValue: null,
 	});
 
 	const twitchGot = got.extend({
-		prefixUrl: 'https://api.twitch.tv',
+		prefixUrl: "https://api.twitch.tv",
 		headers: {
-			Accept: 'application/vnd.twitchtv.v5+json',
-			'Client-ID': nodecg.config.login.twitch.clientID,
+			Accept: "application/vnd.twitchtv.v5+json",
+			"Client-ID": nodecg.config.login.twitch.clientID,
 		},
 		retry: 5,
 	});
@@ -44,14 +42,14 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 			logo?: string;
 		}>(`/kraken/channels/${channelId}`);
 		return {
-			title: body.status ?? '',
-			game: body.game ?? '',
-			logo: body.logo ?? '',
+			title: body.status ?? "",
+			game: body.game ?? "",
+			logo: body.logo ?? "",
 		};
 	};
 
 	const {body} = await twitchGot.get<{users: {_id: string}[]}>(
-		'/kraken/users',
+		"/kraken/users",
 		{
 			searchParams: {
 				login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,

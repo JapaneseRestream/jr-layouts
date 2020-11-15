@@ -1,52 +1,52 @@
-import path from 'path';
+import path from "path";
 
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import type webpack from 'webpack';
-import merge from 'webpack-merge';
-import globby from 'globby';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import nodeExternals from 'webpack-node-externals';
-import Webpackbar from 'webpackbar';
-import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import type webpack from "webpack";
+import merge from "webpack-merge";
+import globby from "globby";
+import {BundleAnalyzerPlugin} from "webpack-bundle-analyzer";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import nodeExternals from "webpack-node-externals";
+import Webpackbar from "webpackbar";
+import {CleanWebpackPlugin} from "clean-webpack-plugin";
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 const base: webpack.Configuration = {
-	mode: isProduction ? 'production' : 'development',
+	mode: isProduction ? "production" : "development",
 	resolve: {
-		extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+		extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
 	},
-	devtool: 'cheap-source-map',
-	stats: 'errors-warnings',
+	devtool: "cheap-source-map",
+	stats: "errors-warnings",
 };
 
 const browserConfig = (name: string): webpack.Configuration => {
 	const entryFiles = globby.sync(`./src/browser/${name}/*.tsx`);
 	const entry: Record<string, string> = {};
 	for (const file of entryFiles) {
-		entry[path.basename(file, '.tsx')] = file;
+		entry[path.basename(file, ".tsx")] = file;
 	}
 	const config: webpack.Configuration = merge(base, {
 		entry,
 		output: {
 			path: path.resolve(__dirname, name),
-			publicPath: './',
-			filename: '[name].js',
+			publicPath: "./",
+			filename: "[name].js",
 		},
 		module: {
 			rules: [
 				{
 					test: /\.tsx?$/u,
 					use: [
-						'babel-loader',
+						"babel-loader",
 						{
-							loader: 'ts-loader',
+							loader: "ts-loader",
 							options: {
 								transpileOnly: true,
 								compilerOptions: {
-									jsx: 'react',
-									module: 'esnext',
+									jsx: "react",
+									module: "esnext",
 								},
 							},
 						},
@@ -56,23 +56,23 @@ const browserConfig = (name: string): webpack.Configuration => {
 					test: /\.(png|woff2|gif)$/u,
 					use: [
 						{
-							loader: 'file-loader',
+							loader: "file-loader",
 							options: {
-								name: '[name].[ext]',
+								name: "[name].[ext]",
 							},
 						},
 					],
 				},
 				{
 					test: /\.css$/u,
-					use: [MiniCssExtractPlugin.loader, 'css-loader'],
+					use: [MiniCssExtractPlugin.loader, "css-loader"],
 				},
 			],
 		},
 		plugins: [
 			new CleanWebpackPlugin(),
 			new MiniCssExtractPlugin({
-				filename: '[name].css',
+				filename: "[name].css",
 			}),
 			...Object.keys(entry).map(
 				(entryName) =>
@@ -85,17 +85,14 @@ const browserConfig = (name: string): webpack.Configuration => {
 			),
 			new BundleAnalyzerPlugin({
 				openAnalyzer: false,
-				analyzerMode: 'static',
-				reportFilename: path.resolve(
-					__dirname,
-					`bundle-analyzer/${name}.html`,
-				),
+				analyzerMode: "static",
+				reportFilename: path.resolve(__dirname, `bundle-analyzer/${name}.html`),
 			}),
 			new Webpackbar({name}),
 		],
 		optimization: {
 			splitChunks: {
-				chunks: 'all',
+				chunks: "all",
 				cacheGroups: {
 					common: {
 						minChunks: 2,
@@ -110,12 +107,12 @@ const browserConfig = (name: string): webpack.Configuration => {
 };
 
 const extensionConfig: webpack.Configuration = merge(base, {
-	target: 'node',
-	entry: path.resolve(__dirname, 'src/extension/index.ts'),
+	target: "node",
+	entry: path.resolve(__dirname, "src/extension/index.ts"),
 	output: {
-		path: path.resolve(__dirname, 'extension'),
-		filename: 'index.js',
-		libraryTarget: 'commonjs2',
+		path: path.resolve(__dirname, "extension"),
+		filename: "index.js",
+		libraryTarget: "commonjs2",
 	},
 	module: {
 		rules: [
@@ -123,7 +120,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 				test: /\.ts$/u,
 				use: [
 					{
-						loader: 'ts-loader',
+						loader: "ts-loader",
 						options: {
 							transpileOnly: true,
 						},
@@ -133,12 +130,12 @@ const extensionConfig: webpack.Configuration = merge(base, {
 		],
 	},
 	externals: [nodeExternals()],
-	plugins: [new Webpackbar({name: 'extension'})],
+	plugins: [new Webpackbar({name: "extension"})],
 });
 
 const config: webpack.Configuration[] = [
-	browserConfig('dashboard'),
-	browserConfig('graphics'),
+	browserConfig("dashboard"),
+	browserConfig("graphics"),
 	extensionConfig,
 ];
 

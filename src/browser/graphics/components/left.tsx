@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import {Logo} from './logo';
-import {UpcomingList} from './upcoming-list';
-import {DiscordStatus} from './discord-status';
+import {Logo} from "./logo";
+import {UpcomingList} from "./upcoming-list";
+import {DiscordStatus} from "./discord-status";
 
 const Container = styled.div`
 	position: absolute;

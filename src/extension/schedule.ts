@@ -1,15 +1,15 @@
-import _ from 'lodash';
+import _ from "lodash";
 
-import type {CurrentRun} from '../nodecg/generated/current-run';
+import type {CurrentRun} from "../nodecg/generated/current-run";
 
-import type {NodeCG} from './nodecg';
+import type {NodeCG} from "./nodecg";
 
 export const setupSchedule = (nodecg: NodeCG) => {
-	const spreadsheetRep = nodecg.Replicant('spreadsheet', {defaultValue: {}});
-	const scheduleRep = nodecg.Replicant('schedule', {
+	const spreadsheetRep = nodecg.Replicant("spreadsheet", {defaultValue: {}});
+	const scheduleRep = nodecg.Replicant("schedule", {
 		defaultValue: [],
 	});
-	const currentRunRep = nodecg.Replicant('currentRun', {
+	const currentRunRep = nodecg.Replicant("currentRun", {
 		defaultValue: null,
 	});
 
@@ -20,21 +20,21 @@ export const setupSchedule = (nodecg: NodeCG) => {
 		const newCurrentRun = scheduleRep.value[index];
 		if (!newCurrentRun) {
 			nodecg.log.error(
-				'Invalid index to apply to current run replicant. The desired index does not exist',
+				"Invalid index to apply to current run replicant. The desired index does not exist",
 			);
 			return;
 		}
 		currentRunRep.value = _.clone(newCurrentRun);
 	};
 
-	spreadsheetRep.on('change', ({gamesList}) => {
+	spreadsheetRep.on("change", ({gamesList}) => {
 		if (!gamesList) {
 			return;
 		}
 		const newScheduleValue = gamesList.map((game, index) => {
 			const run: NonNullable<CurrentRun> = {
 				category: game.category,
-				commentator: '',
+				commentator: "",
 				console: game.platform,
 				game: game.title,
 				index,
@@ -49,7 +49,7 @@ export const setupSchedule = (nodecg: NodeCG) => {
 		}
 	});
 
-	nodecg.listenFor('previousRun', () => {
+	nodecg.listenFor("previousRun", () => {
 		if (currentRunRep.value) {
 			setCurrentRun(currentRunRep.value.index - 1);
 		} else {
@@ -57,7 +57,7 @@ export const setupSchedule = (nodecg: NodeCG) => {
 		}
 	});
 
-	nodecg.listenFor('nextRun', () => {
+	nodecg.listenFor("nextRun", () => {
 		if (currentRunRep.value) {
 			setCurrentRun(currentRunRep.value.index + 1);
 		} else {

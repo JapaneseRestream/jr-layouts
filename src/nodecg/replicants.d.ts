@@ -1,8 +1,8 @@
-import type {CurrentRun} from './generated/current-run';
-import type {Schedule} from './generated/schedule';
-import type {DiscordSpeakingStatus} from './generated/discord-speaking-status';
-import type {Spreadsheet} from './generated/spreadsheet';
-import type {Twitch} from './generated/twitch';
+import type {CurrentRun} from "./generated/current-run";
+import type {Schedule} from "./generated/schedule";
+import type {DiscordSpeakingStatus} from "./generated/discord-speaking-status";
+import type {Spreadsheet} from "./generated/spreadsheet";
+import type {Twitch} from "./generated/twitch";
 
 export interface ChannelInfo {
 	title: string;

@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import {Left} from './left';
-import {RunInfo} from './run-info';
-import {TwitchPlayer} from './twitch-player';
-import {Clock} from './clock';
+import {Left} from "./left";
+import {RunInfo} from "./run-info";
+import {TwitchPlayer} from "./twitch-player";
+import {Clock} from "./clock";
 
 const Container = styled.div`
 	position: absolute;

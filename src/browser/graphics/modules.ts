@@ -1,8 +1,8 @@
-declare module '*.png' {
+declare module "*.png" {
 	const path: string;
 	export default path;
 }
-declare module '*.gif' {
+declare module "*.gif" {
 	const path: string;
 	export default path;
 }

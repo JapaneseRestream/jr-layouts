@@ -1,8 +1,8 @@
-import {Button, Typography} from '@material-ui/core';
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
-import {format} from 'date-fns';
+import {Button, Typography} from "@material-ui/core";
+import React, {useState} from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
+import {format} from "date-fns";
 
 const Container = styled.div`
 	display: flex;
@@ -21,49 +21,46 @@ const InfoContainer = styled.div`
 
 const stateToMessage = (state: string) => {
 	switch (state) {
-		case 'waiting':
-			return '待機中';
-		case 'downloading':
-			return 'ダウンロード中';
-		case 'failed':
-			return '失敗した';
+		case "waiting":
+			return "待機中";
+		case "downloading":
+			return "ダウンロード中";
+		case "failed":
+			return "失敗した";
 		default:
-			return '';
+			return "";
 	}
 };
 
 const App: React.FunctionComponent = () => {
 	const [pending, setPending] = useState(false);
-	const [state, setState] = useState<'waiting' | 'downloading' | 'failed'>(
-		'waiting',
+	const [state, setState] = useState<"waiting" | "downloading" | "failed">(
+		"waiting",
 	);
 
 	return (
 		<Container>
 			<InfoContainer>
 				<Button
-					style={{alignSelf: 'center'}}
+					style={{alignSelf: "center"}}
 					variant='contained'
 					onClick={() => {
 						setPending(true);
 						nodecg
-							.sendMessage('obs:take-screenshot')
+							.sendMessage("obs:take-screenshot")
 							.then((img) => {
-								const a = document.createElement('a');
+								const a = document.createElement("a");
 								a.href = img;
 								a.setAttribute(
-									'download',
-									`obs-screenshot-${format(
-										new Date(),
-										'yyyyMMdd-HHmmss',
-									)}`,
+									"download",
+									`obs-screenshot-${format(new Date(), "yyyyMMdd-HHmmss")}`,
 								);
 								a.click();
-								setState('downloading');
+								setState("downloading");
 							})
 							.catch((error) => {
 								nodecg.log.error(error);
-								setState('failed');
+								setState("failed");
 							})
 							.finally(() => {
 								setPending(false);
@@ -73,7 +70,7 @@ const App: React.FunctionComponent = () => {
 				>
 					スクショをダウンロード
 				</Button>
-				<Typography style={{width: '100%', textAlign: 'center'}}>
+				<Typography style={{width: "100%", textAlign: "center"}}>
 					{stateToMessage(state)}
 				</Typography>
 			</InfoContainer>
@@ -81,4 +78,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));
