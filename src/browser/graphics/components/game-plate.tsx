@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import type {CurrentRun} from '../../../nodecg/generated/current-run';
+import type {CurrentRun} from "../../../nodecg/generated/current-run";
 
-import {FitText, Text as FitTextText} from './fit-text';
+import {FitText, Text as FitTextText} from "./fit-text";
 
 const Container = styled.div`
 	margin: 8px 5px;
@@ -37,7 +37,7 @@ export const GamePlate: React.FunctionComponent<Props> = (props) => {
 	const {game} = props.run;
 	const misc = [props.run.category, props.run.console]
 		.filter(Boolean)
-		.join(' - ');
+		.join(" - ");
 
 	return (
 		<Container>

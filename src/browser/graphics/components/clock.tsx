@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
+import React, {useState, useEffect} from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
 	position: absolute;
@@ -20,14 +20,12 @@ const HashtagText = styled.div`
 `;
 
 export const Clock: React.FunctionComponent = () => {
-	const [, setTime] = useState('');
+	const [, setTime] = useState("");
 	useEffect(() => {
 		const TIMEZONE_DIFF_MS =
 			nodecg.bundleConfig.timezoneDifference * 60 * 60 * 1000;
 		const intervalTimer = setInterval(() => {
-			setTime(
-				new Date(Date.now() + TIMEZONE_DIFF_MS).toLocaleString('ja-JP'),
-			);
+			setTime(new Date(Date.now() + TIMEZONE_DIFF_MS).toLocaleString("ja-JP"));
 		}, 10);
 		return () => {
 			clearInterval(intervalTimer);

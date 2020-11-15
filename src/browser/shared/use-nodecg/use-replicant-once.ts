@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import type {Replicant} from 'ts-nodecg/browser';
+import {useState} from "react";
+import type {Replicant} from "ts-nodecg/browser";
 
-import type {ReplicantMap} from '../../../nodecg/replicants';
+import type {ReplicantMap} from "../../../nodecg/replicants";
 
 export const useReplicantOnce = <
 	TBundleName extends string,

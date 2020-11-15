@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
+import React, {useState, useEffect} from "react";
+import styled from "styled-components";
 
-import JrLogo from '../images/banner.png';
+import JrLogo from "../images/banner.png";
 
 const ROTATE_INTERVAL = 10 * 1000;
 const IMAGE_WIDTH = 1920 * 0.1 - 24;
@@ -9,7 +9,7 @@ const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
 	{
-		src: 'https://www.speedrun.com/themes/mfsb2020/cover-256.png',
+		src: "https://www.speedrun.com/themes/mfsb2020/cover-256.png",
 		width: IMAGE_WIDTH,
 	},
 	{src: JrLogo, width: IMAGE_WIDTH},
@@ -53,8 +53,7 @@ export const Logo: React.FunctionComponent = () => {
 						{...image}
 						key={image.src}
 						style={{
-							opacity:
-								rotateCounter % images.length === index ? 1 : 0,
+							opacity: rotateCounter % images.length === index ? 1 : 0,
 						}}
 					/>
 				))}

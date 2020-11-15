@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import {useReplicant} from '../../shared/use-nodecg/use-replicant';
-import DiscordLogo from '../../shared/images/discord-logo-white.png';
+import {useReplicant} from "../../shared/use-nodecg/use-replicant";
+import DiscordLogo from "../../shared/images/discord-logo-white.png";
 
-import {FitText} from './fit-text';
+import {FitText} from "./fit-text";
 
 const MAX_NAMES = 6;
 
-const speakingStatusRep = nodecg.Replicant('discordSpeakingStatus');
+const speakingStatusRep = nodecg.Replicant("discordSpeakingStatus");
 
 const Container = styled.div`
 	margin-top: 8px;

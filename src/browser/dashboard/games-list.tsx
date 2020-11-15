@@ -4,15 +4,15 @@ import {
 	TableCell,
 	TableHead,
 	TableRow,
-} from '@material-ui/core';
-import React, {useRef, useEffect, createRef} from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+} from "@material-ui/core";
+import React, {useRef, useEffect, createRef} from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
-import {useReplicant} from '../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const scheduleRep = nodecg.Replicant('schedule');
-const currentRunRep = nodecg.Replicant('currentRun');
+const scheduleRep = nodecg.Replicant("schedule");
+const currentRunRep = nodecg.Replicant("currentRun");
 
 const Container = styled.div`
 	height: ${window.parent.innerHeight - 200}px;
@@ -32,7 +32,7 @@ const App: React.FunctionComponent = () => {
 		);
 		const currentRunRef = rowRefs.current[currentRunIndex];
 		if (currentRunRef?.current) {
-			currentRunRef.current.scrollIntoView({behavior: 'smooth'});
+			currentRunRef.current.scrollIntoView({behavior: "smooth"});
 		}
 	}, [currentRun, schedule]);
 	if (!schedule || !currentRun) {
@@ -49,14 +49,9 @@ const App: React.FunctionComponent = () => {
 				</TableHead>
 				<TableBody>
 					{schedule.map((run, index) => (
-						<TableRow
-							selected={run.index === currentRun.index}
-							key={run.index}
-						>
+						<TableRow selected={run.index === currentRun.index} key={run.index}>
 							<TableCell>
-								<span ref={rowRefs.current?.[index]}>
-									{run.game}
-								</span>
+								<span ref={rowRefs.current?.[index]}>{run.game}</span>
 							</TableCell>
 							<TableCell>{run.category}</TableCell>
 						</TableRow>
@@ -67,4 +62,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));

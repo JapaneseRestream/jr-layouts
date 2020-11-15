@@ -1,24 +1,24 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import {Button, TextField} from '@material-ui/core';
+import React, {useState} from "react";
+import ReactDOM from "react-dom";
+import {Button, TextField} from "@material-ui/core";
 
-import {useReplicant} from '../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const targetChannelRep = nodecg.Replicant('targetChannel');
+const targetChannelRep = nodecg.Replicant("targetChannel");
 
 const App: React.FunctionComponent = () => {
 	const [targetChannel, setTargetChannel] = useState<string | null>(null);
 	const [targetChannelRepValue, setTargetChannelRep] = useReplicant(
 		targetChannelRep,
 	);
-	const latestChannel = targetChannel ?? targetChannelRepValue ?? '';
+	const latestChannel = targetChannel ?? targetChannelRepValue ?? "";
 
 	return (
 		<>
 			<Button
 				variant='contained'
 				onClick={() => {
-					void nodecg.sendMessage('refreshPlayer');
+					void nodecg.sendMessage("refreshPlayer");
 				}}
 			>
 				レイアウトのプレイヤーを再読込する
@@ -42,4 +42,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));

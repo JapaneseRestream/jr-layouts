@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
+import React, {useState, useEffect} from "react";
+import styled from "styled-components";
 
-import {useReplicant} from '../../shared/use-nodecg/use-replicant';
+import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 
-const targetChannelRep = nodecg.Replicant('targetChannel');
+const targetChannelRep = nodecg.Replicant("targetChannel");
 
 const PlayerIframe = styled.iframe`
 	position: absolute;
@@ -21,9 +21,9 @@ export const TwitchPlayer: React.FunctionComponent = () => {
 		const handler = () => {
 			setShowPlayer(false);
 		};
-		nodecg.listenFor('refreshPlayer', handler);
+		nodecg.listenFor("refreshPlayer", handler);
 		return () => {
-			nodecg.unlisten('refreshPlayer', handler);
+			nodecg.unlisten("refreshPlayer", handler);
 		};
 	}, []);
 	useEffect(() => {
@@ -36,12 +36,12 @@ export const TwitchPlayer: React.FunctionComponent = () => {
 		return null;
 	}
 
-	const iframeSrc = new URL('https://player.twitch.tv/');
-	iframeSrc.searchParams.set('volume', '1');
-	iframeSrc.searchParams.set('muted', 'false');
-	iframeSrc.searchParams.set('channel', targetChannel);
-	iframeSrc.searchParams.set('parent', location.host);
-	iframeSrc.searchParams.set('player', 'popout');
+	const iframeSrc = new URL("https://player.twitch.tv/");
+	iframeSrc.searchParams.set("volume", "1");
+	iframeSrc.searchParams.set("muted", "false");
+	iframeSrc.searchParams.set("channel", targetChannel);
+	iframeSrc.searchParams.set("parent", location.host);
+	iframeSrc.searchParams.set("player", "popout");
 
 	return (
 		<PlayerIframe
