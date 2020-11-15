@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-import {CurrentRun} from '../nodecg/generated/current-run';
+import type {CurrentRun} from '../nodecg/generated/current-run';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 export const setupSchedule = (nodecg: NodeCG) => {
 	const spreadsheetRep = nodecg.Replicant('spreadsheet', {defaultValue: {}});

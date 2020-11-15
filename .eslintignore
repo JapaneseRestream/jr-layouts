@@ -2,6 +2,7 @@
 /cfg/*
 /db/*
 !.gitkeep
+/src/nodecg/generated
 
 bundle-analyzer
 /dashboard

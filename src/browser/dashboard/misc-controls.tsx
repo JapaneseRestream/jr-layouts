@@ -11,21 +11,23 @@ const App: React.FunctionComponent = () => {
 	const [targetChannelRepValue, setTargetChannelRep] = useReplicant(
 		targetChannelRep,
 	);
-	const latestChannel = targetChannel || targetChannelRepValue || '';
+	const latestChannel = targetChannel ?? targetChannelRepValue ?? '';
 
 	return (
 		<>
 			<Button
 				variant='contained'
 				onClick={() => {
-					nodecg.sendMessage('refreshPlayer');
+					void nodecg.sendMessage('refreshPlayer');
 				}}
 			>
 				レイアウトのプレイヤーを再読込する
 			</Button>
 			<TextField
 				value={latestChannel}
-				onChange={(e) => setTargetChannel(e.target.value)}
+				onChange={(e) => {
+					setTargetChannel(e.target.value);
+				}}
 				placeholder='うつすTwitchチャンネル'
 			/>
 			<Button

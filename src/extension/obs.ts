@@ -1,6 +1,6 @@
 import OBSWebSocket from 'obs-websocket-js';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 const obs = new OBSWebSocket();
 
@@ -12,7 +12,7 @@ export const setupObs = (nodecg: NodeCG) => {
 		return;
 	}
 
-	obs.connect(obsConfig, (error) => {
+	void obs.connect(obsConfig, (error) => {
 		if (error) {
 			nodecg.log.error('Failed to connect to OBS:', error);
 		}
@@ -26,11 +26,13 @@ export const setupObs = (nodecg: NodeCG) => {
 				embedPictureFormat: 'png',
 			});
 			if (cb && !cb.handled) {
-				return cb(null, img);
+				cb(null, img);
+				return;
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			if (cb && !cb.handled) {
-				return cb('Failed to take screenshot of OBS');
+				cb('Failed to take screenshot of OBS');
+				return;
 			}
 			nodecg.log.error('Failed to take screenshot of OBS:', error);
 		}

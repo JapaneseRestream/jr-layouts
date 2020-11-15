@@ -1,15 +1,15 @@
 import got from 'got';
 import appRootPath from 'app-root-path';
 
-import {CurrentRun} from '../nodecg/generated/current-run';
-import {Twitch} from '../nodecg/generated/twitch';
+import type {CurrentRun} from '../nodecg/generated/current-run';
+import type {Twitch} from '../nodecg/generated/twitch';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const log = new nodecg.Logger('extension:twitch-admin');
 
-	if (!nodecg.config || !nodecg.config.login.twitch) {
+	if (!nodecg.config.login.twitch) {
 		log.error("Missing NodeCG's Twitch config");
 		return;
 	}
@@ -44,10 +44,10 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			if (!twitchOauthRep.value) {
 				return;
 			}
-			/* eslint-disable camelcase,@typescript-eslint/camelcase */
+
+			/* eslint-disable camelcase */
 			const {body} = await got.post('https://id.twitch.tv/oauth2/token', {
-				form: true,
-				body: {
+				form: {
 					grant_type: 'refresh_token',
 					refresh_token: twitchOauthRep.value.refreshToken,
 					client_id: twitchConfig.clientID,
@@ -55,15 +55,14 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					scope: twitchConfig.scope,
 				},
 			});
-
 			const response = JSON.parse(body);
-
 			twitchOauthRep.value.accessToken = response.access_token;
 			twitchOauthRep.value.refreshToken = response.refresh_token;
-			/* eslint-enable camelcase,@typescript-eslint/camelcase */
+			/* eslint-enable camelcase */
+
 			log.info('Successfully refreshed token');
-		} catch (error) {
-			log.error('Failed to refresh Twitch token:', error.message);
+		} catch (error: unknown) {
+			log.error('Failed to refresh Twitch token:', error);
 		}
 	};
 
@@ -84,8 +83,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			await got.put(
 				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
 				{
-					json: true,
-					body: {
+					json: {
 						channel: {
 							status: `[JP] Questing For Glory: Hope and Healing | ${newRun.game}`,
 						},
@@ -100,8 +98,8 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			titleRetryCount = 0;
 			lastUpdatedTitle = newRun.game;
 			log.info(`Updated title to ${lastUpdatedTitle}`);
-		} catch (error) {
-			log.error('Failed to update title:', error.message);
+		} catch (error: unknown) {
+			log.error('Failed to update title:', error);
 			if (titleRetryCount >= 1) {
 				log.error('not retrying');
 				titleRetryCount = 0;
@@ -113,17 +111,20 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			await updateTitle(newRun);
 		}
 	};
-	currentRunRep.on('change', updateTitle);
+	currentRunRep.on('change', (run) => {
+		void updateTitle(run);
+	});
 
 	let lastUpdatedGame = '';
 	let gameRetryCount = 0;
 	const updateGame = async (newVal: Twitch) => {
 		try {
-			const newGame = newVal && newVal.channelInfo.target.game;
-			if (!newGame) {
-				return;
-			}
-			if (newGame === lastUpdatedGame) {
+			const newGame = newVal?.channelInfo.target.game;
+			if (
+				typeof newGame === 'undefined' ||
+				newGame === '' ||
+				newGame === lastUpdatedGame
+			) {
 				return;
 			}
 			if (!twitchOauthRep.value) {
@@ -133,8 +134,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			await got.put(
 				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
 				{
-					json: true,
-					body: {channel: {game: newGame}},
+					json: {channel: {game: newGame}},
 					headers: {
 						Accept: 'application/vnd.twitchtv.v5+json',
 						Authorization: `OAuth ${twitchOauthRep.value.accessToken}`,
@@ -145,8 +145,8 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			gameRetryCount = 0;
 			lastUpdatedGame = newGame;
 			log.info(`Updated game to ${lastUpdatedGame}`);
-		} catch (error) {
-			log.error('Failed to update Twitch status:', error.message);
+		} catch (error: unknown) {
+			log.error('Failed to update Twitch status:', error);
 			if (gameRetryCount >= 1) {
 				log.error('not retrying');
 				gameRetryCount = 0;
@@ -171,9 +171,8 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return false;
 			}
 			await got.post('https://api.twitch.tv/helix/streams/markers', {
-				json: true,
-				body: {
-					user_id: twitchOauthRep.value.channelId, // eslint-disable-line camelcase,@typescript-eslint/camelcase
+				json: {
+					user_id: twitchOauthRep.value.channelId, // eslint-disable-line camelcase
 				},
 				headers: {
 					Authorization: `Bearer ${twitchOauthRep.value.accessToken}`,
@@ -185,8 +184,8 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			lastMarkerTimeRep.value = now;
 			log.info(`Put marker at ${new Date(now).toISOString()}`);
 			return true;
-		} catch (error) {
-			log.error('Failed to put marker on Twitch stream:', error.message);
+		} catch (error: unknown) {
+			log.error('Failed to put marker on Twitch stream:', error);
 			if (markerRetryCount >= 1) {
 				log.error('not retrying');
 				markerRetryCount = 0;
@@ -202,11 +201,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		try {
 			const success = await putMarker();
 			if (cb && !cb.handled) {
-				return cb(null, success);
+				cb(null, success);
+				return;
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			if (cb && !cb.handled) {
-				return cb(null, false);
+				cb(null, false);
 			}
 		}
 	});
@@ -226,12 +226,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			refreshToken: user.refreshToken,
 			channelId: user.id,
 		};
-		log.info(`Set up for ${user.username}`);
+		log.info(`Set up for ${String(user.username)}`);
 		if (currentRunRep.value) {
-			updateTitle(currentRunRep.value);
+			void updateTitle(currentRunRep.value);
 		}
 		if (twitchRep.value) {
-			updateGame(twitchRep.value);
+			void updateGame(twitchRep.value);
 		}
 	});
 };

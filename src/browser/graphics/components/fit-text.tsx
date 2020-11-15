@@ -44,7 +44,7 @@ export const FitText: React.FunctionComponent<Props> = (props) => {
 			return;
 		}
 		let cancelled = false;
-		document.fonts.load(font).then(() => {
+		void document.fonts.load(font).then(() => {
 			if (!cancelled) {
 				fit();
 			}

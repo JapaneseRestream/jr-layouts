@@ -1,11 +1,12 @@
 import appRootPath from 'app-root-path';
-import discord, {VoiceChannel} from 'discord.js';
+import type {VoiceChannel} from 'discord.js';
+import discord from 'discord.js';
 import {isEqual} from 'lodash';
 
-import {BundleConfig} from '../nodecg/bundle-config';
-import {DiscordSpeakingStatus} from '../nodecg/generated/discord-speaking-status';
+import type {BundleConfig} from '../nodecg/bundle-config';
+import type {DiscordSpeakingStatus} from '../nodecg/generated/discord-speaking-status';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 export const setupDiscord = async (nodecg: NodeCG) => {
 	const {discordToken, discordChannelId}: BundleConfig = nodecg.bundleConfig;
@@ -69,9 +70,9 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 					{
 						id: member.id,
 						name:
-							member.nickname ||
-							member.displayName ||
-							(member.user && member.user.username) ||
+							member.nickname ??
+							member.displayName ??
+							member.user?.username ??
 							'',
 					},
 				];

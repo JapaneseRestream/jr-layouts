@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import {Replicant} from 'ts-nodecg/browser';
+import type {Replicant} from 'ts-nodecg/browser';
 
-import {ReplicantMap} from '../../../nodecg/replicants';
+import type {ReplicantMap} from '../../../nodecg/replicants';
 
 export const useReplicantOnce = <
 	TBundleName extends string,
@@ -12,7 +12,7 @@ export const useReplicantOnce = <
 	replicant: Replicant<TBundleName, TRepMap, TRepName, TSchema | undefined>,
 ): TSchema | null => {
 	const [state, setState] = useState<TSchema | null>(null);
-	NodeCG.waitForReplicants(replicant as any).then(() => {
+	void NodeCG.waitForReplicants(replicant as any).then(() => {
 		if (replicant.value) {
 			setState(replicant.value);
 		}

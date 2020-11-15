@@ -3,9 +3,9 @@ import {setInterval} from 'timers';
 import {google} from 'googleapis';
 import _ from 'lodash';
 
-import {BundleConfig} from '../nodecg/bundle-config';
+import type {BundleConfig} from '../nodecg/bundle-config';
 
-import {NodeCG} from './nodecg';
+import type {NodeCG} from './nodecg';
 
 const UPDATE_INTERVAL = 10 * 1000;
 
@@ -40,9 +40,9 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 				spreadsheetRep.value.gamesList = games
 					.map((g) => {
 						return {
-							title: g.title || '',
-							category: g.category || '',
-							platform: g.platform || '',
+							title: g.title ?? '',
+							category: g.category ?? '',
+							platform: g.platform ?? '',
 							commentators: '',
 						};
 					})
@@ -73,7 +73,7 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 	nodecg.listenFor('updateSpreadsheet', async () => {
 		try {
 			await fetchSpreadsheet();
-		} catch (error) {
+		} catch (error: unknown) {
 			nodecg.log.error(error);
 		} finally {
 			clearInterval(interval);
