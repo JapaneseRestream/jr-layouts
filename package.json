@@ -46,7 +46,7 @@
 		"got": "10.7.0",
 		"include-nodecg": "0.0.3",
 		"lodash": "4.17.20",
-		"moment": "2.24.0",
+		"moment": "2.29.1",
 		"nodecg": "1.6.1",
 		"obs-websocket-js": "4.0.2",
 		"source-map-support": "0.5.19",
