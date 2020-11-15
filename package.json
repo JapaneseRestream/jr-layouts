@@ -91,7 +91,7 @@
 		"prettier": "2.1.2",
 		"react": "16.13.1",
 		"react-dom": "16.13.1",
-		"sort-package-json": "1.40.0",
+		"sort-package-json": "1.46.1",
 		"styled-components": "5.0.1",
 		"ts-loader": "8.0.11",
 		"ts-node": "9.0.0",
