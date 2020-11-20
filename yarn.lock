@@ -6250,7 +6250,6 @@ json-schema-defaults@^0.4.0:
 
 "json-schema-lib@github:nodecg/json-schema-lib#dcb89d670c2b15cd398916209bb806b2e100f95f":
   version "0.0.6"
-  uid dcb89d670c2b15cd398916209bb806b2e100f95f
   resolved "https://codeload.github.com/nodecg/json-schema-lib/tar.gz/dcb89d670c2b15cd398916209bb806b2e100f95f"
   dependencies:
     content-type "^1.0.2"

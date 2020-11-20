@@ -85,7 +85,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				{
 					json: {
 						channel: {
-							status: `[JP] Questing For Glory: Hope and Healing | ${newRun.game}`,
+							status: `[JP] Midfall Speedball ${newRun.game}`,
 						},
 					},
 					headers: {

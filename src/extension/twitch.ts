@@ -36,11 +36,11 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 	});
 
 	const fetchChannelInfo = async (channelId: string) => {
-		const {body} = await twitchGot.get<{
+		const body = await twitchGot.get(`kraken/channels/${channelId}`).json<{
 			status?: string;
 			game?: string;
 			logo?: string;
-		}>(`kraken/channels/${channelId}`);
+		}>();
 		return {
 			title: body.status ?? "",
 			game: body.game ?? "",
@@ -48,13 +48,13 @@ export const setupTwitchInfo = async (nodecg: NodeCG) => {
 		};
 	};
 
-	const {body: rawBody} = await twitchGot.get<string>("kraken/users", {
-		searchParams: {
-			login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,
-		},
-	});
-
-	const body = JSON.parse(rawBody);
+	const body = await twitchGot
+		.get("kraken/users", {
+			searchParams: {
+				login: `${twitchConfig.ourChannel},${twitchConfig.originalChannel}`,
+			},
+		})
+		.json<{users: {_id: string}[]}>();
 
 	const ourChannelId = body.users[0]._id; // eslint-disable-line no-underscore-dangle
 	const targetChannelId = body.users[1]._id; // eslint-disable-line no-underscore-dangle
