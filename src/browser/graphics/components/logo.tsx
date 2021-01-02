@@ -9,7 +9,7 @@ const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
 	{
-		src: "https://www.speedrun.com/themes/mfsb2020/cover-256.png",
+		src: "https://gamesdonequick.com/static/res/img/gdqlogo.png",
 		width: IMAGE_WIDTH,
 	},
 	{src: JrLogo, width: IMAGE_WIDTH},
