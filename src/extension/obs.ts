@@ -38,6 +38,26 @@ export const setupObs = async (nodecg: NodeCG) => {
 		});
 		return img;
 	};
+	const swapActiveScene = async () => {
+		try {
+			const {name: currentScene} = await obs.send("GetCurrentScene");
+			switch (currentScene) {
+				case "main1":
+					await obs.send("SetCurrentScene", {
+						"scene-name": "main2",
+					});
+					break;
+				case "main2":
+					await obs.send("SetCurrentScene", {
+						"scene-name": "main1",
+					});
+					break;
+				default:
+			}
+		} catch (error: unknown) {
+			logger.error("Failed to swap active scene:", error);
+		}
+	};
 
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
@@ -56,7 +76,10 @@ export const setupObs = async (nodecg: NodeCG) => {
 	});
 
 	nodecg.listenFor("nextRun", () => {
-		void stopRecording();
+		if (obsAutoRecording.value) {
+			void stopRecording();
+		}
+		void swapActiveScene();
 	});
 
 	obs.on("Heartbeat", (data) => {
@@ -79,8 +102,6 @@ export const setupObs = async (nodecg: NodeCG) => {
 	obsAutoRecording.on("change", (newVal) => {
 		if (newVal) {
 			void startRecording();
-		} else {
-			void stopRecording();
 		}
 	});
 };
