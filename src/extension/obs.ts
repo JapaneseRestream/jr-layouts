@@ -41,7 +41,7 @@ export const setupObs = async (nodecg: NodeCG) => {
 		});
 	});
 
-	await obs.connect(obsConfig, (error) => {
+	await obs.connect(obsConfig).catch((error) => {
 		if (error) {
 			nodecg.log.error("Failed to connect to OBS:", error);
 		}

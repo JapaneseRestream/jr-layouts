@@ -13,5 +13,5 @@ export = (nodecg: NodeCG) => {
 	void setupTwitchInfo(nodecg);
 	void setupDiscord(nodecg);
 	setupTwitchAdmin(nodecg);
-	setupObs(nodecg);
+	void setupObs(nodecg);
 };
