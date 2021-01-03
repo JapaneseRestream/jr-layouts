@@ -6,19 +6,41 @@ const obs = new OBSWebSocket();
 
 export const setupObs = async (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
+	const logger = new nodecg.Logger("obs");
 
 	if (!obsConfig) {
-		nodecg.log.warn("OBS setting is empty");
+		logger.warn("OBS setting is empty");
 		return;
 	}
 
+	const startRecording = async () => {
+		try {
+			await obs.send("StartRecording");
+			logger.info("Started recording");
+		} catch (error: unknown) {
+			logger.error("Failed to start recording:", error);
+		}
+	};
+	const stopRecording = async () => {
+		try {
+			await obs.send("StopRecording");
+			logger.info("Stopped recording");
+		} catch (error: unknown) {
+			logger.error("Failed to stop recording:", error);
+		}
+	};
+	const takeScreenshot = async () => {
+		const {name} = await obs.send("GetCurrentScene");
+		const {img} = await obs.send("TakeSourceScreenshot", {
+			sourceName: name,
+			embedPictureFormat: "png",
+		});
+		return img;
+	};
+
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
-			const {name} = await obs.send("GetCurrentScene");
-			const {img} = await obs.send("TakeSourceScreenshot", {
-				sourceName: name,
-				embedPictureFormat: "png",
-			});
+			const img = await takeScreenshot();
 			if (cb && !cb.handled) {
 				cb(null, img);
 				return;
@@ -28,22 +50,28 @@ export const setupObs = async (nodecg: NodeCG) => {
 				cb("Failed to take screenshot of OBS");
 				return;
 			}
-			nodecg.log.error("Failed to take screenshot of OBS:", error);
+			logger.error("Failed to take screenshot of OBS:", error);
 		}
 	});
 
-	nodecg.listenFor("nextRun", async () => {
-		await obs.send("StopRecording").catch((error) => {
-			nodecg.log.warn(error.message);
-		});
-		await obs.send("StartRecording").catch((error) => {
-			nodecg.log.error(error.message);
-		});
+	nodecg.listenFor("nextRun", () => {
+		void stopRecording();
 	});
 
-	await obs.connect(obsConfig).catch((error) => {
-		if (error) {
-			nodecg.log.error("Failed to connect to OBS:", error);
+	obs.on("Heartbeat", (data) => {
+		if (!data.recording) {
+			void startRecording();
 		}
 	});
+
+	await obs
+		.connect(obsConfig)
+		.then(() => {
+			logger.info(`Connected to OBS on ${obsConfig.address}`);
+		})
+		.catch((error) => {
+			logger.error("Failed to connect to OBS:", error);
+		});
+
+	await obs.send("SetHeartbeat", {enable: true});
 };
