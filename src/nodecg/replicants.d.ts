@@ -24,4 +24,5 @@ export type ReplicantMap = {
 		channelId: string;
 	} | null;
 	lastMarkerTime: number;
+	obsAutoRecording: boolean;
 };

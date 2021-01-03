@@ -7,6 +7,7 @@ const obs = new OBSWebSocket();
 export const setupObs = async (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
 	const logger = new nodecg.Logger("obs");
+	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
 
 	if (!obsConfig) {
 		logger.warn("OBS setting is empty");
@@ -59,7 +60,7 @@ export const setupObs = async (nodecg: NodeCG) => {
 	});
 
 	obs.on("Heartbeat", (data) => {
-		if (!data.recording) {
+		if (obsAutoRecording.value && !data.recording) {
 			void startRecording();
 		}
 	});
@@ -74,4 +75,12 @@ export const setupObs = async (nodecg: NodeCG) => {
 		});
 
 	await obs.send("SetHeartbeat", {enable: true});
+
+	obsAutoRecording.on("change", (newVal) => {
+		if (newVal) {
+			void startRecording();
+		} else {
+			void stopRecording();
+		}
+	});
 };
