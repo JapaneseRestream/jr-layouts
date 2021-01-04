@@ -34,7 +34,8 @@ export const setupObs = async (nodecg: NodeCG) => {
 		const {name} = await obs.send("GetCurrentScene");
 		const {img} = await obs.send("TakeSourceScreenshot", {
 			sourceName: name,
-			embedPictureFormat: "jpeg",
+			embedPictureFormat: "png",
+			fileFormat: "png",
 		});
 		return img;
 	};
