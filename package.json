@@ -49,7 +49,7 @@
 		"googleapis": "66.0.0",
 		"got": "11.8.1",
 		"include-nodecg": "0.0.3",
-		"lodash": "4.17.20",
+		"lodash": "4.17.21",
 		"nodecg": "1.7.4",
 		"obs-websocket-js": "4.0.2",
 		"source-map-support": "0.5.19",
