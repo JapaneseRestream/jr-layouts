@@ -1836,7 +1836,7 @@
     "@types/source-list-map" "*"
     source-map "^0.6.1"
 
-"@types/webpack@*", "@types/webpack@4.41.27", "@types/webpack@^4.4.31", "@types/webpack@^4.41.8":
+"@types/webpack@*", "@types/webpack@4.41.27", "@types/webpack@^4", "@types/webpack@^4.4.31", "@types/webpack@^4.41.8":
   version "4.41.27"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.27.tgz#f47da488c8037e7f1b2dbf2714fbbacb61ec0ffc"
   integrity sha512-wK/oi5gcHi72VMTbOaQ70VcDxSQ1uX8S2tukBK9ARuGXrYM/+u4ou73roc7trXDNmCxCoerE8zruQqX/wuHszA==
@@ -1848,13 +1848,13 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
-"@types/webpackbar@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/webpackbar/-/webpackbar-4.0.0.tgz#6e18147d03c9d51e1bbfbfa2c36374e12c430f0d"
-  integrity sha512-EZ16TWfcaFjU1Y84r8d6dNdZmBymFVLHz7w2/6ppTX27bUEY+LpAkTojgP50YXPIsnKgun8wJ5YSnkzru6fbqw==
+"@types/webpackbar@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/webpackbar/-/webpackbar-4.0.1.tgz#51cb3de91c5c04a1ea5b1abe47decf80c459662e"
+  integrity sha512-9zcuW4FEVfujEv0xzYW0u7gkeyQflQB/5FRCI3exnmEeLHiQaxucQgJiKD2IY2YG4dLP/XmAvpoduKFqNaiBQQ==
   dependencies:
     "@types/node" "*"
-    "@types/webpack" "*"
+    "@types/webpack" "^4"
 
 "@types/ws@7.4.1":
   version "7.4.1"

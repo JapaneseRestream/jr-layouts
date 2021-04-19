@@ -74,7 +74,7 @@
 		"@types/webpack": "4.41.27",
 		"@types/webpack-bundle-analyzer": "3.9.1",
 		"@types/webpack-node-externals": "2.5.0",
-		"@types/webpackbar": "4.0.0",
+		"@types/webpackbar": "4.0.1",
 		"@types/ws": "7.4.1",
 		"babel-loader": "8.2.2",
 		"clean-webpack-plugin": "3.0.0",
