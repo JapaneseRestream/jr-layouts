@@ -41,7 +41,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ env.YARN_CACHE_FOLDER }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn test
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('./Dockerfile', './src', './package.json', './package-lock.json') }}
           restore-keys: ${{ runner.os }}-buildx-
       - uses: crazy-max/ghaction-docker-meta@v2
         id: docker_meta
