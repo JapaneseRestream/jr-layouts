@@ -59,7 +59,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('./Dockerfile') }}-${{ hashFiles('./src', './package.json', './package-lock.json') }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('./Dockerfile') }}-${{ hashFiles('./src', './package.json', './yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ hashFiles('./Dockerfile') }}-
             ${{ runner.os }}-buildx-
