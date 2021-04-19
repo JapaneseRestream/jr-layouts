@@ -2,13 +2,12 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
-    tags:
-      - "**"
+    branches: [master]
   pull_request:
-    branches:
-      - master
+    branches: [master]
+
+env:
+  YARN_CACHE_FOLDER: ~/.yarn
 
 jobs:
   test-minimum:
@@ -20,12 +19,12 @@ jobs:
           node-version: "14"
       - uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm
-          restore-keys: ${{ runner.os }}-npm
-      - run: npm ci
-      - run: npm run test
-      - run: npm run build
+          path: ${{ env.YARN_CACHE_FOLDER }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+      - run: yarn build
 
   test-matrix:
     needs: test-minimum
@@ -41,12 +40,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm
-          restore-keys: ${{ runner.os }}-npm
-      - run: npm ci
-      - run: npm run test
-      - run: npm run build
+          path: ${{ env.YARN_CACHE_FOLDER }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+      - run: yarn build
 
   build-image:
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}

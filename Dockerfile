@@ -2,13 +2,12 @@ FROM node:14-slim AS build
 
 RUN apt-get update && apt-get upgrade
 RUN apt-get install -y build-essential python git
-RUN npm set unsafe-perm true
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
 COPY schemas schemas
 COPY src src
@@ -21,20 +20,19 @@ COPY \
   ./
 
 ENV NODE_ENV production
-RUN npm run build
+RUN yarn build
 
 
 FROM node:14-slim AS node_modules
 
 RUN apt-get update && apt-get upgrade
 RUN apt-get install -y build-essential python git
-RUN npm set unsafe-perm true
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --production
+RUN yarn install --frozen-lockfile --production
 
 
 FROM node:14-slim
@@ -53,4 +51,4 @@ COPY package.json configschema.json ./
 EXPOSE 9090
 VOLUME ["/app/.nodecg/db"]
 
-CMD ["npm", "run", "start"]
+CMD ["yarn", "start"]
