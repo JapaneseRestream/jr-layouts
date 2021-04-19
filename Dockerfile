@@ -1,12 +1,14 @@
-FROM node:14-alpine AS build
+FROM node:14-slim AS build
 
-RUN apk add --no-cache git
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -y build-essential python git
+RUN npm set unsafe-perm true
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install --frozen-lockfile
+RUN npm ci
 
 COPY schemas schemas
 COPY src src
@@ -18,21 +20,24 @@ COPY \
   webpack.config.ts \
   ./
 
-RUN NODE_ENV=production yarn build
+ENV NODE_ENV production
+RUN npm run build
 
 
-FROM node:14-alpine AS node_modules
+FROM node:14-slim AS node_modules
 
-RUN apk add --no-cache git
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -y build-essential python git
+RUN npm set unsafe-perm true
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install --production --frozen-lockfile
+RUN npm ci --production
 
 
-FROM node:14-alpine
+FROM node:14-slim
 
 WORKDIR /app
 
@@ -48,4 +53,4 @@ COPY package.json configschema.json ./
 EXPOSE 9090
 VOLUME ["/app/.nodecg/db"]
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
