@@ -65,19 +65,13 @@ jobs:
       - uses: crazy-max/ghaction-docker-meta@v1
         id: docker_meta
         with:
-          images: |
-            japaneserestream/jr-layouts
-            ghcr.io/japaneserestream/jr-layouts
+          images: ghcr.io/japaneserestream/jr-layouts
           tag-sha: true
-      - uses: docker/login-action@v1
-        with:
-          username: hoishin
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: hoishin
-          password: ${{ secrets.CR_TOKEN }}
+          password: ${{ github.token }}
       - uses: docker/build-push-action@v2
         with:
           push: true
