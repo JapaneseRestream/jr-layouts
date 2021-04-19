@@ -5,7 +5,7 @@ RUN apt-get install -y build-essential python git
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
@@ -30,7 +30,7 @@ RUN apt-get install -y build-essential python git
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile --production
 
