@@ -48,7 +48,6 @@ COPY --from=node_modules /app/.nodecg .nodecg
 COPY assets assets
 COPY package.json configschema.json ./
 
-EXPOSE 9090
 VOLUME ["/app/.nodecg/db"]
 
 CMD ["yarn", "start"]
