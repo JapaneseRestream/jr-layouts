@@ -13,5 +13,7 @@ export = (nodecg: NodeCG) => {
 	void setupTwitchInfo(nodecg);
 	void setupDiscord(nodecg);
 	setupTwitchAdmin(nodecg);
-	void setupObs(nodecg);
+	setupObs(nodecg).catch((error) => {
+		nodecg.log.error(error);
+	});
 };
