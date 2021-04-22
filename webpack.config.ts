@@ -88,7 +88,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 				analyzerMode: "static",
 				reportFilename: path.resolve(__dirname, `bundle-analyzer/${name}.html`),
 			}),
-			new Webpackbar({name}),
+			new Webpackbar({name, color: "green"}),
 		],
 		optimization: {
 			splitChunks: {
@@ -130,7 +130,7 @@ const extensionConfig: webpack.Configuration = merge(base, {
 		],
 	},
 	externals: [nodeExternals()],
-	plugins: [new Webpackbar({name: "extension"})],
+	plugins: [new Webpackbar({name: "extension", color: "blue"})],
 });
 
 const config: webpack.Configuration[] = [

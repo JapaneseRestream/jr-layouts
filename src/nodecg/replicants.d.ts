@@ -25,4 +25,5 @@ export type ReplicantMap = {
 	} | null;
 	lastMarkerTime: number;
 	obsAutoRecording: boolean;
+	hashtag: string;
 };

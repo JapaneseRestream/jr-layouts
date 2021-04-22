@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
+import {useReplicant} from "../../shared/use-nodecg/use-replicant";
+
 const Container = styled.div`
 	position: absolute;
 	right: 0;
@@ -17,9 +19,11 @@ const Container = styled.div`
 const HashtagText = styled.div`
 	color: #f37f50;
 	text-shadow: #f37f50 0px 0px 5px;
+	text-transform: uppercase;
 `;
 
 export const Clock: React.FunctionComponent = () => {
+	const [hashtag] = useReplicant(nodecg.Replicant("hashtag"));
 	const [, setTime] = useState("");
 	useEffect(() => {
 		const TIMEZONE_DIFF_MS =
@@ -35,7 +39,7 @@ export const Clock: React.FunctionComponent = () => {
 	return (
 		<Container>
 			{/* <div>現地: {time}</div> */}
-			<HashtagText>#AGDQ2021JP</HashtagText>
+			<HashtagText>{hashtag}</HashtagText>
 		</Container>
 	);
 };
