@@ -3,6 +3,7 @@ import type {Schedule} from "./generated/schedule";
 import type {DiscordSpeakingStatus} from "./generated/discord-speaking-status";
 import type {Spreadsheet} from "./generated/spreadsheet";
 import type {Twitch} from "./generated/twitch";
+import type {ObsStatus} from "./generated";
 
 export interface ChannelInfo {
 	title: string;
@@ -24,6 +25,8 @@ export type ReplicantMap = {
 		channelId: string;
 	} | null;
 	lastMarkerTime: number;
+	obsStatus: ObsStatus;
+	obsRecordingTimestamp: number;
 	obsAutoRecording: boolean;
 	hashtag: string;
 };

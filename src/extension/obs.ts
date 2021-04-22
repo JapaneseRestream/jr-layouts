@@ -4,16 +4,34 @@ import type {NodeCG} from "./nodecg";
 
 const obs = new OBSWebSocket();
 
-export const setupObs = async (nodecg: NodeCG) => {
+export const setupObs = (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
 	const logger = new nodecg.Logger("obs");
 	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
+	const obsStatus = nodecg.Replicant("obsStatus");
 
 	if (!obsConfig) {
 		logger.warn("OBS setting is empty");
 		return;
 	}
 
+	let attemptingToConnect = false;
+	const connect = async (emitError = true) => {
+		if (attemptingToConnect) {
+			return;
+		}
+		attemptingToConnect = true;
+		try {
+			await obs.connect(obsConfig);
+			await obs.send("SetHeartbeat", {enable: true});
+		} catch (error: unknown) {
+			if (emitError) {
+				logger.error("Failed to connect:", error);
+			}
+		} finally {
+			attemptingToConnect = false;
+		}
+	};
 	const startRecording = async () => {
 		try {
 			await obs.send("StartRecording");
@@ -39,26 +57,6 @@ export const setupObs = async (nodecg: NodeCG) => {
 		});
 		return img;
 	};
-	const swapActiveScene = async () => {
-		try {
-			const {name: currentScene} = await obs.send("GetCurrentScene");
-			switch (currentScene) {
-				case "main1":
-					await obs.send("SetCurrentScene", {
-						"scene-name": "main2",
-					});
-					break;
-				case "main2":
-					await obs.send("SetCurrentScene", {
-						"scene-name": "main1",
-					});
-					break;
-				default:
-			}
-		} catch (error: unknown) {
-			logger.error("Failed to swap active scene:", error);
-		}
-	};
 
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
@@ -69,40 +67,63 @@ export const setupObs = async (nodecg: NodeCG) => {
 			}
 		} catch (error: unknown) {
 			if (cb && !cb.handled) {
-				cb("Failed to take screenshot of OBS");
+				cb("Failed to take screenshot");
 				return;
 			}
-			logger.error("Failed to take screenshot of OBS:", error);
+			logger.error("Failed to take screenshot:", error);
 		}
 	});
-
 	nodecg.listenFor("nextRun", () => {
 		if (obsAutoRecording.value) {
 			void stopRecording();
 		}
-		void swapActiveScene();
+	});
+	nodecg.listenFor("obs:connect", () => {
+		connect().catch((error) => {
+			logger.error(error);
+		});
 	});
 
+	obs.on("ConnectionOpened", () => {
+		logger.info(`Connected: ${obsConfig.address}`);
+		obsStatus.value = {
+			connected: true,
+			record: false,
+			stream: false,
+			streamTime: 0,
+			recordTime: 0,
+		};
+	});
 	obs.on("Heartbeat", (data) => {
+		obsStatus.value = {
+			connected: true,
+			record: data.recording ?? false,
+			stream: data.streaming ?? false,
+			streamTime: data["total-stream-time"] ?? 0,
+			recordTime: data["total-record-time"] ?? 0,
+		};
 		if (obsAutoRecording.value && !data.recording) {
 			void startRecording();
 		}
 	});
-
-	await obs
-		.connect(obsConfig)
-		.then(() => {
-			logger.info(`Connected to OBS on ${obsConfig.address}`);
-		})
-		.catch((error) => {
-			logger.error("Failed to connect to OBS:", error);
-		});
-
-	await obs.send("SetHeartbeat", {enable: true});
-
-	obsAutoRecording.on("change", (newVal) => {
-		if (newVal) {
-			void startRecording();
+	obs.on("ConnectionClosed", () => {
+		if (obsStatus.value?.connected) {
+			logger.info(`Disconnected`);
+			obsStatus.value = {
+				connected: false,
+				record: false,
+				stream: false,
+				streamTime: 0,
+				recordTime: 0,
+			};
 		}
 	});
+
+	void connect();
+
+	setInterval(() => {
+		if (!obsStatus.value?.connected) {
+			void connect(false);
+		}
+	}, 1000);
 };
