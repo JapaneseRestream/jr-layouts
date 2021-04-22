@@ -11,6 +11,7 @@
 		"dev:schema": "onchange schemas configschema.json -i -- yarn build:schema",
 		"dev:typecheck": "yarn test:type -w --preserveWatchOutput",
 		"dev:webpack": "webpack -w",
+		"dev:server": "onchange extension node_modules -i -- yarn start",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"install": "include-nodecg postinstall",
 		"lint": "eslint --cache \"**/*.{ts,tsx}\"",

@@ -34,6 +34,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const currentRunRep = nodecg.Replicant("currentRun");
 	const twitchRep = nodecg.Replicant("twitch");
 	const lastMarkerTimeRep = nodecg.Replicant("lastMarkerTime");
+	const twitchTitleRep = nodecg.Replicant("twitchTitle");
 	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
 	const {clientSecret} = appRootPath.require(
 		"./.nodecg/cfg/nodecg.json",
@@ -70,10 +71,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	let titleRetryCount = 0;
 	const updateTitle = async (newRun: CurrentRun) => {
 		try {
-			if (!newRun || !newRun.game) {
-				return;
-			}
-			if (lastUpdatedTitle === newRun.game) {
+			if (
+				!twitchTitleRep.value ||
+				!newRun ||
+				!newRun.game ||
+				lastUpdatedTitle === newRun.game
+			) {
 				return;
 			}
 			if (!twitchOauthRep.value) {
@@ -85,7 +88,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				{
 					json: {
 						channel: {
-							status: `[JP] AGDQ2021 - ${newRun.game}`,
+							status: `[JP] ${twitchTitleRep.value} - ${newRun.game}`,
 						},
 					},
 					headers: {

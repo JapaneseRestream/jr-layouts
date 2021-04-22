@@ -37,6 +37,16 @@ const App: React.FunctionComponent = () => {
 		}
 	}, [targetChannel]);
 
+	const [twitchTitle, setTwitchTitle] = useReplicant(
+		nodecg.Replicant("twitchTitle"),
+	);
+	const [tmpTwitchTitle, setTmpTwitchTitle] = useState("");
+	useEffect(() => {
+		if (twitchTitle !== null) {
+			setTmpTwitchTitle(twitchTitle);
+		}
+	}, [twitchTitle]);
+
 	const [obsStatus] = useReplicant(nodecg.Replicant("obsStatus"));
 
 	if (obsAutoRecording === null) {
@@ -102,6 +112,23 @@ const App: React.FunctionComponent = () => {
 				<button
 					onClick={() => {
 						setTargetChannel(tmpTargetChannel);
+					}}
+				>
+					更新
+				</button>
+			</div>
+			<div>
+				<label>タイトル</label>
+				<input
+					type='text'
+					value={tmpTwitchTitle ?? ""}
+					onChange={(e) => {
+						setTmpTwitchTitle(e.target.value);
+					}}
+				></input>
+				<button
+					onClick={() => {
+						setTwitchTitle(tmpTwitchTitle);
 					}}
 				>
 					更新

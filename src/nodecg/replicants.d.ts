@@ -29,4 +29,5 @@ export type ReplicantMap = {
 	obsRecordingTimestamp: number;
 	obsAutoRecording: boolean;
 	hashtag: string;
+	twitchTitle: string;
 };
