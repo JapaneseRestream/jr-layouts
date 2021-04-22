@@ -53,6 +53,10 @@ const InfoContainer = styled.div`
 	align-items: flex-start;
 `;
 
+const StyledAvatar = styled(Avatar)`
+	margin: 0 4px;
+`;
+
 const PreviousRunButton: React.FunctionComponent = () => {
 	const [currentRun] = useReplicant(currentRunRep);
 	if (!currentRun) {
@@ -116,21 +120,21 @@ const Info: React.FunctionComponent = () => {
 		<InfoContainer>
 			<List>
 				<ListItem>
-					<Avatar>
+					<StyledAvatar>
 						<VideogameAsset />
-					</Avatar>
+					</StyledAvatar>
 					<ListItemText primary={currentRun.game} />
 				</ListItem>
 				<ListItem>
-					<Avatar>
+					<StyledAvatar>
 						<Category />
-					</Avatar>
+					</StyledAvatar>
 					<ListItemText primary={currentRun.category} />
 				</ListItem>
 				<ListItem>
-					<Avatar>
+					<StyledAvatar>
 						<Mic />
-					</Avatar>
+					</StyledAvatar>
 					<ListItemText primary={currentRun.commentator} />
 				</ListItem>
 			</List>

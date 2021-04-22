@@ -9,7 +9,7 @@ const IMAGE_AREA_HEIGHT = 150;
 
 const images: React.ImgHTMLAttributes<HTMLImageElement>[] = [
 	{
-		src: "https://gamesdonequick.com/static/res/img/gdqlogo.png",
+		src: "https://i.imgur.com/mtOwKjt.png",
 		width: IMAGE_WIDTH,
 	},
 	{src: JrLogo, width: IMAGE_WIDTH},

@@ -118,17 +118,10 @@
 				"workspace": "1.配信管理"
 			},
 			{
-				"name": "obs",
-				"title": "OBS",
+				"name": "Control",
+				"title": "Control",
 				"width": 3,
-				"file": "obs.html",
-				"workspace": "1.配信管理"
-			},
-			{
-				"name": "twitch-info",
-				"title": "Twitch",
-				"width": 3,
-				"file": "twitch-info.html",
+				"file": "control.html",
 				"workspace": "1.配信管理"
 			},
 			{
@@ -136,13 +129,6 @@
 				"title": "ゲームリスト",
 				"width": 8,
 				"file": "games-list.html",
-				"workspace": "1.配信管理"
-			},
-			{
-				"name": "misc-controls",
-				"title": "その他操作",
-				"width": 3,
-				"file": "misc-controls.html",
 				"workspace": "1.配信管理"
 			},
 			{

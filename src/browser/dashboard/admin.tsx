@@ -18,6 +18,7 @@ const App: React.FunctionComponent = () => {
 	const [obsAutoRecording, setObsAutoRecording] = useReplicant(
 		nodecg.Replicant("obsAutoRecording"),
 	);
+
 	const [hashtag, setHashtag] = useReplicant(nodecg.Replicant("hashtag"));
 	const [tmpHashtag, setTmpHashtag] = useState("");
 	useEffect(() => {
@@ -25,10 +26,23 @@ const App: React.FunctionComponent = () => {
 			setTmpHashtag(hashtag);
 		}
 	}, [hashtag]);
+
+	const [targetChannel, setTargetChannel] = useReplicant(
+		nodecg.Replicant("targetChannel"),
+	);
+	const [tmpTargetChannel, setTmpTargetChannel] = useState("");
+	useEffect(() => {
+		if (targetChannel !== null) {
+			setTmpTargetChannel(targetChannel);
+		}
+	}, [targetChannel]);
+
 	const [obsStatus] = useReplicant(nodecg.Replicant("obsStatus"));
+
 	if (obsAutoRecording === null) {
 		return null;
 	}
+
 	return (
 		<Container>
 			<div>
@@ -75,6 +89,23 @@ const App: React.FunctionComponent = () => {
 						setObsAutoRecording(e.target.checked);
 					}}
 				></input>
+			</div>
+			<div>
+				<label>Twitch</label>
+				<input
+					type='text'
+					value={tmpTargetChannel ?? ""}
+					onChange={(e) => {
+						setTmpTargetChannel(e.target.value);
+					}}
+				></input>
+				<button
+					onClick={() => {
+						setTargetChannel(tmpTargetChannel);
+					}}
+				>
+					更新
+				</button>
 			</div>
 		</Container>
 	);
