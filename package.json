@@ -66,7 +66,7 @@
 		"@types/app-root-path": "1.2.4",
 		"@types/delay": "3.1.0",
 		"@types/lodash": "4.14.168",
-		"@types/mini-css-extract-plugin": "1.4.2",
+		"@types/mini-css-extract-plugin": "1.4.3",
 		"@types/node": "10.17.58",
 		"@types/react": "17.0.3",
 		"@types/react-dom": "17.0.3",
