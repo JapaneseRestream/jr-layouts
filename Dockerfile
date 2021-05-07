@@ -1,4 +1,4 @@
-FROM node:14-slim AS build
+FROM node:16-slim AS build
 
 RUN apt-get update && apt-get upgrade
 RUN apt-get install -y build-essential python git
@@ -23,7 +23,7 @@ ENV NODE_ENV production
 RUN yarn build
 
 
-FROM node:14-slim AS node_modules
+FROM node:16-slim AS node_modules
 
 RUN apt-get update && apt-get upgrade
 RUN apt-get install -y build-essential python git
@@ -35,7 +35,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --production
 
 
-FROM node:14-slim
+FROM node:16-slim
 
 WORKDIR /app
 
