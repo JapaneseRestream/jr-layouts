@@ -73,7 +73,7 @@
 		"@types/styled-components": "5.1.9",
 		"@types/webpack": "5.28.0",
 		"@types/webpack-bundle-analyzer": "4.4.0",
-		"@types/webpack-node-externals": "2.5.0",
+		"@types/webpack-node-externals": "2.5.1",
 		"@types/ws": "7.4.1",
 		"babel-loader": "8.2.2",
 		"clean-webpack-plugin": "4.0.0-alpha.0",
