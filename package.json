@@ -67,7 +67,7 @@
 		"@types/delay": "3.1.0",
 		"@types/lodash": "4.14.168",
 		"@types/mini-css-extract-plugin": "1.4.2",
-		"@types/node": "10.17.58",
+		"@types/node": "10.17.59",
 		"@types/react": "17.0.3",
 		"@types/react-dom": "17.0.3",
 		"@types/styled-components": "5.1.9",
