@@ -35,6 +35,9 @@
 		},
 		"timezoneDifference": {
 			"type": "number"
+		},
+		"eventLogo": {
+			"type": "string"
 		}
 	},
 	"required": ["googleApiKey", "spreadsheetId", "timezoneDifference"],

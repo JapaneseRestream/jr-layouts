@@ -19,4 +19,5 @@ export interface Configschema {
 		originalChannel: string;
 	};
 	timezoneDifference: number;
+	eventLogo?: string;
 }
