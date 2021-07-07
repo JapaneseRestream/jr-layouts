@@ -47,7 +47,7 @@
 		"delay": "5.0.0",
 		"discord.js": "12.5.3",
 		"ffmpeg-static": "4.3.0",
-		"googleapis": "71.0.0",
+		"googleapis": "80.2.0",
 		"got": "11.8.2",
 		"include-nodecg": "0.0.3",
 		"lodash": "4.17.21",
