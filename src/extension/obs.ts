@@ -9,6 +9,7 @@ export const setupObs = (nodecg: NodeCG) => {
 	const logger = new nodecg.Logger("obs");
 	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
 	const obsStatus = nodecg.Replicant("obsStatus");
+	const targetChannelRep = nodecg.Replicant("targetChannel");
 
 	if (!obsConfig) {
 		logger.warn("OBS setting is empty");
@@ -81,6 +82,29 @@ export const setupObs = (nodecg: NodeCG) => {
 	nodecg.listenFor("obs:connect", () => {
 		connect().catch((error) => {
 			logger.error(error);
+		});
+	});
+
+	nodecg.listenFor("refreshPlayer", () => {
+		(obs.send as any)("RefreshBrowserSource", {
+			sourceName: "TWITCH_PLAYER",
+		});
+	});
+	targetChannelRep.on("change", (newVal, oldVal) => {
+		if (newVal === oldVal) {
+			return;
+		}
+		const targetChannelUrl = new URL("https://player.twitch.tv");
+		targetChannelUrl.searchParams.append("channel", newVal);
+		targetChannelUrl.searchParams.append("muted", "false");
+		targetChannelUrl.searchParams.append("parent", "twitch.tv");
+		targetChannelUrl.searchParams.append("player", "popout");
+		targetChannelUrl.searchParams.append("volume", "1");
+		(obs.send as any)("SetSourceSettings", {
+			sourceName: "TWITCH_PLAYER",
+			sourceSettings: {
+				url: targetChannelUrl.href,
+			},
 		});
 	});
 
