@@ -18,6 +18,6 @@ export interface Configschema {
 		ourChannel: string;
 		originalChannel: string;
 	};
-	timezoneDifference: number;
+	timezoneDifference?: number;
 	eventLogo?: string;
 }

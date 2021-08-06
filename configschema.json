@@ -40,6 +40,6 @@
 			"type": "string"
 		}
 	},
-	"required": ["googleApiKey", "spreadsheetId", "timezoneDifference"],
+	"required": ["googleApiKey", "spreadsheetId"],
 	"additionalProperties": false
 }

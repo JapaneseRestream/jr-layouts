@@ -24,8 +24,11 @@ const HashtagText = styled.div`
 
 export const Clock: React.FunctionComponent = () => {
 	const [hashtag] = useReplicant(nodecg.Replicant("hashtag"));
-	const [, setTime] = useState("");
+	const [time, setTime] = useState("");
 	useEffect(() => {
+		if (!nodecg.bundleConfig.timezoneDifference) {
+			return;
+		}
 		const TIMEZONE_DIFF_MS =
 			nodecg.bundleConfig.timezoneDifference * 60 * 60 * 1000;
 		const intervalTimer = setInterval(() => {
@@ -38,7 +41,7 @@ export const Clock: React.FunctionComponent = () => {
 
 	return (
 		<Container>
-			{/* <div>現地: {time}</div> */}
+			{time && <div>現地: {time}</div>}
 			<HashtagText>{hashtag}</HashtagText>
 		</Container>
 	);
