@@ -37,8 +37,8 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const twitchTitleRep = nodecg.Replicant("twitchTitle");
 	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
 	const {clientSecret} = appRootPath.require(
-		"./.nodecg/cfg/nodecg.json",
-	).login.twitch; //
+		"../../cfg/nodecg.json",
+	).login.twitch;
 
 	const refreshToken = async () => {
 		try {
@@ -215,7 +215,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	});
 
 	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-	const loginLib = appRootPath.require("./.nodecg/lib/login");
+	const loginLib = appRootPath.require("../../lib/login");
 	loginLib.on("login", (session: any) => {
 		const {user} = session.passport;
 		if (

@@ -1,11 +1,17 @@
-FROM node:14-slim AS build
+FROM node:14-slim AS build-base
 
 RUN apt-get update
 RUN apt-get install -y build-essential python git
 
-WORKDIR /app
 
+FROM build-base AS node_modules
+
+WORKDIR /app
 COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --production
+
+
+FROM node_modules AS build
 
 RUN yarn install --frozen-lockfile
 
@@ -23,31 +29,28 @@ ENV NODE_ENV production
 RUN yarn build
 
 
-FROM node:14-slim AS node_modules
+FROM build-base AS nodecg
 
-RUN apt-get update
-RUN apt-get install -y build-essential python git
-
+RUN git clone https://github.com/nodecg/nodecg.git /app
 WORKDIR /app
-
-COPY package.json yarn.lock ./
-
-RUN yarn install --frozen-lockfile --production
+RUN git checkout 48f0e82555ad5550afbb47e89fbce3fc7908d2fe
+RUN npm ci --production
 
 
 FROM node:14-slim
 
-WORKDIR /app
+COPY --from=nodecg /app /app
 
+WORKDIR /app/bundles/jr-layouts
 COPY --from=build /app/dashboard dashboard
 COPY --from=build /app/graphics graphics
 COPY --from=build /app/extension extension
 COPY --from=build /app/schemas schemas
 COPY --from=node_modules /app/node_modules ./node_modules
-COPY --from=node_modules /app/.nodecg .nodecg
 COPY assets assets
 COPY package.json configschema.json ./
 
-VOLUME ["/app/.nodecg/db"]
+WORKDIR /app
 
-CMD ["yarn", "start"]
+VOLUME ["/app/db"]
+CMD ["node", "index.js"]
