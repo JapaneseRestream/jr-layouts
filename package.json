@@ -104,7 +104,7 @@
 		"webpack-cli": "4.6.0",
 		"webpack-merge": "5.7.3",
 		"webpack-node-externals": "2.5.2",
-		"webpackbar": "5.0.0-3"
+		"webpackbar": "5.0.2"
 	},
 	"nodecg": {
 		"compatibleRange": "^1.0.0",
