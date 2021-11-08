@@ -1,4 +1,4 @@
-FROM node:14-slim AS build-base
+FROM node:17-slim AS build-base
 
 RUN apt-get update
 RUN apt-get install -y build-essential python git
@@ -37,7 +37,7 @@ RUN git checkout 48f0e82555ad5550afbb47e89fbce3fc7908d2fe
 RUN npm ci --production
 
 
-FROM node:14-slim
+FROM node:17-slim
 
 COPY --from=nodecg /app /app
 
