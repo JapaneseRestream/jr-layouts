@@ -80,7 +80,7 @@
 		"eslint": "7.24.0",
 		"eslint-config-hoishin": "0.4.2",
 		"file-loader": "6.2.0",
-		"globby": "11.0.3",
+		"globby": "11.1.0",
 		"html-webpack-plugin": "5.3.1",
 		"husky": "4.3.8",
 		"include-nodecg": "0.0.3",
