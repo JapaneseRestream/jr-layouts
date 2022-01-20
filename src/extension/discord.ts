@@ -46,6 +46,10 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				nodecg.log.error("Discord client error:", error);
 				void initialize();
 			});
+			client.on("invalidated", () => {
+				nodecg.log.error("Discord client invalidated");
+				void initialize();
+			});
 			client.on("warn", (warn) => {
 				nodecg.log.warn("Discord client warning:", warn);
 			});
