@@ -188,7 +188,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				currentRunRep.value?.game,
 			);
 			markerRetryCount = 0;
-			lastMarkerTimeRep.value = result.creationDate.getDate();
+			lastMarkerTimeRep.value = result.creationDate.getTime();
 			log.info(`Put marker at ${result.creationDate.toISOString()}`);
 			return true;
 		} catch (error: unknown) {
