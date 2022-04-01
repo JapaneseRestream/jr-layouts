@@ -68,6 +68,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				res.status(200).send(`Successfully registered user ${me.name}`);
 				return;
 			}
+			res.status(400).send(`Not a user to register (${me.name})`);
 		} catch (error: unknown) {
 			res.status(500).send("Server error while getting Twitch access token");
 			log.error("Server error while getting Twitch access token:", error);
