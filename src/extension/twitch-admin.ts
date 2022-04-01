@@ -28,7 +28,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 
 	console.log(nodecg.config.baseURL);
 	const redirectPath = "/twitch-auth-callback";
-	const redirectUrl = new URL(redirectPath, `http://${nodecg.config.baseURL}`);
+	const redirectUrl = new URL(
+		redirectPath,
+		nodecg.config.baseURL.includes("localhost")
+			? `http://${nodecg.config.baseURL}`
+			: `https://${nodecg.config.baseURL}`,
+	);
 	const authPageUrl = new URL("https://id.twitch.tv/oauth2/authorize");
 	authPageUrl.searchParams.append("client_id", twitchConfig.clientId);
 	authPageUrl.searchParams.append("redirect_uri", redirectUrl.href);
