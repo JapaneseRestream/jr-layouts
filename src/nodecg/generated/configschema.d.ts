@@ -17,6 +17,8 @@ export interface Configschema {
 	twitch?: {
 		ourChannel: string;
 		originalChannel: string;
+		clientId: string;
+		clientSecret: string;
 	};
 	timezoneDifference?: number;
 	eventLogo?: string;

@@ -1,77 +1,120 @@
-import got from "got";
-import appRootPath from "app-root-path";
-
-import type {CurrentRun} from "../nodecg/generated/current-run";
-import type {Twitch} from "../nodecg/generated/twitch";
+import {
+	exchangeCode,
+	RefreshingAuthProvider,
+	StaticAuthProvider,
+} from "@twurple/auth";
+import type {HelixUser} from "@twurple/api";
+import {ApiClient} from "@twurple/api";
+import express from "express";
 
 import type {NodeCG} from "./nodecg";
+
+const UPDATE_INTERVAL = 10 * 1000;
 
 export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const log = new nodecg.Logger("extension:twitch-admin");
 
-	if (!nodecg.config.login.twitch) {
-		log.error("Missing NodeCG's Twitch config");
-		return;
-	}
+	const twitchConfig = nodecg.bundleConfig.twitch;
 
-	const bundleTwitchConfig = nodecg.bundleConfig.twitch;
-
-	if (!bundleTwitchConfig) {
+	if (!twitchConfig) {
 		log.error("Missing bundle's Twitch config");
 		return;
 	}
 
-	const twitchConfig = nodecg.config.login.twitch;
-
-	if (!twitchConfig.scope.split(" ").includes("channel_editor")) {
-		log.error("Missing `channel_editor` scope");
-		return;
-	}
-
-	const twitchOauthRep = nodecg.Replicant("twitchOauth", {
-		defaultValue: null,
-	});
+	const twitchOauthRep = nodecg.Replicant("twitchOauth");
 	const currentRunRep = nodecg.Replicant("currentRun");
-	const twitchRep = nodecg.Replicant("twitch");
 	const lastMarkerTimeRep = nodecg.Replicant("lastMarkerTime");
 	const twitchTitleRep = nodecg.Replicant("twitchTitle");
-	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-	const {clientSecret} = appRootPath.require(
-		"../../cfg/nodecg.json",
-	).login.twitch;
 
-	const refreshToken = async () => {
+	console.log(nodecg.config.baseURL);
+	const redirectPath = "/twitch-auth-callback";
+	const redirectUrl = new URL(redirectPath, `http://${nodecg.config.baseURL}`);
+	const authPageUrl = new URL("https://id.twitch.tv/oauth2/authorize");
+	authPageUrl.searchParams.append("client_id", twitchConfig.clientId);
+	authPageUrl.searchParams.append("redirect_uri", redirectUrl.href);
+	authPageUrl.searchParams.append("response_type", "code");
+	authPageUrl.searchParams.append(
+		"scope",
+		"channel:manage:broadcast user:edit:broadcast",
+	);
+	log.warn("TWITCH AUTHENTICATION URL:", authPageUrl.href);
+	const redirectApp = express();
+	redirectApp.get("/", async (req, res) => {
 		try {
-			if (!twitchOauthRep.value) {
+			const {code} = req.query;
+			if (typeof code !== "string") {
+				res.status(400).send("Invalid authorization code");
 				return;
 			}
-
-			/* eslint-disable camelcase */
-			const {body} = await got.post("https://id.twitch.tv/oauth2/token", {
-				form: {
-					grant_type: "refresh_token",
-					refresh_token: twitchOauthRep.value.refreshToken,
-					client_id: twitchConfig.clientID,
-					client_secret: clientSecret,
-					scope: twitchConfig.scope,
-				},
+			const accessToken = await exchangeCode(
+				twitchConfig.clientId,
+				twitchConfig.clientSecret,
+				code,
+				redirectUrl.href,
+			);
+			const tmpApiClient = new ApiClient({
+				authProvider: new StaticAuthProvider(
+					twitchConfig.clientId,
+					accessToken,
+				),
 			});
-			const response = JSON.parse(body);
-			twitchOauthRep.value.accessToken = response.access_token;
-			twitchOauthRep.value.refreshToken = response.refresh_token;
-			/* eslint-enable camelcase */
-
-			log.info("Successfully refreshed token");
+			const me = await tmpApiClient.users.getMe();
+			if (me.name === twitchConfig.ourChannel) {
+				twitchOauthRep.value = accessToken;
+				res.status(200).send(`Successfully registered user ${me.name}`);
+				return;
+			}
 		} catch (error: unknown) {
-			log.error("Failed to refresh Twitch token:", error);
+			res.status(500).send("Server error while getting Twitch access token");
+			log.error("Server error while getting Twitch access token:", error);
 		}
-	};
+	});
+	nodecg.mount(redirectPath, redirectApp);
+
+	let apiClient: ApiClient | undefined;
+
+	let ourChannelId: HelixUser | undefined;
+	let originalChannelId: HelixUser | undefined;
+
+	twitchOauthRep.on("change", async (twitchOauth) => {
+		try {
+			if (!twitchOauth) {
+				return;
+			}
+			const authProvider = new RefreshingAuthProvider(
+				{
+					clientId: twitchConfig.clientId,
+					clientSecret: twitchConfig.clientSecret,
+					onRefresh: (tokenInfoData) => {
+						twitchOauthRep.value = tokenInfoData;
+					},
+				},
+				twitchOauth,
+			);
+
+			apiClient = new ApiClient({authProvider});
+
+			const result = await Promise.all([
+				apiClient.users.getUserByName(twitchConfig.ourChannel),
+				apiClient.users.getUserByName(twitchConfig.originalChannel),
+			]);
+			if (result[0] && result[1]) {
+				ourChannelId = result[0];
+				originalChannelId = result[1];
+			}
+		} catch (error: unknown) {
+			log.error("Failed to set up API client:", error);
+		}
+	});
 
 	let lastUpdatedTitle = "";
 	let titleRetryCount = 0;
-	const updateTitle = async (newRun: CurrentRun) => {
+	const updateTitle = async () => {
 		try {
+			const newRun = currentRunRep.value;
 			if (
+				!apiClient ||
+				!ourChannelId ||
 				!twitchTitleRep.value ||
 				!newRun ||
 				!newRun.game ||
@@ -79,113 +122,69 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			) {
 				return;
 			}
-			if (!twitchOauthRep.value) {
-				log.error("Missing twitchOauth replicant, not updating title");
-				return;
-			}
-			await got.put(
-				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
-				{
-					json: {
-						channel: {
-							status: `[JP] ${twitchTitleRep.value} - ${newRun.game}`,
-						},
-					},
-					headers: {
-						Accept: "application/vnd.twitchtv.v5+json",
-						Authorization: `OAuth ${twitchOauthRep.value.accessToken}`,
-						"Client-ID": twitchConfig.clientID,
-					},
-				},
-			);
+			const title = `[JP] ${twitchTitleRep.value} - ${newRun.game}`;
+			await apiClient.channels.updateChannelInfo(ourChannelId, {
+				title,
+			});
 			titleRetryCount = 0;
-			lastUpdatedTitle = newRun.game;
-			log.info(`Updated title to ${lastUpdatedTitle}`);
+			lastUpdatedTitle = title;
+			log.info(`Updated title to "${title}"`);
 		} catch (error: unknown) {
-			log.error("Failed to update title:", error);
-			if (titleRetryCount >= 1) {
-				log.error("not retrying");
+			if (titleRetryCount >= 5) {
+				log.error("Failed to update title:", error);
 				titleRetryCount = 0;
 				return;
 			}
-			log.error("retrying");
 			titleRetryCount += 1;
-			await refreshToken();
-			await updateTitle(newRun);
+			await updateTitle();
 		}
 	};
-	currentRunRep.on("change", (run) => {
-		void updateTitle(run);
-	});
+	currentRunRep.on("change", updateTitle);
+	twitchTitleRep.on("change", updateTitle);
 
-	let lastUpdatedGame = "";
+	let lastGameId = "";
 	let gameRetryCount = 0;
-	const updateGame = async (newVal: Twitch) => {
+	const updateGame = async () => {
 		try {
-			const newGame = newVal?.channelInfo.target.game;
-			if (
-				typeof newGame === "undefined" ||
-				newGame === "" ||
-				newGame === lastUpdatedGame
-			) {
+			if (!apiClient || !ourChannelId || !originalChannelId) {
 				return;
 			}
-			if (!twitchOauthRep.value) {
-				log.error("Missing twitchOauth replicant, not updating game");
+			const result = await apiClient.channels.getChannelInfo(originalChannelId);
+			if (!result || result.gameId === lastGameId) {
 				return;
 			}
-			await got.put(
-				`https://api.twitch.tv/kraken/channels/${twitchOauthRep.value.channelId}`,
-				{
-					json: {channel: {game: newGame}},
-					headers: {
-						Accept: "application/vnd.twitchtv.v5+json",
-						Authorization: `OAuth ${twitchOauthRep.value.accessToken}`,
-						"Client-ID": twitchConfig.clientID,
-					},
-				},
-			);
+			await apiClient.channels.updateChannelInfo(ourChannelId, {
+				gameId: result.gameId,
+			});
 			gameRetryCount = 0;
-			lastUpdatedGame = newGame;
-			log.info(`Updated game to ${lastUpdatedGame}`);
+			lastGameId = result.gameId;
+			log.info(`Updated game to ${result.gameName} (${result.gameId})`);
 		} catch (error: unknown) {
-			log.error("Failed to update Twitch status:", error);
-			if (gameRetryCount >= 1) {
-				log.error("not retrying");
+			if (gameRetryCount >= 5) {
+				log.error("Failed to update Twitch status:", error);
 				gameRetryCount = 0;
 				return;
 			}
-			log.error("retrying");
 			gameRetryCount += 1;
-			await refreshToken();
-			await updateGame(newVal);
+			await updateGame();
 		}
 	};
-	twitchRep.on("change", updateGame);
+
+	setInterval(updateGame, UPDATE_INTERVAL);
 
 	let markerRetryCount = 0;
-	/**
-	 * https://dev.twitch.tv/docs/api/reference/#create-stream-marker
-	 */
 	const putMarker = async (): Promise<boolean> => {
 		try {
-			if (!twitchOauthRep.value) {
-				log.warn("Missing twitchOauth replicant, not putting marker");
+			if (!apiClient || !ourChannelId) {
 				return false;
 			}
-			await got.post("https://api.twitch.tv/helix/streams/markers", {
-				json: {
-					user_id: twitchOauthRep.value.channelId, // eslint-disable-line camelcase
-				},
-				headers: {
-					Authorization: `Bearer ${twitchOauthRep.value.accessToken}`,
-					"Client-ID": twitchConfig.clientID,
-				},
-			});
+			const result = await apiClient.streams.createStreamMarker(
+				ourChannelId,
+				currentRunRep.value?.game,
+			);
 			markerRetryCount = 0;
-			const now = Date.now();
-			lastMarkerTimeRep.value = now;
-			log.info(`Put marker at ${new Date(now).toISOString()}`);
+			lastMarkerTimeRep.value = result.creationDate.getDate();
+			log.info(`Put marker at ${result.creationDate.toISOString()}`);
 			return true;
 		} catch (error: unknown) {
 			log.error("Failed to put marker on Twitch stream:", error);
@@ -196,7 +195,6 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			}
 			log.error("retrying");
 			markerRetryCount += 1;
-			await refreshToken();
 			return putMarker();
 		}
 	};
@@ -211,30 +209,6 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			if (cb && !cb.handled) {
 				cb(null, false);
 			}
-		}
-	});
-
-	// eslint-disable-next-line @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires
-	const loginLib = appRootPath.require("../../lib/login");
-	loginLib.on("login", (session: any) => {
-		const {user} = session.passport;
-		if (
-			user.provider !== "twitch" ||
-			user.username !== bundleTwitchConfig.ourChannel
-		) {
-			return;
-		}
-		twitchOauthRep.value = {
-			accessToken: user.accessToken,
-			refreshToken: user.refreshToken,
-			channelId: user.id,
-		};
-		log.info(`Set up for ${String(user.username)}`);
-		if (currentRunRep.value) {
-			void updateTitle(currentRunRep.value);
-		}
-		if (twitchRep.value) {
-			void updateGame(twitchRep.value);
 		}
 	});
 };

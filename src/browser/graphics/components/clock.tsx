@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import styled from "styled-components";
 
 import {useReplicant} from "../../shared/use-nodecg/use-replicant";
@@ -24,24 +24,8 @@ const HashtagText = styled.div`
 
 export const Clock: React.FunctionComponent = () => {
 	const [hashtag] = useReplicant(nodecg.Replicant("hashtag"));
-	const [time, setTime] = useState("");
-	useEffect(() => {
-		if (!nodecg.bundleConfig.timezoneDifference) {
-			return;
-		}
-		const TIMEZONE_DIFF_MS =
-			nodecg.bundleConfig.timezoneDifference * 60 * 60 * 1000;
-		const intervalTimer = setInterval(() => {
-			setTime(new Date(Date.now() + TIMEZONE_DIFF_MS).toLocaleString("ja-JP"));
-		}, 10);
-		return () => {
-			clearInterval(intervalTimer);
-		};
-	}, []);
-
 	return (
 		<Container>
-			{time && <div>現地: {time}</div>}
 			<HashtagText>{hashtag}</HashtagText>
 		</Container>
 	);

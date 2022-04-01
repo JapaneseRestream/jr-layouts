@@ -28,9 +28,11 @@
 			"type": "object",
 			"properties": {
 				"ourChannel": {"type": "string"},
-				"originalChannel": {"type": "string"}
+				"originalChannel": {"type": "string"},
+				"clientId": {"type": "string"},
+				"clientSecret": {"type": "string"}
 			},
-			"required": ["ourChannel", "originalChannel"],
+			"required": ["ourChannel", "originalChannel", "clientId", "clientSecret"],
 			"additionalProperties": false
 		},
 		"timezoneDifference": {
