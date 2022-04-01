@@ -78,7 +78,7 @@
 		"cross-env": "7.0.3",
 		"css-loader": "5.2.4",
 		"date-fns": "2.21.1",
-		"del-cli": "3.0.1",
+		"del-cli": "4.0.1",
 		"eslint": "7.24.0",
 		"eslint-config-hoishin": "0.4.2",
 		"file-loader": "6.2.0",
