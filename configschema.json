@@ -35,9 +35,6 @@
 			"required": ["ourChannel", "originalChannel", "clientId", "clientSecret"],
 			"additionalProperties": false
 		},
-		"timezoneDifference": {
-			"type": "number"
-		},
 		"eventLogo": {
 			"type": "string"
 		}

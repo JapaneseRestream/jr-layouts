@@ -26,7 +26,6 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	const lastMarkerTimeRep = nodecg.Replicant("lastMarkerTime");
 	const twitchTitleRep = nodecg.Replicant("twitchTitle");
 
-	console.log(nodecg.config.baseURL);
 	const redirectPath = "/twitch-auth-callback";
 	const redirectUrl = new URL(
 		redirectPath,
