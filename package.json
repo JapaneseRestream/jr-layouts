@@ -50,7 +50,7 @@
 		"googleapis": "71.0.0",
 		"got": "11.8.2",
 		"lodash": "4.17.21",
-		"obs-websocket-js": "4.0.2",
+		"obs-websocket-js": "4.0.3",
 		"source-map-support": "0.5.19",
 		"tslib": "2.2.0"
 	},
