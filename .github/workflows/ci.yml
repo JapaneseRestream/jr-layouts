@@ -63,7 +63,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-${{ hashFiles('./Dockerfile') }}-
             ${{ runner.os }}-buildx-
-      - uses: crazy-max/ghaction-docker-meta@v2
+      - uses: crazy-max/ghaction-docker-meta@v4
         id: docker_meta
         with:
           images: ghcr.io/japaneserestream/jr-layouts
