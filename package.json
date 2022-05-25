@@ -48,7 +48,7 @@
 		"express": "^4.17.3",
 		"ffmpeg-static": "4.3.0",
 		"googleapis": "71.0.0",
-		"got": "11.8.2",
+		"got": "12.1.0",
 		"lodash": "4.17.21",
 		"obs-websocket-js": "4.0.2",
 		"source-map-support": "0.5.19",
