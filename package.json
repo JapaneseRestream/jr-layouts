@@ -47,7 +47,7 @@
 		"discord.js": "12.5.3",
 		"express": "^4.17.3",
 		"ffmpeg-static": "4.3.0",
-		"googleapis": "71.0.0",
+		"googleapis": "103.0.0",
 		"got": "11.8.2",
 		"lodash": "4.17.21",
 		"obs-websocket-js": "4.0.2",
