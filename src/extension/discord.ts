@@ -63,11 +63,10 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				return;
 			}
 		} catch (error: unknown) {
+			nodecg.log.error("Failed to take screenshot:", error);
 			if (cb && !cb.handled) {
 				cb("Failed to take screenshot");
-				return;
 			}
-			nodecg.log.error("Failed to take screenshot:", error);
 		}
 	});
 
