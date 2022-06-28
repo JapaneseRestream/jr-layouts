@@ -47,7 +47,12 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				);
 				if (screenshotChannel?.isText()) {
 					await screenshotChannel.send({
-						files: [{attachment: img}],
+						files: [
+							{
+								attachment: Buffer.from(img.split(",")[1]),
+								name: "screenshot.png",
+							},
+						],
 					});
 				}
 			}
