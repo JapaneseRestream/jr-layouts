@@ -57,18 +57,18 @@ export const setupDiscord = (nodecg: NodeCG) => {
 			client = new discord.Client();
 			await client.login(token);
 
-			const screenshotChannel =
-				typeof screenshotChannelId === "string"
-					? await client.channels.fetch(screenshotChannelId)
-					: undefined;
-
 			nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 				try {
 					const img = await takeScreenshot();
-					if (screenshotChannel?.isText()) {
-						await screenshotChannel.send({
-							files: [{attachment: screenshotPath}],
-						});
+					if (screenshotChannelId) {
+						const screenshotChannel = await client.channels.fetch(
+							screenshotChannelId,
+						);
+						if (screenshotChannel?.isText()) {
+							await screenshotChannel.send({
+								files: [{attachment: screenshotPath}],
+							});
+						}
 					}
 					if (cb && !cb.handled) {
 						cb(null, img);
