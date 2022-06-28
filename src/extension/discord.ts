@@ -1,23 +1,41 @@
+import path from "path";
+import os from "os";
+
 import appRootPath from "app-root-path";
 import type {VoiceChannel} from "discord.js";
 import discord from "discord.js";
 import {isEqual} from "lodash";
 
-import type {BundleConfig} from "../nodecg/bundle-config";
 import type {DiscordSpeakingStatus} from "../nodecg/generated/discord-speaking-status";
 
 import type {NodeCG} from "./nodecg";
+import {obs} from "./obs";
+
+const tmpDir = os.tmpdir();
+const screenshotPath = path.join(tmpDir, "obs-screenshot.png");
+
+const takeScreenshot = async () => {
+	const {name} = await obs.send("GetCurrentScene");
+	const {img} = await obs.send("TakeSourceScreenshot", {
+		sourceName: name,
+		embedPictureFormat: "png",
+		fileFormat: "png",
+		saveToFilePath: screenshotPath,
+	});
+	return img;
+};
 
 export const setupDiscord = (nodecg: NodeCG) => {
-	const {discordToken, discordChannelId}: BundleConfig = nodecg.bundleConfig;
-	if (!discordToken) {
-		nodecg.log.warn("Discord token is empty");
+	if (!nodecg.bundleConfig.discord) {
+		nodecg.log.warn("Discord settings are empty");
 		return;
 	}
-	if (!discordChannelId) {
-		nodecg.log.warn("Discord channel ID is empty");
-		return;
-	}
+
+	const {
+		token,
+		voiceChannelId,
+		screenshotChannelId,
+	} = nodecg.bundleConfig.discord;
 
 	const speakingStatusRep = nodecg.Replicant("discordSpeakingStatus", {
 		defaultValue: [],
@@ -37,7 +55,33 @@ export const setupDiscord = (nodecg: NodeCG) => {
 			}
 
 			client = new discord.Client();
-			await client.login(discordToken);
+			await client.login(token);
+
+			const screenshotChannel =
+				typeof screenshotChannelId === "string"
+					? await client.channels.fetch(screenshotChannelId)
+					: undefined;
+
+			nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
+				try {
+					const img = await takeScreenshot();
+					if (screenshotChannel?.isText()) {
+						await screenshotChannel.send({
+							files: [{attachment: screenshotPath}],
+						});
+					}
+					if (cb && !cb.handled) {
+						cb(null, img);
+						return;
+					}
+				} catch (error: unknown) {
+					if (cb && !cb.handled) {
+						cb("Failed to take screenshot");
+						return;
+					}
+					nodecg.log.error("Failed to take screenshot:", error);
+				}
+			});
 
 			client.on("disconnect", () => {
 				void initialize();
@@ -56,7 +100,7 @@ export const setupDiscord = (nodecg: NodeCG) => {
 
 			client.on("ready", async () => {
 				nodecg.log.info("Discord client is ready.");
-				const liveChannel = await client.channels.fetch(discordChannelId);
+				const liveChannel = await client.channels.fetch(voiceChannelId);
 
 				if (liveChannel.type !== "voice") {
 					nodecg.log.error(

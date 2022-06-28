@@ -10,8 +10,11 @@ export interface Configschema {
 		address: string;
 		password: string;
 	};
-	discordToken?: string;
-	discordChannelId?: string;
+	discord?: {
+		token: string;
+		voiceChannelId: string;
+		screenshotChannelId?: string;
+	};
 	googleApiKey: string;
 	spreadsheetId: string;
 	twitch?: {
@@ -20,6 +23,5 @@ export interface Configschema {
 		clientId: string;
 		clientSecret: string;
 	};
-	timezoneDifference?: number;
 	eventLogo?: string;
 }

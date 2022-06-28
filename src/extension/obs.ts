@@ -2,7 +2,7 @@ import OBSWebSocket from "obs-websocket-js";
 
 import type {NodeCG} from "./nodecg";
 
-const obs = new OBSWebSocket();
+export const obs = new OBSWebSocket();
 
 export const setupObs = (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
@@ -49,31 +49,6 @@ export const setupObs = (nodecg: NodeCG) => {
 			logger.error("Failed to stop recording:", error);
 		}
 	};
-	const takeScreenshot = async () => {
-		const {name} = await obs.send("GetCurrentScene");
-		const {img} = await obs.send("TakeSourceScreenshot", {
-			sourceName: name,
-			embedPictureFormat: "png",
-			fileFormat: "png",
-		});
-		return img;
-	};
-
-	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
-		try {
-			const img = await takeScreenshot();
-			if (cb && !cb.handled) {
-				cb(null, img);
-				return;
-			}
-		} catch (error: unknown) {
-			if (cb && !cb.handled) {
-				cb("Failed to take screenshot");
-				return;
-			}
-			logger.error("Failed to take screenshot:", error);
-		}
-	});
 	nodecg.listenFor("nextRun", () => {
 		if (obsAutoRecording.value) {
 			void stopRecording();

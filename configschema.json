@@ -12,11 +12,15 @@
 			"additionalProperties": false,
 			"required": ["address", "password"]
 		},
-		"discordToken": {
-			"type": "string"
-		},
-		"discordChannelId": {
-			"type": "string"
+		"discord": {
+			"type": "object",
+			"properties": {
+				"token": {"type": "string"},
+				"voiceChannelId": {"type": "string"},
+				"screenshotChannelId": {"type": "string"}
+			},
+			"required": ["token", "voiceChannelId"],
+			"additionalProperties": false
 		},
 		"googleApiKey": {
 			"type": "string"
