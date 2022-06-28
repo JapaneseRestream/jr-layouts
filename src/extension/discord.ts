@@ -1,5 +1,3 @@
-import path from "path";
-
 import appRootPath from "app-root-path";
 import type {VoiceChannel} from "discord.js";
 import discord from "discord.js";
@@ -10,15 +8,12 @@ import type {DiscordSpeakingStatus} from "../nodecg/generated/discord-speaking-s
 import type {NodeCG} from "./nodecg";
 import {obs} from "./obs";
 
-const screenshotPath = path.join(__dirname, `obs-screenshot.png`);
-
 const takeScreenshot = async () => {
 	const {name} = await obs.send("GetCurrentScene");
 	const {img} = await obs.send("TakeSourceScreenshot", {
 		sourceName: name,
 		embedPictureFormat: "png",
 		fileFormat: "png",
-		saveToFilePath: screenshotPath,
 	});
 	return img;
 };
@@ -52,7 +47,7 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				);
 				if (screenshotChannel?.isText()) {
 					await screenshotChannel.send({
-						files: [{attachment: screenshotPath}],
+						files: [{attachment: img}],
 					});
 				}
 			}
