@@ -49,7 +49,10 @@ export const setupDiscord = (nodecg: NodeCG) => {
 					await screenshotChannel.send({
 						files: [
 							{
-								attachment: Buffer.from(img),
+								attachment: Buffer.from(
+									img.replace("data:image/png;base64,", ""),
+									"base64",
+								),
 								name: "screenshot.png",
 							},
 						],
