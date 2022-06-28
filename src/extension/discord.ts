@@ -35,29 +35,29 @@ export const setupDiscord = (nodecg: NodeCG) => {
 		persistent: false,
 	});
 
-	let client: discord.Client;
-	let updateTimer: NodeJS.Timer;
+	let client: discord.Client | null = null;
+	let screenshotChannel:
+		| discord.TextChannel
+		| discord.DMChannel
+		| discord.NewsChannel
+		| null = null;
+	let updateTimer: NodeJS.Timer | null = null;
 
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
 			const img = await takeScreenshot();
-			if (screenshotChannelId) {
-				const screenshotChannel = await client.channels.fetch(
-					screenshotChannelId,
-				);
-				if (screenshotChannel?.isText()) {
-					await screenshotChannel.send({
-						files: [
-							{
-								attachment: Buffer.from(
-									img.replace("data:image/png;base64,", ""),
-									"base64",
-								),
-								name: "screenshot.png",
-							},
-						],
-					});
-				}
+			if (screenshotChannel) {
+				await screenshotChannel.send({
+					files: [
+						{
+							attachment: Buffer.from(
+								img.replace("data:image/png;base64,", ""),
+								"base64",
+							),
+							name: "screenshot.png",
+						},
+					],
+				});
 			}
 			if (cb && !cb.handled) {
 				cb(null, img);
@@ -99,8 +99,17 @@ export const setupDiscord = (nodecg: NodeCG) => {
 			});
 
 			client.on("ready", async () => {
+				if (!client) {
+					return;
+				}
 				nodecg.log.info("Discord client is ready.");
 				const liveChannel = await client.channels.fetch(voiceChannelId);
+				if (screenshotChannelId) {
+					const channel = await client.channels.fetch(screenshotChannelId);
+					if (channel.isText()) {
+						screenshotChannel = channel;
+					}
+				}
 
 				if (liveChannel.type !== "voice") {
 					nodecg.log.error(
