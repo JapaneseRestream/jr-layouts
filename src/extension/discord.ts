@@ -45,6 +45,32 @@ export const setupDiscord = (nodecg: NodeCG) => {
 	let client: discord.Client;
 	let updateTimer: NodeJS.Timer;
 
+	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
+		try {
+			const img = await takeScreenshot();
+			if (screenshotChannelId) {
+				const screenshotChannel = await client.channels.fetch(
+					screenshotChannelId,
+				);
+				if (screenshotChannel?.isText()) {
+					await screenshotChannel.send({
+						files: [{attachment: screenshotPath}],
+					});
+				}
+			}
+			if (cb && !cb.handled) {
+				cb(null, img);
+				return;
+			}
+		} catch (error: unknown) {
+			if (cb && !cb.handled) {
+				cb("Failed to take screenshot");
+				return;
+			}
+			nodecg.log.error("Failed to take screenshot:", error);
+		}
+	});
+
 	const initialize = async () => {
 		try {
 			if (client) {
@@ -56,32 +82,6 @@ export const setupDiscord = (nodecg: NodeCG) => {
 
 			client = new discord.Client();
 			await client.login(token);
-
-			nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
-				try {
-					const img = await takeScreenshot();
-					if (screenshotChannelId) {
-						const screenshotChannel = await client.channels.fetch(
-							screenshotChannelId,
-						);
-						if (screenshotChannel?.isText()) {
-							await screenshotChannel.send({
-								files: [{attachment: screenshotPath}],
-							});
-						}
-					}
-					if (cb && !cb.handled) {
-						cb(null, img);
-						return;
-					}
-				} catch (error: unknown) {
-					if (cb && !cb.handled) {
-						cb("Failed to take screenshot");
-						return;
-					}
-					nodecg.log.error("Failed to take screenshot:", error);
-				}
-			});
 
 			client.on("disconnect", () => {
 				void initialize();
