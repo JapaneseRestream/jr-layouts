@@ -1,5 +1,4 @@
 import path from "path";
-import os from "os";
 
 import appRootPath from "app-root-path";
 import type {VoiceChannel} from "discord.js";
@@ -11,8 +10,7 @@ import type {DiscordSpeakingStatus} from "../nodecg/generated/discord-speaking-s
 import type {NodeCG} from "./nodecg";
 import {obs} from "./obs";
 
-const tmpDir = os.tmpdir();
-const screenshotPath = path.join(tmpDir, "obs-screenshot.png");
+const screenshotPath = path.join(__dirname, `obs-screenshot.png`);
 
 const takeScreenshot = async () => {
 	const {name} = await obs.send("GetCurrentScene");
