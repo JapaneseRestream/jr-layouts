@@ -57,44 +57,48 @@ const App: React.FunctionComponent = () => {
 				{markerTime ? new Date(markerTime).toLocaleString() : "N/A"}
 			</div>
 
-			<div>
+			{nodecg.bundleConfig.obs && (
+				<div>
+					<button
+						onClick={() => {
+							setScreenshotPending(true);
+							nodecg
+								.sendMessage("obs:take-screenshot")
+								.then((img) => {
+									const a = document.createElement("a");
+									a.href = img;
+									a.setAttribute(
+										"download",
+										`obs-screenshot-${format(new Date(), "yyyyMMdd-HHmmss")}`,
+									);
+									a.click();
+									setScreenshotState("downloading");
+								})
+								.catch((error) => {
+									nodecg.log.error(error);
+									setScreenshotState("failed");
+								})
+								.finally(() => {
+									setScreenshotPending(false);
+								});
+						}}
+						disabled={screenshotPending}
+					>
+						スクショをダウンロード
+					</button>
+					{screenshotStateMessage(screenshotState)}
+				</div>
+			)}
+
+			{nodecg.bundleConfig.obs && (
 				<button
 					onClick={() => {
-						setScreenshotPending(true);
-						nodecg
-							.sendMessage("obs:take-screenshot")
-							.then((img) => {
-								const a = document.createElement("a");
-								a.href = img;
-								a.setAttribute(
-									"download",
-									`obs-screenshot-${format(new Date(), "yyyyMMdd-HHmmss")}`,
-								);
-								a.click();
-								setScreenshotState("downloading");
-							})
-							.catch((error) => {
-								nodecg.log.error(error);
-								setScreenshotState("failed");
-							})
-							.finally(() => {
-								setScreenshotPending(false);
-							});
+						void nodecg.sendMessage("refreshPlayer");
 					}}
-					disabled={screenshotPending}
 				>
-					スクショをダウンロード
+					プレイヤー再読込
 				</button>
-				{screenshotStateMessage(screenshotState)}
-			</div>
-
-			<button
-				onClick={() => {
-					void nodecg.sendMessage("refreshPlayer");
-				}}
-			>
-				プレイヤー再読込
-			</button>
+			)}
 		</Container>
 	);
 };
