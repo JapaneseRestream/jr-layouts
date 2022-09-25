@@ -46,7 +46,7 @@
 		"delay": "5.0.0",
 		"discord.js": "12.5.3",
 		"express": "^4.17.3",
-		"ffmpeg-static": "4.3.0",
+		"ffmpeg-static": "4.4.1",
 		"googleapis": "71.0.0",
 		"got": "11.8.2",
 		"lodash": "4.17.21",
