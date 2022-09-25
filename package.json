@@ -41,7 +41,7 @@
 	"dependencies": {
 		"@discordjs/opus": "0.5.0",
 		"@twurple/api": "^5.0.18",
-		"@twurple/auth": "^5.0.18",
+		"@twurple/auth": "5.2.4",
 		"app-root-path": "3.0.0",
 		"delay": "5.0.0",
 		"discord.js": "12.5.3",
