@@ -42,7 +42,7 @@
 		"@discordjs/opus": "0.5.0",
 		"@twurple/api": "^5.0.18",
 		"@twurple/auth": "^5.0.18",
-		"app-root-path": "3.0.0",
+		"app-root-path": "3.1.0",
 		"delay": "5.0.0",
 		"discord.js": "12.5.3",
 		"express": "^4.17.3",
