@@ -8,7 +8,6 @@ import {ApiClient} from "@twurple/api";
 import express from "express";
 
 import type {NodeCG} from "./nodecg";
-import {update} from "lodash";
 
 const UPDATE_INTERVAL = 10 * 1000;
 
@@ -132,8 +131,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return;
 			}
 			const title = `[JP] ${twitchTitleRep.value} - ${newRun.game}`;
+			const gameIdInfo = gameIdsRep.value?.find(
+				(id) => id.name === newRun.game,
+			);
 			await apiClient.channels.updateChannelInfo(ourChannelId, {
 				title,
+				gameId: gameIdInfo?.gameId ?? undefined,
 			});
 			titleRetryCount = 0;
 			lastUpdatedTitle = title;
@@ -192,21 +195,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		}
 	};
 
-	if (twitchGameIdMapSheetId) {
-		const sync = () => {
-			if (!currentRunRep.value || !gameIdsRep.value) {
-				return;
-			}
-			const gameId = gameIdsRep.value.find(
-				(gameId) => gameId.name === currentRunRep.value?.game,
-			);
-			if (gameId) {
-				updateGame(gameId.gameId, currentRunRep.value.game);
-			}
-		};
-		currentRunRep.on("change", sync);
-		gameIdsRep.on("change", sync);
-	} else {
+	if (!twitchGameIdMapSheetId) {
 		setInterval(async () => {
 			const res = await fetchMainChannelInfo();
 			if (res) {

@@ -1,6 +1,6 @@
 import {setInterval} from "timers";
 
-import {google, sheets_v4} from "googleapis";
+import {google} from "googleapis";
 import _ from "lodash";
 
 import type {BundleConfig} from "../nodecg/bundle-config";

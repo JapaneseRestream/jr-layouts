@@ -65,12 +65,13 @@ export const setupObs = (nodecg: NodeCG) => {
 			sourceName: "TWITCH_PLAYER",
 		});
 	});
-	targetChannelRep.on("change", (newVal, oldVal) => {
-		if (newVal === oldVal) {
-			return;
-		}
+	targetChannelRep.on("change", (newVal) => {
 		const targetChannelUrl = new URL("https://player.twitch.tv");
-		targetChannelUrl.searchParams.append("channel", newVal);
+		if (isNaN(parseInt(newVal))) {
+			targetChannelUrl.searchParams.append("channel", newVal);
+		} else {
+			targetChannelUrl.searchParams.append("video", newVal);
+		}
 		targetChannelUrl.searchParams.append("muted", "false");
 		targetChannelUrl.searchParams.append("parent", "twitch.tv");
 		targetChannelUrl.searchParams.append("player", "popout");
