@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import type {CurrentRun} from "../../../nodecg/generated/current-run";
+import type {CurrentRun} from "../../../nodecg/generated/currentRun";
 
 import {FitText, Text as FitTextText} from "./fit-text";
 

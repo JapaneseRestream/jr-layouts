@@ -54,14 +54,7 @@ const browserConfig = (name: string): webpack.Configuration => {
 				},
 				{
 					test: /\.(png|woff2|gif)$/u,
-					use: [
-						{
-							loader: "file-loader",
-							options: {
-								name: "[name].[ext]",
-							},
-						},
-					],
+					type: "asset/resource",
 				},
 				{
 					test: /\.css$/u,
@@ -139,4 +132,4 @@ const config: webpack.Configuration[] = [
 	extensionConfig,
 ];
 
-export default config; // eslint-disable-line import/no-unused-modules
+export default config;

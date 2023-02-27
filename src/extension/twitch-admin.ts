@@ -8,6 +8,7 @@ import {ApiClient} from "@twurple/api";
 import express from "express";
 
 import type {NodeCG} from "./nodecg";
+import {update} from "lodash";
 
 const UPDATE_INTERVAL = 10 * 1000;
 
@@ -21,10 +22,13 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		return;
 	}
 
+	const {twitchGameIdMapSheetId} = nodecg.bundleConfig;
+
 	const twitchOauthRep = nodecg.Replicant("twitchOauth");
 	const currentRunRep = nodecg.Replicant("currentRun");
 	const lastMarkerTimeRep = nodecg.Replicant("lastMarkerTime");
 	const twitchTitleRep = nodecg.Replicant("twitchTitle");
+	const gameIdsRep = nodecg.Replicant("gameIds");
 
 	const redirectPath = "/twitch-auth-callback";
 	const redirectUrl = new URL(
@@ -149,33 +153,67 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 
 	let lastGameId = "";
 	let gameRetryCount = 0;
-	const updateGame = async () => {
+	const updateGame = async (gameId: string, gameName: string) => {
 		try {
-			if (!apiClient || !ourChannelId || !originalChannelId) {
+			if (!apiClient || !ourChannelId) {
 				return;
 			}
-			const result = await apiClient.channels.getChannelInfo(originalChannelId);
-			if (!result || result.gameId === lastGameId) {
+			if (gameId === lastGameId) {
 				return;
 			}
 			await apiClient.channels.updateChannelInfo(ourChannelId, {
-				gameId: result.gameId,
+				gameId: gameId,
 			});
 			gameRetryCount = 0;
-			lastGameId = result.gameId;
-			log.info(`Updated game to ${result.gameName} (${result.gameId})`);
-		} catch (error: unknown) {
+			lastGameId = gameId;
+			log.info(`Updated game to ${gameName} (${gameId})`);
+		} catch (error) {
 			if (gameRetryCount >= 5) {
 				log.error("Failed to update Twitch status:", error);
 				gameRetryCount = 0;
 				return;
 			}
 			gameRetryCount += 1;
-			await updateGame();
+			await updateGame(gameId, gameName);
+		}
+	};
+	const fetchMainChannelInfo = async () => {
+		try {
+			if (!apiClient || !originalChannelId) {
+				return;
+			}
+			const result = await apiClient.channels.getChannelInfoById(
+				originalChannelId,
+			);
+			return result;
+		} catch (error: unknown) {
+			log.error("eailed to fetch game ID:", error);
+			return;
 		}
 	};
 
-	setInterval(updateGame, UPDATE_INTERVAL);
+	if (twitchGameIdMapSheetId) {
+		const sync = () => {
+			if (!currentRunRep.value || !gameIdsRep.value) {
+				return;
+			}
+			const gameId = gameIdsRep.value.find(
+				(gameId) => gameId.name === currentRunRep.value?.game,
+			);
+			if (gameId) {
+				updateGame(gameId.gameId, currentRunRep.value.game);
+			}
+		};
+		currentRunRep.on("change", sync);
+		gameIdsRep.on("change", sync);
+	} else {
+		setInterval(async () => {
+			const res = await fetchMainChannelInfo();
+			if (res) {
+				await updateGame(res.gameId, res.gameName);
+			}
+		}, UPDATE_INTERVAL);
+	}
 
 	let markerRetryCount = 0;
 	const putMarker = async (): Promise<boolean> => {
@@ -216,4 +254,5 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			}
 		}
 	});
+	nodecg.listenFor("nextRun", putMarker);
 };

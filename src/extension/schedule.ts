@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import type {CurrentRun} from "../nodecg/generated/current-run";
+import type {CurrentRun} from "../nodecg/generated/currentRun";
 
 import type {NodeCG} from "./nodecg";
 

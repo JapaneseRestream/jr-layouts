@@ -5,7 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type DiscordSpeakingStatus = {
-	id: string;
+export type GameIds = {
 	name: string;
+	gameId: string;
 }[];

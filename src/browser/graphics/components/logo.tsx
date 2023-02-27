@@ -8,12 +8,6 @@ const IMAGE_WIDTH = 1920 * 0.1 - 24;
 const IMAGE_AREA_HEIGHT = 150;
 
 const images = [{src: JrLogo, width: IMAGE_WIDTH}];
-if (nodecg.bundleConfig.eventLogo) {
-	images.push({
-		src: nodecg.bundleConfig.eventLogo,
-		width: IMAGE_WIDTH,
-	});
-}
 
 const LogoContainer = styled.div`
 	height: ${IMAGE_AREA_HEIGHT}px;

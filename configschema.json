@@ -39,7 +39,7 @@
 			"required": ["ourChannel", "originalChannel", "clientId", "clientSecret"],
 			"additionalProperties": false
 		},
-		"eventLogo": {
+		"twitchGameIdMapSheetId": {
 			"type": "string"
 		}
 	},

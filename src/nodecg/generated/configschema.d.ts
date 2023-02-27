@@ -23,5 +23,5 @@ export interface Configschema {
 		clientId: string;
 		clientSecret: string;
 	};
-	eventLogo?: string;
+	twitchGameIdMapSheetId?: string;
 }

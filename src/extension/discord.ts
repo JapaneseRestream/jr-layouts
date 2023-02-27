@@ -2,8 +2,9 @@ import appRootPath from "app-root-path";
 import type {VoiceChannel} from "discord.js";
 import discord from "discord.js";
 import {isEqual} from "lodash";
+import filenamify from "filenamify";
 
-import type {DiscordSpeakingStatus} from "../nodecg/generated/discord-speaking-status";
+import type {DiscordSpeakingStatus} from "../nodecg/generated/discordSpeakingStatus";
 
 import type {NodeCG} from "./nodecg";
 import {obs} from "./obs";
@@ -46,6 +47,7 @@ export const setupDiscord = (nodecg: NodeCG) => {
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
 			const img = await takeScreenshot();
+			const name = nodecg.Replicant("currentRun").value?.game;
 			if (screenshotChannel) {
 				await screenshotChannel.send({
 					files: [
@@ -54,7 +56,9 @@ export const setupDiscord = (nodecg: NodeCG) => {
 								img.replace("data:image/png;base64,", ""),
 								"base64",
 							),
-							name: "screenshot.png",
+							name: `screenshot-${filenamify(name ?? "", {
+								replacement: "_",
+							})}-${Date.now()}.png`,
 						},
 					],
 				});
