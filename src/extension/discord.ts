@@ -185,4 +185,8 @@ export const setupDiscord = (nodecg: NodeCG) => {
 	};
 
 	void initialize();
+
+	nodecg.listenFor("refreshDiscordBot", () => {
+		initialize();
+	});
 };

@@ -134,6 +134,26 @@ const App: React.FunctionComponent = () => {
 					更新
 				</button>
 			</div>
+			<div>
+				<button
+					onClick={() => {
+						nodecg.sendMessage("refreshDiscordBot");
+					}}
+				>
+					Discord VCの表示をなおす
+				</button>
+			</div>
+			<div>
+				<button
+					onClick={() => {
+						if (confirm("起動するとお金がかかります。本当に起動しますか？")) {
+							nodecg.sendMessage("startStreamPc");
+						}
+					}}
+				>
+					配信PCを起動
+				</button>
+			</div>
 		</Container>
 	);
 };

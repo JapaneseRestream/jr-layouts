@@ -24,4 +24,7 @@ export interface Configschema {
 		clientSecret: string;
 	};
 	twitchGameIdMapSheetId?: string;
+	aws?: {
+		instanceId: string;
+	};
 }

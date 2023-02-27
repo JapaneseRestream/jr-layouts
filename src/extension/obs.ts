@@ -8,7 +8,7 @@ export const setupObs = (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
 	const logger = new nodecg.Logger("obs");
 	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
-	const obsStatus = nodecg.Replicant("obsStatus");
+	const obsStatus = nodecg.Replicant("obsStatus", {persistent: false});
 	const targetChannelRep = nodecg.Replicant("targetChannel");
 
 	if (!obsConfig) {
@@ -66,6 +66,10 @@ export const setupObs = (nodecg: NodeCG) => {
 		});
 	});
 	targetChannelRep.on("change", (newVal) => {
+		if (!obsStatus.value?.connected) {
+			return;
+		}
+
 		const targetChannelUrl = new URL("https://player.twitch.tv");
 		if (isNaN(parseInt(newVal))) {
 			targetChannelUrl.searchParams.append("channel", newVal);

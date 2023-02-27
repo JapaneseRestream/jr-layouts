@@ -7,4 +7,7 @@ export type MessageMap = {
 	"twitch:putMarker": {result: boolean};
 	"obs:take-screenshot": {result: string};
 	"obs:connect": {};
+	startStreamPc: {};
+	stopStreamPc: {};
+	refreshDiscordBot: {};
 };

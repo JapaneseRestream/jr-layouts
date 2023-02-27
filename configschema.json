@@ -41,6 +41,14 @@
 		},
 		"twitchGameIdMapSheetId": {
 			"type": "string"
+		},
+		"aws": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["instanceId"],
+			"properties": {
+				"instanceId": {"type": "string"}
+			}
 		}
 	},
 	"required": ["googleApiKey", "spreadsheetId"],
