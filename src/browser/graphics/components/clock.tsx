@@ -17,8 +17,8 @@ const Container = styled.div`
 `;
 
 const HashtagText = styled.div`
-	color: #ff976e;
-	text-shadow: #ff976e 0px 0px 5px;
+	color: #f2bb77;
+	text-shadow: #f2bb77 0px 0px 3px;
 	text-transform: uppercase;
 `;
 

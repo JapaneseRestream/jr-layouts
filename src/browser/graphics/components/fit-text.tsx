@@ -6,7 +6,7 @@ const Container = styled.div`
 	justify-content: center;
 `;
 
-export const Text = styled.div`
+const Text = styled.div`
 	white-space: nowrap;
 `;
 

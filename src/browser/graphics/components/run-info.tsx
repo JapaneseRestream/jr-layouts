@@ -13,6 +13,8 @@ const Container = styled.div`
 	width: 80%;
 	display: flex;
 	flex-flow: column nowrap;
+	color: #f2eb85;
+	text-shadow: #f2eb85 0px 0px 3px;
 `;
 
 const Title = styled(FitText)`
