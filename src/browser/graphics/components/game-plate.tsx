@@ -3,27 +3,22 @@ import styled from "styled-components";
 
 import type {CurrentRun} from "../../../nodecg/generated/currentRun";
 
-import {FitText, Text as FitTextText} from "./fit-text";
+import {FitText} from "./fit-text";
 
 const Container = styled.div`
 	margin: 8px 5px;
 	padding: 5px 5px;
 	max-height: 114px;
 	overflow: hidden;
-	border: 1px solid #fefefe;
+	border: 2px solid #d4dff2;
 `;
 
-const Text = styled(FitText)`
-	& > ${FitTextText} {
-	}
-`;
-
-const Title = styled(Text)`
+const Title = styled(FitText)`
 	font-size: 30px;
 	font-weight: 400;
 `;
 
-const Misc = styled(Text)`
+const Misc = styled(FitText)`
 	font-weight: 400;
 	height: 1.25em;
 	overflow: hidden;
