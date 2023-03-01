@@ -27,15 +27,7 @@ const App: React.FunctionComponent = () => {
 		}
 	}, [hashtag]);
 
-	const [targetChannel, setTargetChannel] = useReplicant(
-		nodecg.Replicant("targetChannel"),
-	);
-	const [tmpTargetChannel, setTmpTargetChannel] = useState("");
-	useEffect(() => {
-		if (targetChannel !== null) {
-			setTmpTargetChannel(targetChannel);
-		}
-	}, [targetChannel]);
+	const [targetChannel, setTargetChannel] = useState("");
 
 	const [twitchTitle, setTwitchTitle] = useReplicant(
 		nodecg.Replicant("twitchTitle"),
@@ -104,14 +96,22 @@ const App: React.FunctionComponent = () => {
 				<label>Twitch</label>
 				<input
 					type='text'
-					value={tmpTargetChannel ?? ""}
+					value={targetChannel}
 					onChange={(e) => {
-						setTmpTargetChannel(e.target.value);
+						setTargetChannel(e.target.value);
 					}}
 				></input>
 				<button
 					onClick={() => {
-						setTargetChannel(tmpTargetChannel);
+						nodecg.sendMessage(
+							"setTwitchUrl",
+							{channel: targetChannel},
+							(error) => {
+								if (error === "OBS_NOT_ACTIVE") {
+									alert("OBSが切断されているので更新できませんでした");
+								}
+							},
+						);
 					}}
 				>
 					更新

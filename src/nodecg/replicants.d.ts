@@ -7,7 +7,7 @@ import type {
 	Schedule,
 	CurrentRun,
 	Twitch,
-	GameIds
+	GameIds,
 } from "./generated";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -19,11 +19,10 @@ export type ReplicantMap = {
 	schedule: Schedule;
 	spreadsheet: Spreadsheet;
 	twitch: Twitch;
-	gameIds: GameIds
+	gameIds: GameIds;
 
 	// Additional replicants
 	twitchOauth: AccessToken;
-	targetChannel: string;
 	lastMarkerTime: number;
 	obsRecordingTimestamp: number;
 	obsAutoRecording: boolean;

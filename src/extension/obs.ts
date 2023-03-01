@@ -9,7 +9,6 @@ export const setupObs = (nodecg: NodeCG) => {
 	const logger = new nodecg.Logger("obs");
 	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
 	const obsStatus = nodecg.Replicant("obsStatus", {persistent: false});
-	const targetChannelRep = nodecg.Replicant("targetChannel");
 
 	if (!obsConfig) {
 		logger.warn("OBS setting is empty");
@@ -65,27 +64,40 @@ export const setupObs = (nodecg: NodeCG) => {
 			sourceName: "TWITCH_PLAYER",
 		});
 	});
-	targetChannelRep.on("change", (newVal) => {
+
+	nodecg.listenFor("setTwitchUrl", async ({channel}, cb) => {
 		if (!obsStatus.value?.connected) {
+			if (cb && !cb.handled) {
+				cb("OBS_NOT_ACTIVE");
+			}
 			return;
 		}
 
-		const targetChannelUrl = new URL("https://player.twitch.tv");
-		if (isNaN(parseInt(newVal))) {
-			targetChannelUrl.searchParams.append("channel", newVal);
-		} else {
-			targetChannelUrl.searchParams.append("video", newVal);
+		try {
+			const targetChannelUrl = new URL("https://player.twitch.tv");
+			if (isNaN(parseInt(channel))) {
+				targetChannelUrl.searchParams.append("channel", channel);
+			} else {
+				targetChannelUrl.searchParams.append("video", channel);
+			}
+			targetChannelUrl.searchParams.append("muted", "false");
+			targetChannelUrl.searchParams.append("parent", "twitch.tv");
+			targetChannelUrl.searchParams.append("player", "popout");
+			targetChannelUrl.searchParams.append("volume", "1");
+			await (obs.send as any)("SetSourceSettings", {
+				sourceName: "TWITCH_PLAYER",
+				sourceSettings: {
+					url: targetChannelUrl.href,
+				},
+			});
+			if (cb && !cb.handled) {
+				cb(null);
+			}
+		} catch (error) {
+			if (cb && !cb.handled) {
+				cb("UNKNOWN");
+			}
 		}
-		targetChannelUrl.searchParams.append("muted", "false");
-		targetChannelUrl.searchParams.append("parent", "twitch.tv");
-		targetChannelUrl.searchParams.append("player", "popout");
-		targetChannelUrl.searchParams.append("volume", "1");
-		(obs.send as any)("SetSourceSettings", {
-			sourceName: "TWITCH_PLAYER",
-			sourceSettings: {
-				url: targetChannelUrl.href,
-			},
-		});
 	});
 
 	obs.on("ConnectionOpened", () => {

@@ -10,4 +10,5 @@ export type MessageMap = {
 	startStreamPc: {};
 	stopStreamPc: {};
 	refreshDiscordBot: {};
+	setTwitchUrl: {data: {channel: string}; error: "OBS_NOT_ACTIVE" | "UNKNOWN"};
 };
