@@ -3,7 +3,8 @@
 		"config:base",
 		"group:allNonMajor",
 		":prHourlyLimitNone",
-		":prConcurrentLimitNone"
+		":prConcurrentLimitNone",
+		":dependencyDashboard"
 	],
 	"postUpdateOptions": ["pnpmDedupe"]
 }
