@@ -1,4 +1,9 @@
 {
-	"extends": ["config:base", ":semanticCommits", "group:allNonMajor"],
+	"extends": [
+		"config:base",
+		"group:allNonMajor",
+		":prHourlyLimitNone",
+		":prConcurrentLimitNone"
+	],
 	"postUpdateOptions": ["pnpmDedupe"]
 }
