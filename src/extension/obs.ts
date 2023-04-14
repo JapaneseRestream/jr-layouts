@@ -75,10 +75,10 @@ export const setupObs = (nodecg: NodeCG) => {
 
 		try {
 			const targetChannelUrl = new URL("https://player.twitch.tv");
-			if (isNaN(parseInt(channel))) {
-				targetChannelUrl.searchParams.append("channel", channel);
-			} else {
+			if (/^\d+$/.test(channel)) {
 				targetChannelUrl.searchParams.append("video", channel);
+			} else {
+				targetChannelUrl.searchParams.append("channel", channel);
 			}
 			targetChannelUrl.searchParams.append("muted", "false");
 			targetChannelUrl.searchParams.append("parent", "twitch.tv");

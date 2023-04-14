@@ -106,78 +106,84 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				if (!client) {
 					return;
 				}
-				nodecg.log.info("Discord client is ready.");
-				const liveChannel = await client.channels.fetch(voiceChannelId);
-				if (screenshotChannelId) {
-					const channel = await client.channels.fetch(screenshotChannelId);
-					if (channel.isText()) {
-						screenshotChannel = channel;
+				try {
+					nodecg.log.info("Discord client is ready.");
+					const liveChannel = await client.channels.fetch(voiceChannelId);
+					if (screenshotChannelId) {
+						const channel = await client.channels.fetch(screenshotChannelId);
+						if (channel.isText()) {
+							screenshotChannel = channel;
+						}
 					}
-				}
 
-				if (liveChannel.type !== "voice") {
-					nodecg.log.error(
-						`Discord channel ${liveChannel.id} is not voice channel`,
-					);
-					return;
-				}
-
-				const voiceChannel = liveChannel as VoiceChannel;
-
-				if (!voiceChannel.joinable) {
-					nodecg.log.error(
-						`Cannot join voice channel ${voiceChannel.name} (${voiceChannel.id})`,
-					);
-					return;
-				}
-
-				nodecg.log.info(`Joining channel ${voiceChannel.name}`);
-				const connection = await voiceChannel.join();
-				nodecg.log.info("Joined channel");
-				connection.play(appRootPath.resolve("./assets/join.mp3"), {volume: 0});
-				connection.on("speaking", (user, speaking) => {
-					const member = voiceChannel.members.find((m) => m.id === user.id);
-					if (!member) {
+					if (liveChannel.type !== "voice") {
+						nodecg.log.error(
+							`Discord channel ${liveChannel.id} is not voice channel`,
+						);
 						return;
 					}
-					let newStatus: DiscordSpeakingStatus;
-					const currentStatus = speakingStatusRep.value || [];
-					if (speaking.bitfield === 1) {
-						const alreadySpeaking = currentStatus.some(
-							(speakingMember) => speakingMember.id === member.id,
+
+					const voiceChannel = liveChannel as VoiceChannel;
+
+					if (!voiceChannel.joinable) {
+						nodecg.log.error(
+							`Cannot join voice channel ${voiceChannel.name} (${voiceChannel.id})`,
 						);
-						if (alreadySpeaking) {
+						return;
+					}
+
+					nodecg.log.info(`Joining channel ${voiceChannel.name}`);
+					const connection = await voiceChannel.join();
+					nodecg.log.info("Joined channel");
+					connection.play(appRootPath.resolve("./assets/join.mp3"), {
+						volume: 0,
+					});
+					connection.on("speaking", (user, speaking) => {
+						const member = voiceChannel.members.find((m) => m.id === user.id);
+						if (!member) {
 							return;
 						}
-						newStatus = [
-							...currentStatus,
-							{
-								id: member.id,
-								name:
-									member.nickname ??
-									member.displayName ??
-									member.user?.username ??
-									"",
-							},
-						];
-					} else {
-						newStatus = currentStatus.filter(
-							(speakingMember) => speakingMember.id !== member.id,
-						);
-					}
-					speakingStatusRep.value = newStatus;
-				});
+						let newStatus: DiscordSpeakingStatus;
+						const currentStatus = speakingStatusRep.value || [];
+						if (speaking.bitfield === 1) {
+							const alreadySpeaking = currentStatus.some(
+								(speakingMember) => speakingMember.id === member.id,
+							);
+							if (alreadySpeaking) {
+								return;
+							}
+							newStatus = [
+								...currentStatus,
+								{
+									id: member.id,
+									name:
+										member.nickname ??
+										member.displayName ??
+										member.user?.username ??
+										"",
+								},
+							];
+						} else {
+							newStatus = currentStatus.filter(
+								(speakingMember) => speakingMember.id !== member.id,
+							);
+						}
+						speakingStatusRep.value = newStatus;
+					});
 
-				updateTimer = setInterval(() => {
-					const filteredStatus = (
-						speakingStatusRep.value || []
-					).filter(({id}) =>
-						voiceChannel.members.some((member) => member.id === id),
-					);
-					if (!isEqual(speakingStatusRep.value, filteredStatus)) {
-						speakingStatusRep.value = filteredStatus;
-					}
-				}, 200);
+					updateTimer = setInterval(() => {
+						const filteredStatus = (
+							speakingStatusRep.value || []
+						).filter(({id}) =>
+							voiceChannel.members.some((member) => member.id === id),
+						);
+						if (!isEqual(speakingStatusRep.value, filteredStatus)) {
+							speakingStatusRep.value = filteredStatus;
+						}
+					}, 200);
+				} catch (error) {
+					nodecg.log.error(error);
+				}
 			});
 		} catch (error: unknown) {
 			nodecg.log.error(error);

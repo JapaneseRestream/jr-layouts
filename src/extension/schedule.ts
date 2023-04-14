@@ -31,20 +31,23 @@ export const setupSchedule = (nodecg: NodeCG) => {
 		if (!gamesList) {
 			return;
 		}
-		const newScheduleValue = gamesList.map((game, index) => {
-			const run: NonNullable<CurrentRun> = {
-				category: game.category,
-				commentator: "",
-				console: game.platform,
-				game: game.title,
-				index,
-			};
-			return run;
-		});
+		const newScheduleValue = gamesList.map<NonNullable<CurrentRun>>(
+			(game, index) => {
+				return {
+					category: game.category,
+					commentator: "",
+					console: game.platform,
+					game: game.title,
+					index,
+				};
+			},
+		);
 		if (!_.isEqual(scheduleRep.value, newScheduleValue)) {
 			scheduleRep.value = _.clone(newScheduleValue);
 		}
 		if (!currentRunRep.value) {
+			setCurrentRun(0);
+		} else if (currentRunRep.value.index >= gamesList.length) {
 			setCurrentRun(0);
 		}
 	});

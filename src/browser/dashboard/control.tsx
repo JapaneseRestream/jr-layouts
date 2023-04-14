@@ -99,6 +99,16 @@ const App: React.FunctionComponent = () => {
 					プレイヤー再読込
 				</button>
 			)}
+
+			<div>
+				<button
+					onClick={() => {
+						nodecg.sendMessage("refreshDiscordBot");
+					}}
+				>
+					Discord VCの表示をなおす
+				</button>
+			</div>
 		</Container>
 	);
 };
