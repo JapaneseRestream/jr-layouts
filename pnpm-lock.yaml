@@ -9,10 +9,10 @@ dependencies:
     version: 0.9.0
   '@twurple/api':
     specifier: ^5.0.18
-    version: 5.3.1(@twurple/auth@5.3.1)
+    version: 5.3.1(@twurple/auth@6.0.0)
   '@twurple/auth':
-    specifier: ^5.0.18
-    version: 5.3.1
+    specifier: ^6.0.0
+    version: 6.0.0
   app-root-path:
     specifier: 3.1.0
     version: 3.1.0
@@ -2573,7 +2573,20 @@ packages:
       - encoding
     dev: false
 
-  /@twurple/api@5.3.1(@twurple/auth@5.3.1):
+  /@twurple/api-call@6.0.0:
+    resolution: {integrity: sha512-SP2pryVPdEmQwC/XpYGQXKds0enjclSc/EKzjBCQsvcPxuqQBsVFkzuZC35CYnlvWvwbA/rTWzVB1bVtmNNatw==}
+    dependencies:
+      '@d-fischer/cross-fetch': 4.1.0
+      '@d-fischer/qs': 7.0.2
+      '@d-fischer/shared-utils': 3.5.0
+      '@twurple/common': 6.0.0
+      '@types/node-fetch': 2.6.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@twurple/api@5.3.1(@twurple/auth@6.0.0):
     resolution: {integrity: sha512-+iolwR5Nd9ndGrB09B5r5zqkSIiuVxILoSOR9suof6kFeDdXb+9gMalODUsrKr/BlKDqqIcOurZs19xZPR3tjA==}
     peerDependencies:
       '@twurple/auth': 5.3.1
@@ -2584,20 +2597,20 @@ packages:
       '@d-fischer/rate-limiter': 0.6.2
       '@d-fischer/shared-utils': 3.5.0
       '@twurple/api-call': 5.3.1
-      '@twurple/auth': 5.3.1
+      '@twurple/auth': 6.0.0
       '@twurple/common': 5.3.1
       tslib: 2.5.0
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /@twurple/auth@5.3.1:
-    resolution: {integrity: sha512-aQYPWi9ZbnTH7IdyneV8Qo7qY7A6/b9RQPsOnd6j5h42N33sVL7LYwRalvHbl+uHe3NjzhYcy35ocAMiiGb6Dg==}
+  /@twurple/auth@6.0.0:
+    resolution: {integrity: sha512-d0TImEE3HxnSJc51+0ZlLekbU0GgaGwZKYJaZ9GtuRYSvIOVsjQmpxq5eNeUDbdQJECEsuLyS0DGrKWXopRvDw==}
     dependencies:
       '@d-fischer/logger': 4.2.0
       '@d-fischer/shared-utils': 3.5.0
-      '@twurple/api-call': 5.3.1
-      '@twurple/common': 5.3.1
+      '@twurple/api-call': 6.0.0
+      '@twurple/common': 6.0.0
       tslib: 2.5.0
     transitivePeerDependencies:
       - encoding
@@ -2605,6 +2618,14 @@ packages:
 
   /@twurple/common@5.3.1:
     resolution: {integrity: sha512-Q1aSKlNnE734pFSLR8LGicIHcE+bendBRnGWJOiG32AoWLb6qA97pv2BvvTIAuTuybPE/V1PVQkbW1aJ/6n2xw==}
+    dependencies:
+      '@d-fischer/shared-utils': 3.5.0
+      klona: 2.0.5
+      tslib: 2.5.0
+    dev: false
+
+  /@twurple/common@6.0.0:
+    resolution: {integrity: sha512-SPSXmgET1sh/xkAXKsRqLJ2mqID2UNUeWTcucrDKxBHyU7usdrlhEn3DuG0+tm/cecdFS8FvFEpDnLkcY6Ly3A==}
     dependencies:
       '@d-fischer/shared-utils': 3.5.0
       klona: 2.0.5
