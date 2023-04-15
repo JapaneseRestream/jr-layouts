@@ -90,7 +90,7 @@
 		"file-loader": "6",
 		"globby": "11.1.0",
 		"html-webpack-plugin": "5",
-		"lint-staged": "10.5.4",
+		"lint-staged": "13.2.1",
 		"mini-css-extract-plugin": "1.6.2",
 		"modern-normalize": "1.1.0",
 		"nodecg-cli": "8.6.4",
