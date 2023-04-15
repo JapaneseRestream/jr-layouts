@@ -7,7 +7,7 @@ export const useReplicantOnce = <
 	TBundleName extends string,
 	TRepMap extends ReplicantMap,
 	TRepName extends keyof ReplicantMap,
-	TSchema extends TRepMap[TRepName]
+	TSchema extends TRepMap[TRepName],
 >(
 	replicant: Replicant<TBundleName, TRepMap, TRepName, TSchema | undefined>,
 ): TSchema | null => {

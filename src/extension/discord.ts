@@ -25,11 +25,8 @@ export const setupDiscord = (nodecg: NodeCG) => {
 		return;
 	}
 
-	const {
-		token,
-		voiceChannelId,
-		screenshotChannelId,
-	} = nodecg.bundleConfig.discord;
+	const {token, voiceChannelId, screenshotChannelId} =
+		nodecg.bundleConfig.discord;
 
 	const speakingStatusRep = nodecg.Replicant("discordSpeakingStatus", {
 		defaultValue: [],
@@ -172,10 +169,8 @@ export const setupDiscord = (nodecg: NodeCG) => {
 					});
 
 					updateTimer = setInterval(() => {
-						const filteredStatus = (
-							speakingStatusRep.value || []
-						).filter(({id}) =>
-							voiceChannel.members.some((member) => member.id === id),
+						const filteredStatus = (speakingStatusRep.value || []).filter(
+							({id}) => voiceChannel.members.some((member) => member.id === id),
 						);
 						if (!isEqual(speakingStatusRep.value, filteredStatus)) {
 							speakingStatusRep.value = filteredStatus;
