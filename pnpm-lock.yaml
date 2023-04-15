@@ -85,8 +85,8 @@ devDependencies:
     specifier: 4.14.194
     version: 4.14.194
   '@types/mini-css-extract-plugin':
-    specifier: 1.4.3
-    version: 1.4.3(webpack-cli@5.0.1)
+    specifier: 2.5.0
+    version: 2.5.0(webpack@5.75.0)
   '@types/node':
     specifier: 18.15.11
     version: 18.15.11
@@ -166,8 +166,8 @@ devDependencies:
     specifier: 13.2.1
     version: 13.2.1
   mini-css-extract-plugin:
-    specifier: 1.6.2
-    version: 1.6.2(webpack@5.75.0)
+    specifier: 2.7.5
+    version: 2.7.5(webpack@5.75.0)
   modern-normalize:
     specifier: 1.1.0
     version: 1.1.0
@@ -2761,17 +2761,12 @@ packages:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
     dev: true
 
-  /@types/mini-css-extract-plugin@1.4.3(webpack-cli@5.0.1):
-    resolution: {integrity: sha512-jyOSVaF4ie2jUGr1uohqeyDrp7ktRthdFxDKzTgbPZtl0QI5geEopW7UKD/DEfn0XgV1KEq/RnZlUmnrEAWbmg==}
+  /@types/mini-css-extract-plugin@2.5.0(webpack@5.75.0):
+    resolution: {integrity: sha512-b+3+s0FrceWJaYkSncz4mrC/R21J32/ZsYZ2R+ANryDbojkL1aec+oaMS5rEG81fjsV3ur5bFPsAWPQYgLsaHA==}
     dependencies:
-      '@types/node': 18.15.11
-      tapable: 2.2.1
-      webpack: 5.75.0(webpack-cli@5.0.1)
+      mini-css-extract-plugin: 2.7.5(webpack@5.75.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - esbuild
-      - uglify-js
-      - webpack-cli
+      - webpack
     dev: true
 
   /@types/minimatch@5.1.2:
@@ -3339,11 +3334,6 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
-    dev: true
-
-  /ansi-colors@4.1.3:
-    resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
-    engines: {node: '>=6'}
     dev: true
 
   /ansi-escapes@4.3.2:
@@ -4324,13 +4314,6 @@ packages:
     dependencies:
       graceful-fs: 4.2.10
       tapable: 2.2.1
-    dev: true
-
-  /enquirer@2.3.6:
-    resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
-    engines: {node: '>=8.6'}
-    dependencies:
-      ansi-colors: 4.1.3
     dev: true
 
   /entities@2.2.0:
@@ -6154,16 +6137,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /mini-css-extract-plugin@1.6.2(webpack@5.75.0):
-    resolution: {integrity: sha512-WhDvO3SjGm40oV5y26GjMJYjd2UMqrLAGKy5YS2/3QKJy2F7jgynuHTir/tgUUOiNQu5saXHdc8reo7YuhhT4Q==}
-    engines: {node: '>= 10.13.0'}
+  /mini-css-extract-plugin@2.7.5(webpack@5.75.0):
+    resolution: {integrity: sha512-9HaR++0mlgom81s95vvNjxkg52n2b5s//3ZTI1EtzFb98awsLSivs2LMsVqnQ3ay0PVhqWcGNyDaTE961FOcjQ==}
+    engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: ^4.4.0 || ^5.0.0
+      webpack: ^5.0.0
     dependencies:
-      loader-utils: 2.0.4
-      schema-utils: 3.1.1
+      schema-utils: 4.0.0
       webpack: 5.75.0(webpack-cli@5.0.1)
-      webpack-sources: 1.4.3
     dev: true
 
   /minimatch@3.1.2:
@@ -7392,10 +7373,6 @@ packages:
       sort-object-keys: 1.1.3
     dev: true
 
-  /source-list-map@2.0.1:
-    resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
-    dev: true
-
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -8062,13 +8039,6 @@ packages:
   /webpack-node-externals@3.0.0:
     resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
     engines: {node: '>=6'}
-    dev: true
-
-  /webpack-sources@1.4.3:
-    resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==}
-    dependencies:
-      source-list-map: 2.0.1
-      source-map: 0.6.1
     dev: true
 
   /webpack-sources@3.2.3:
