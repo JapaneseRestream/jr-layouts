@@ -4,7 +4,6 @@
 		"target": "es2019",
 		"lib": ["es2019", "dom"],
 		"sourceMap": true,
-		"types": ["node", "soundjs", "socket.io", "socket.io-client"],
 		"skipLibCheck": true
 	}
 }
