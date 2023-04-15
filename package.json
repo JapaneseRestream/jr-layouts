@@ -68,7 +68,7 @@
 		"@types/node": "18.15.11",
 		"@types/react": "18.0.35",
 		"@types/react-dom": "18.0.11",
-		"@types/socket.io": "^2.1.2",
+		"@types/socket.io": "^3.0.0",
 		"@types/socket.io-client": "^1.4.32",
 		"@types/soundjs": "^0.6.27",
 		"@types/styled-components": "5.1.26",
