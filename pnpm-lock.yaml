@@ -115,8 +115,8 @@ devDependencies:
     specifier: '4'
     version: 4.4.0(webpack-cli@5.0.1)
   '@types/webpack-node-externals':
-    specifier: '2'
-    version: 2.5.0(webpack-cli@5.0.1)
+    specifier: '3'
+    version: 3.0.0(webpack-cli@5.0.1)
   '@types/ws':
     specifier: 7.4.7
     version: 7.4.7
@@ -2900,10 +2900,11 @@ packages:
       - webpack-cli
     dev: true
 
-  /@types/webpack-node-externals@2.5.0(webpack-cli@5.0.1):
-    resolution: {integrity: sha512-KaWfhUQlpWknM/CMBKhV7i0vxX/N2xEy3WeaE500s4ZNxC4nLnKB+0F3gD3Fg+5octPq0nn8ZlfFR/P3dSkXpw==}
+  /@types/webpack-node-externals@3.0.0(webpack-cli@5.0.1):
+    resolution: {integrity: sha512-Z3ELJiH0aZjxkoymT2nrGSmCF/CYjiqC0bpv4/DWy9h7e6gP4B2qmKZFHJFermeF0SYURbSw0puddQl9dMMV0w==}
     dependencies:
-      '@types/webpack': 5.28.0(webpack-cli@5.0.1)
+      '@types/node': 10.17.60
+      webpack: 5.75.0(webpack-cli@5.0.1)
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild

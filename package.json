@@ -74,7 +74,7 @@
 		"@types/styled-components": "5.1.26",
 		"@types/webpack": "5",
 		"@types/webpack-bundle-analyzer": "4",
-		"@types/webpack-node-externals": "2",
+		"@types/webpack-node-externals": "3",
 		"@types/ws": "7.4.7",
 		"@typescript-eslint/eslint-plugin": "^5.48.1",
 		"@typescript-eslint/parser": "^5.48.1",
