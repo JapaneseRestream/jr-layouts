@@ -3,6 +3,7 @@
 /db/*
 !.gitkeep
 /src/nodecg/generated
+/pnpm-lock.yaml
 
 bundle-analyzer
 /dashboard

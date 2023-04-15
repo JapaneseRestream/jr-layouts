@@ -1,6 +1,6 @@
 set -eu
 
-npm run prod-build
+pnpm prod-build
 
 rsync -avh --delete --checksum \
 dashboard extension graphics schemas \
