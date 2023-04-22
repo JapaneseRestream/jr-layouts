@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 import DiscordLogo from "../../shared/images/discord-logo-white.png";

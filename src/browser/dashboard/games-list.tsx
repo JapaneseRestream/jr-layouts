@@ -1,13 +1,13 @@
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
-} from "@material-ui/core";
-import React, {useRef, useEffect, createRef} from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import "./global.css";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import {useRef, useEffect, createRef} from "react";
+import {createRoot} from "react-dom/client";
+import styled from "@emotion/styled";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
@@ -62,4 +62,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+createRoot(document.getElementById("root")!).render(<App />);

@@ -9,6 +9,7 @@ bundle-analyzer
 /dashboard
 /graphics
 /extension
+/shared/dist
 
 # Logs
 logs

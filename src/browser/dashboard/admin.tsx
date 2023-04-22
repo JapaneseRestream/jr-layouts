@@ -1,8 +1,8 @@
-import "modern-normalize";
+import "./global.css";
 
-import styled from "styled-components";
-import React, {useEffect, useState} from "react";
-import ReactDOM from "react-dom";
+import styled from "@emotion/styled";
+import {type FC, useEffect, useState} from "react";
+import {createRoot} from "react-dom/client";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
@@ -14,7 +14,7 @@ const Container = styled.div`
 	grid-auto-flow: row;
 `;
 
-const App: React.FunctionComponent = () => {
+const App: FC = () => {
 	const [obsAutoRecording, setObsAutoRecording] = useReplicant(
 		nodecg.Replicant("obsAutoRecording"),
 	);
@@ -149,4 +149,4 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-ReactDOM.render(<App></App>, document.querySelector("#root"));
+createRoot(document.querySelector("#root")!).render(<App />);

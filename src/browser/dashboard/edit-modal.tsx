@@ -1,7 +1,11 @@
-import {createMuiTheme, MuiThemeProvider, TextField} from "@material-ui/core";
-import React, {useState, useEffect} from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import "./global.css";
+
+import TextField from "@mui/material/TextField";
+import createTheme from "@mui/material/styles/createTheme";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import {useState, useEffect} from "react";
+import {createRoot} from "react-dom/client";
+import styled from "@emotion/styled";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
@@ -14,9 +18,9 @@ const Container = styled.div`
 	gap: 16px;
 `;
 
-const theme = createMuiTheme({
+const theme = createTheme({
 	palette: {
-		type: "dark",
+		mode: "dark",
 	},
 });
 
@@ -52,7 +56,7 @@ const App: React.FunctionComponent = () => {
 	}
 	return (
 		<Container>
-			<MuiThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}>
 				<TextField
 					label='ゲーム'
 					value={game}
@@ -74,9 +78,9 @@ const App: React.FunctionComponent = () => {
 						updateCommentator(changeEvent.target.value);
 					}}
 				/>
-			</MuiThemeProvider>
+			</ThemeProvider>
 		</Container>
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+createRoot(document.querySelector("#root")!).render(<App />);

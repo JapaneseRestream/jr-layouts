@@ -1,37 +1,37 @@
-import {
-	Avatar,
-	Button,
-	List,
-	ListItem,
-	ListItemText,
-	createMuiTheme,
-	MuiThemeProvider,
-} from "@material-ui/core";
-import {
-	ArrowBack,
-	ArrowForward,
-	Category,
-	Mic,
-	VideogameAsset,
-} from "@material-ui/icons";
-import React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import "./global.css";
+
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import createTheme from "@mui/material/styles/createTheme";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import ArrowForward from "@mui/icons-material/ArrowForward";
+import Category from "@mui/icons-material/Category";
+import Mic from "@mui/icons-material/Mic";
+import VideogameAsset from "@mui/icons-material/VideogameAsset";
+import {createRoot} from "react-dom/client";
+import styled from "@emotion/styled";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
 const currentRunRep = nodecg.Replicant("currentRun");
 const scheduleRep = nodecg.Replicant("schedule");
 
-const theme = createMuiTheme({
-	props: {
+const theme = createTheme({
+	components: {
 		MuiButton: {
-			variant: "contained",
+			defaultProps: {
+				variant: "contained",
+			},
 		},
 	},
 });
 
 const Container = styled.div`
+	margin: 8px;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: flex-start;
@@ -144,13 +144,13 @@ const Info: React.FunctionComponent = () => {
 
 const App: React.FunctionComponent = () => {
 	return (
-		<MuiThemeProvider theme={theme}>
+		<ThemeProvider theme={theme}>
 			<Container>
 				<Buttons />
 				<Info />
 			</Container>
-		</MuiThemeProvider>
+		</ThemeProvider>
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+createRoot(document.querySelector("#root")!).render(<App />);

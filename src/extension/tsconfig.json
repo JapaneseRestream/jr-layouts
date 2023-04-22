@@ -1,7 +1,10 @@
 {
 	"extends": "../../tsconfig",
 	"compilerOptions": {
-		"module": "commonjs",
-		"noEmit": true
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"rootDir": ".",
+		"outDir": "../../extension"
 	}
 }

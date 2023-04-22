@@ -7,6 +7,8 @@ bundle-analyzer
 /dashboard
 /graphics
 /extension
+/shared/dist
+/src/nodecg/generated
 
 # Logs
 logs

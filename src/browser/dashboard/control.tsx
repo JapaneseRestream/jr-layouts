@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import "./global.css";
+
+import {FC, useState} from "react";
 import ReactDOM from "react-dom";
-import styled from "styled-components";
-import {format} from "date-fns";
+import styled from "@emotion/styled";
+import format from "date-fns/format";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
 const Container = styled.div`
+	margin: 8px;
 	display: grid;
 	grid-gap: 8px;
 
@@ -30,7 +33,7 @@ const screenshotStateMessage = (state: string) => {
 
 const markerTimeRep = nodecg.Replicant("lastMarkerTime");
 
-const App: React.FunctionComponent = () => {
+const App: FC = () => {
 	const [screenshotPending, setScreenshotPending] = useState(false);
 	const [screenshotState, setScreenshotState] = useState<
 		"waiting" | "downloading" | "failed"
