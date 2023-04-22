@@ -23,8 +23,8 @@ dependencies:
     specifier: ^5.12.1
     version: 5.12.1(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@types/react@18.0.35)(react-dom@18.2.0)(react@18.2.0)
   '@twurple/api':
-    specifier: ^5.0.18
-    version: 5.3.1(@twurple/auth@5.3.1)
+    specifier: ^6.0.0
+    version: 6.0.0(@twurple/auth@5.3.1)
   '@twurple/auth':
     specifier: ^5.0.18
     version: 5.3.1
@@ -1174,11 +1174,11 @@ packages:
     resolution: {integrity: sha512-0Rf3XwTzuTh8+oPZW9SfxTIiL+26RRJ0BRPwj5oVjZFyFKmsj9RGfN2zuTRjOuA3FCK/jYm06HOhwNK+8Pfv8w==}
     dev: false
 
-  /@d-fischer/logger@4.2.0:
-    resolution: {integrity: sha512-Hgm/GfeZfv2UPcRY4uF4S7OtCCv6Xxx++q7FAXc1qMrInaowKrmpo6YdFwRfZ8z53gzXFhc6H8j1Ttm0046uTw==}
+  /@d-fischer/logger@4.2.2:
+    resolution: {integrity: sha512-FdwmBwJXHtFbVCpSyebP38s0FFWNHbRpKmsypam9IspjnQde3Jtwo7gcnqg7KFI6MOk3vThGOhYNxjWkS1QSbQ==}
     dependencies:
+      '@d-fischer/detect-node': 3.0.1
       '@d-fischer/shared-utils': 3.5.0
-      detect-node: 2.1.0
       tslib: 2.5.0
     dev: false
 
@@ -1199,10 +1199,10 @@ packages:
     engines: {node: '>=0.6'}
     dev: false
 
-  /@d-fischer/rate-limiter@0.6.2:
-    resolution: {integrity: sha512-wgeDJuczBhhQ44E5O+phNIx74WAzOTcqJa8x+fJtDmGocyhQP+To2GumBfINB0Jao+MmRiqUPd4TPoUbe2yISg==}
+  /@d-fischer/rate-limiter@0.7.4:
+    resolution: {integrity: sha512-Iu2yYRdNb/HDCSCj3PVy8d6ZH2jlkk3qcC3xaLlsC0yND1oe7mFlTH6hhg251aIv8wweUAZy8eN2rgYjo4ltGw==}
     dependencies:
-      '@d-fischer/logger': 4.2.0
+      '@d-fischer/logger': 4.2.2
       '@d-fischer/promise.allsettled': 2.0.2
       '@d-fischer/shared-utils': 3.5.0
       '@types/node': 12.20.55
@@ -1917,19 +1917,33 @@ packages:
       - encoding
     dev: false
 
-  /@twurple/api@5.3.1(@twurple/auth@5.3.1):
-    resolution: {integrity: sha512-+iolwR5Nd9ndGrB09B5r5zqkSIiuVxILoSOR9suof6kFeDdXb+9gMalODUsrKr/BlKDqqIcOurZs19xZPR3tjA==}
+  /@twurple/api-call@6.0.0:
+    resolution: {integrity: sha512-SP2pryVPdEmQwC/XpYGQXKds0enjclSc/EKzjBCQsvcPxuqQBsVFkzuZC35CYnlvWvwbA/rTWzVB1bVtmNNatw==}
+    dependencies:
+      '@d-fischer/cross-fetch': 4.1.0
+      '@d-fischer/qs': 7.0.2
+      '@d-fischer/shared-utils': 3.5.0
+      '@twurple/common': 6.0.0
+      '@types/node-fetch': 2.6.2
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@twurple/api@6.0.0(@twurple/auth@5.3.1):
+    resolution: {integrity: sha512-6o/bQCKwLuuhK73LRmPBJYYhKeNXSsKoH1O3LSnGp8AIULdejClXXHAyoNPkZ9RZzSavFC6sI0FrJc+/VNih6w==}
     peerDependencies:
-      '@twurple/auth': 5.3.1
+      '@twurple/auth': 6.0.0
     dependencies:
       '@d-fischer/cache-decorators': 3.0.0
       '@d-fischer/detect-node': 3.0.1
-      '@d-fischer/logger': 4.2.0
-      '@d-fischer/rate-limiter': 0.6.2
+      '@d-fischer/logger': 4.2.2
+      '@d-fischer/rate-limiter': 0.7.4
       '@d-fischer/shared-utils': 3.5.0
-      '@twurple/api-call': 5.3.1
+      '@twurple/api-call': 6.0.0
       '@twurple/auth': 5.3.1
-      '@twurple/common': 5.3.1
+      '@twurple/common': 6.0.0
+      retry: 0.13.1
       tslib: 2.5.0
     transitivePeerDependencies:
       - encoding
@@ -1938,7 +1952,7 @@ packages:
   /@twurple/auth@5.3.1:
     resolution: {integrity: sha512-aQYPWi9ZbnTH7IdyneV8Qo7qY7A6/b9RQPsOnd6j5h42N33sVL7LYwRalvHbl+uHe3NjzhYcy35ocAMiiGb6Dg==}
     dependencies:
-      '@d-fischer/logger': 4.2.0
+      '@d-fischer/logger': 4.2.2
       '@d-fischer/shared-utils': 3.5.0
       '@twurple/api-call': 5.3.1
       '@twurple/common': 5.3.1
@@ -1949,6 +1963,14 @@ packages:
 
   /@twurple/common@5.3.1:
     resolution: {integrity: sha512-Q1aSKlNnE734pFSLR8LGicIHcE+bendBRnGWJOiG32AoWLb6qA97pv2BvvTIAuTuybPE/V1PVQkbW1aJ/6n2xw==}
+    dependencies:
+      '@d-fischer/shared-utils': 3.5.0
+      klona: 2.0.5
+      tslib: 2.5.0
+    dev: false
+
+  /@twurple/common@6.0.0:
+    resolution: {integrity: sha512-SPSXmgET1sh/xkAXKsRqLJ2mqID2UNUeWTcucrDKxBHyU7usdrlhEn3DuG0+tm/cecdFS8FvFEpDnLkcY6Ly3A==}
     dependencies:
       '@d-fischer/shared-utils': 3.5.0
       klona: 2.0.5
@@ -2126,7 +2148,7 @@ packages:
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
-      csstype: 3.1.1
+      csstype: 3.1.2
 
   /@types/responselike@1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
@@ -2904,12 +2926,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /csstype@3.1.1:
-    resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
-    dev: false
 
   /d@1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
@@ -3046,10 +3064,6 @@ packages:
     resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==}
     engines: {node: '>=8'}
     dev: true
-
-  /detect-node@2.1.0:
-    resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
-    dev: false
 
   /dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -5462,6 +5476,11 @@ packages:
       onetime: 5.1.2
       signal-exit: 3.0.7
     dev: true
+
+  /retry@0.13.1:
+    resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
+    engines: {node: '>= 4'}
+    dev: false
 
   /reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}

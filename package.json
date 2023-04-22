@@ -47,7 +47,7 @@
 		"@fontsource/roboto": "^4.5.8",
 		"@mui/icons-material": "^5.11.16",
 		"@mui/material": "^5.12.1",
-		"@twurple/api": "^5.0.18",
+		"@twurple/api": "^6.0.0",
 		"@twurple/auth": "^5.0.18",
 		"app-root-path": "3.1.0",
 		"delay": "5.0.0",
