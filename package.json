@@ -82,7 +82,7 @@
 		"eslint": "8.38.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
-		"globby": "11.1.0",
+		"globby": "13.1.4",
 		"lint-staged": "13.2.1",
 		"modern-normalize": "1.1.0",
 		"nodecg-cli": "8.6.4",
