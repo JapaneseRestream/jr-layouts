@@ -2,7 +2,7 @@ import type {Manifest, ResolvedConfig, UserConfigExport} from "vite";
 import type {InputOptions, OutputOptions} from "rollup";
 import type {Plugin} from "vite";
 import react from "@vitejs/plugin-react";
-import globby from "globby";
+import {globbySync} from "globby";
 import path from "path";
 import fs from "fs";
 import * as cheerio from "cheerio";
@@ -26,8 +26,8 @@ const nodecg = ({
 	let inputOptions: InputOptions;
 	let outputOptions: OutputOptions;
 
-	const graphicsInputs = globby.sync(graphics);
-	const dashboardInputs = globby.sync(dashboard);
+	const graphicsInputs = globbySync(graphics);
+	const dashboardInputs = globbySync(dashboard);
 
 	const generateHtmlFiles = async () => {
 		const templateHtml = fs.readFileSync(

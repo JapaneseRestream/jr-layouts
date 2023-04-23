@@ -65,7 +65,12 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 					accessToken,
 				),
 			});
-			const me = await tmpApiClient.users.getMe();
+			const {userId} = await tmpApiClient.getTokenInfo();
+			if (!userId) {
+				res.status(500).send("No user ID returned from Twitch");
+				return;
+			}
+			const me = await tmpApiClient.users.getAuthenticatedUser(userId);
 			if (me.name === twitchConfig.ourChannel) {
 				twitchOauthRep.value = accessToken;
 				res.status(200).send(`Successfully registered user ${me.name}`);
@@ -89,19 +94,15 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			if (!twitchOauth) {
 				return;
 			}
-			const authProvider = new RefreshingAuthProvider(
-				{
-					clientId: twitchConfig.clientId,
-					clientSecret: twitchConfig.clientSecret,
-					onRefresh: (tokenInfoData) => {
-						twitchOauthRep.value = tokenInfoData;
-					},
+			const authProvider = new RefreshingAuthProvider({
+				clientId: twitchConfig.clientId,
+				clientSecret: twitchConfig.clientSecret,
+				onRefresh: (_, tokenInfoData) => {
+					twitchOauthRep.value = tokenInfoData;
 				},
-				twitchOauth,
-			);
-
+			});
+			await authProvider.addUserForToken(twitchOauth);
 			apiClient = new ApiClient({authProvider});
-
 			const result = await Promise.all([
 				apiClient.users.getUserByName(twitchConfig.ourChannel),
 				apiClient.users.getUserByName(twitchConfig.originalChannel),
