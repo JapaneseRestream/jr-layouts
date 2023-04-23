@@ -92,7 +92,7 @@
 		"react-dom": "18.2.0",
 		"rollup": "^3.20.7",
 		"simple-git-hooks": "^2.8.1",
-		"sort-package-json": "1.57.0",
+		"sort-package-json": "2.4.1",
 		"ts-nodecg": "0.3.1",
 		"typescript": "~5.0.0",
 		"vite": "^4.2.2"
