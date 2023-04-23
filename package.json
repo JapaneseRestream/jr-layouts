@@ -55,7 +55,7 @@
 		"dotenv": "16.0.3",
 		"express": "4.17.3",
 		"ffmpeg-static": "5.1.0",
-		"filenamify": "4.3.0",
+		"filenamify": "5.1.1",
 		"googleapis": "118.0.0",
 		"got": "11.8.6",
 		"lodash": "4.17.21",
