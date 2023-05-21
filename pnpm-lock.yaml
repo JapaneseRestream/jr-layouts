@@ -14,8 +14,8 @@ dependencies:
     specifier: ^11.10.6
     version: 11.10.6(@emotion/react@11.10.6)(@types/react@18.2.2)(react@18.2.0)
   '@fontsource/roboto':
-    specifier: ^4.5.8
-    version: 4.5.8
+    specifier: ^5.0.0
+    version: 5.0.0
   '@mui/icons-material':
     specifier: ^5.11.16
     version: 5.11.16(@mui/material@5.12.1)(@types/react@18.2.2)(react@18.2.0)
@@ -1614,8 +1614,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fontsource/roboto@4.5.8:
-    resolution: {integrity: sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==}
+  /@fontsource/roboto@5.0.0:
+    resolution: {integrity: sha512-ZUbU49VQcTGo06+C/SOX77BYuJJ8kBAp1tcxQ/BwQrJEQCXct4913gKrX6b+IMGFaj+FnI9kx0SSe0J2iN2Mug==}
     dev: false
 
   /@hoishin/prettierrc@2.2.0(prettier@2.8.8):
