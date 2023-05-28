@@ -1,4 +1,4 @@
-FROM node:18-slim AS build-base
+FROM node:20-slim AS build-base
 
 RUN apt-get update && apt-get install -y python3 build-essential
 RUN corepack enable
@@ -8,7 +8,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 
-FROM node:18-slim AS nodecg
+FROM node:20-slim AS nodecg
 
 ADD https://github.com/nodecg/nodecg/releases/download/v2.1.5/nodecg-2.1.5.tgz /nodecg.tgz
 RUN mkdir /nodecg && tar -xzvf /nodecg.tgz -C /nodecg --strip-components=1
@@ -37,7 +37,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --production
 
 
-FROM node:18-slim
+FROM node:20-slim
 
 COPY --from=nodecg /nodecg /nodecg
 
