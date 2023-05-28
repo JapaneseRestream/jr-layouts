@@ -19,6 +19,6 @@
 				"type": "string"
 			}
 		},
-		"required": ["category", "commentators", "platform", "title"]
+		"required": ["category", "platform", "title"]
 	}
 }

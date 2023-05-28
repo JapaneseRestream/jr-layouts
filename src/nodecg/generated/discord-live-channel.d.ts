@@ -11,4 +11,5 @@ export type DiscordLiveChannel = {
 	username: string;
 	discriminator: string;
 	avatar?: string;
+	muted: boolean;
 }[];

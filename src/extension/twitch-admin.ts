@@ -64,9 +64,11 @@ export const setupTwitchAdmin = async (nodecg: NodeCG) => {
 		});
 		await authProvider.addUserForToken(tokenData);
 		apiClient = new ApiClient({authProvider});
-		const {userId} = await apiClient.getTokenInfo();
-		if (userId) {
-			ourChannelId = userId;
+		const ourChannel = await apiClient.users.getUserByName(
+			twitchConfig.channel,
+		);
+		if (ourChannel) {
+			ourChannelId = ourChannel.id;
 		}
 	};
 
@@ -195,13 +197,18 @@ export const setupTwitchAdmin = async (nodecg: NodeCG) => {
 			await updateGame(gameId, gameName);
 		}
 	};
-	const fetchMainChannelInfo = async () => {
+
+	const syncChannelCategory = async () => {
 		try {
-			if (!apiClient || !ourChannelId) {
+			if (!apiClient || !ourChannelId || !targetChannelIdRep.value) {
 				return;
 			}
-			const result = await apiClient.channels.getChannelInfoById(ourChannelId);
-			return result;
+			const result = await apiClient.channels.getChannelInfoById(
+				targetChannelIdRep.value,
+			);
+			if (result) {
+				await updateGame(result.gameId, result.gameName);
+			}
 		} catch (error: unknown) {
 			log.error("Failed to fetch game ID:", error);
 			return;
@@ -209,12 +216,12 @@ export const setupTwitchAdmin = async (nodecg: NodeCG) => {
 	};
 
 	if (!twitchGameIdMapSheetId) {
-		setInterval(async () => {
-			const res = await fetchMainChannelInfo();
-			if (res) {
-				await updateGame(res.gameId, res.gameName);
-			}
+		setInterval(() => {
+			void syncChannelCategory();
 		}, UPDATE_INTERVAL);
+		targetChannelIdRep.on("change", () => {
+			void syncChannelCategory();
+		});
 	}
 
 	let markerRetryCount = 0;

@@ -11,7 +11,8 @@
 			"nickname": {"type": "string"},
 			"username": {"type": "string"},
 			"discriminator": {"type": "string"},
-			"avatar": {"type": "string"}
+			"avatar": {"type": "string"},
+			"muted": {"type": "boolean"}
 		}
 	}
 }

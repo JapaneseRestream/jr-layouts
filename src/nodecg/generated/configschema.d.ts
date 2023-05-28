@@ -12,7 +12,7 @@ export interface Configschema {
 	};
 	discord?: {
 		token: string;
-		voiceChannelId: string;
+		voiceChannelId?: string;
 		screenshotChannelId?: string;
 	};
 	googleApiKey: string;

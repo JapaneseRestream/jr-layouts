@@ -7,12 +7,10 @@ import {setupSpreadsheet} from "./spreadsheet";
 import {setupTwitchAdmin} from "./twitch-admin";
 
 export = async (nodecg: NodeCG) => {
-	await Promise.all([
-		setupTwitchAdmin(nodecg),
-		setupSpreadsheet(nodecg),
-		setupSchedule(nodecg),
-		setupDiscord(nodecg),
-		setupObs(nodecg),
-		setupAws(nodecg),
-	]);
+	await setupTwitchAdmin(nodecg);
+	await setupSpreadsheet(nodecg);
+	await setupSchedule(nodecg);
+	await setupDiscord(nodecg);
+	setupObs(nodecg);
+	setupAws(nodecg);
 };

@@ -7,7 +7,7 @@
 
 export type Spreadsheet = {
 	category: string;
-	commentators: string;
+	commentators?: string;
 	platform: string;
 	title: string;
 }[];

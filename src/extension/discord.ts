@@ -1,4 +1,3 @@
-import {joinVoiceChannel, VoiceReceiver} from "@discordjs/voice";
 import discord, {
 	ChannelType,
 	GatewayIntentBits,
@@ -26,12 +25,7 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 		return;
 	}
 
-	const {token, voiceChannelId, screenshotChannelId} =
-		nodecg.bundleConfig.discord;
-
-	const discordLiveChannelRep = nodecg.Replicant("discord-live-channel", {
-		persistent: false,
-	});
+	const {token, screenshotChannelId} = nodecg.bundleConfig.discord;
 
 	let client: discord.Client | null = null;
 	let screenshotChannel:
@@ -106,7 +100,6 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 				try {
 					nodecg.log.info("Discord client is ready.");
 
-					// Find and set the text channel to send screenshots
 					if (screenshotChannelId) {
 						const channel = await client.channels.fetch(screenshotChannelId);
 						if (channel?.type === ChannelType.GuildText) {
@@ -117,54 +110,6 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 							);
 						}
 					}
-
-					const liveChannel = await client.channels.fetch(voiceChannelId);
-
-					if (!liveChannel) {
-						nodecg.log.error(`Discord channel ${voiceChannelId} not found`);
-						return;
-					}
-					if (!liveChannel.isVoiceBased()) {
-						nodecg.log.error(
-							`Discord channel ${liveChannel.id} is not voice channel`,
-						);
-						return;
-					}
-
-					if (!liveChannel.joinable) {
-						nodecg.log.error(
-							`Cannot join voice channel ${liveChannel.name} (${liveChannel.id})`,
-						);
-						return;
-					}
-
-					nodecg.log.info(`Joining channel ${liveChannel.name}`);
-					const connection = joinVoiceChannel({
-						channelId: liveChannel.id,
-						guildId: liveChannel.guild.id,
-						adapterCreator: liveChannel.guild.voiceAdapterCreator,
-						selfDeaf: false,
-					});
-
-					connection.on("stateChange", () => {
-						discordLiveChannelRep.value = liveChannel.members.map((member) => ({
-							id: member.id,
-							nickname: member.nickname ?? undefined,
-							username: member.user.username,
-							discriminator: member.user.discriminator,
-							avatar: member.user.avatarURL() ?? undefined,
-						}));
-					});
-
-					const voiceReceiver = new VoiceReceiver(connection);
-
-					const stream = voiceReceiver.subscribe("");
-					stream.on("readable", () => {
-						console.log("hello");
-					});
-					stream.on("data", (chunk) => {
-						console.log("voice", chunk);
-					});
 				} catch (error) {
 					nodecg.log.error(error);
 				}

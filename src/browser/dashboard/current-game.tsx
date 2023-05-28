@@ -1,21 +1,8 @@
 import "./global.css";
 
 import styled from "@emotion/styled";
-import {
-	ArrowBack,
-	ArrowForward,
-	Category,
-	Mic,
-	VideogameAsset,
-} from "@mui/icons-material";
-import {
-	Avatar,
-	Button,
-	List,
-	ListItem,
-	ListItemText,
-	ThemeProvider,
-} from "@mui/material";
+import {ArrowBack, ArrowForward} from "@mui/icons-material";
+import {Button, ThemeProvider, Typography} from "@mui/material";
 import {createRoot} from "react-dom/client";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
@@ -38,15 +25,11 @@ const ButtonContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
+	padding: 8px;
 	width: 100vw;
-	display: flex;
-	flex-flow: column nowrap;
-	justify-content: flex-start;
-	align-items: flex-start;
-`;
-
-const StyledAvatar = styled(Avatar)`
-	margin: 0 4px;
+	display: grid;
+	grid-auto-flow: row;
+	place-items: center;
 `;
 
 const PreviousRunButton: React.FunctionComponent = () => {
@@ -110,26 +93,10 @@ const Info: React.FunctionComponent = () => {
 	}
 	return (
 		<InfoContainer>
-			<List>
-				<ListItem>
-					<StyledAvatar>
-						<VideogameAsset />
-					</StyledAvatar>
-					<ListItemText primary={currentRun.game} />
-				</ListItem>
-				<ListItem>
-					<StyledAvatar>
-						<Category />
-					</StyledAvatar>
-					<ListItemText primary={currentRun.category} />
-				</ListItem>
-				<ListItem>
-					<StyledAvatar>
-						<Mic />
-					</StyledAvatar>
-					<ListItemText primary={currentRun.console} />
-				</ListItem>
-			</List>
+			<Typography fontSize={24}>{currentRun.game}</Typography>
+			<Typography fontSize={18}>
+				{currentRun.category} - {currentRun.console}
+			</Typography>
 		</InfoContainer>
 	);
 };

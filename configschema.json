@@ -19,7 +19,7 @@
 				"voiceChannelId": {"type": "string"},
 				"screenshotChannelId": {"type": "string"}
 			},
-			"required": ["token", "voiceChannelId"],
+			"required": ["token"],
 			"additionalProperties": false
 		},
 		"googleApiKey": {
