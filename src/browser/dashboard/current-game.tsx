@@ -1,34 +1,26 @@
 import "./global.css";
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import createTheme from "@mui/material/styles/createTheme";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import ArrowBack from "@mui/icons-material/ArrowBack";
-import ArrowForward from "@mui/icons-material/ArrowForward";
-import Category from "@mui/icons-material/Category";
-import Mic from "@mui/icons-material/Mic";
-import VideogameAsset from "@mui/icons-material/VideogameAsset";
-import {createRoot} from "react-dom/client";
 import styled from "@emotion/styled";
+import {
+	ArrowBack,
+	ArrowForward,
+	Category,
+	Mic,
+	VideogameAsset,
+} from "@mui/icons-material";
+import {
+	Avatar,
+	Button,
+	List,
+	ListItem,
+	ListItemText,
+	ThemeProvider,
+} from "@mui/material";
+import {createRoot} from "react-dom/client";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const currentRunRep = nodecg.Replicant("currentRun");
-const scheduleRep = nodecg.Replicant("schedule");
-
-const theme = createTheme({
-	components: {
-		MuiButton: {
-			defaultProps: {
-				variant: "contained",
-			},
-		},
-	},
-});
+import {theme} from "./lib/mui-theme";
 
 const Container = styled.div`
 	margin: 8px;
@@ -58,7 +50,7 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const PreviousRunButton: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
+	const [currentRun] = useReplicant("current-run");
 	if (!currentRun) {
 		return null;
 	}
@@ -83,8 +75,8 @@ const EditButton: React.FunctionComponent = () => {
 	);
 };
 const NextRunButton: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
-	const [schedule] = useReplicant(scheduleRep);
+	const [currentRun] = useReplicant("current-run");
+	const [schedule] = useReplicant("schedule");
 	if (!currentRun || !schedule) {
 		return null;
 	}
@@ -112,7 +104,7 @@ const Buttons: React.FunctionComponent = () => {
 };
 
 const Info: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
+	const [currentRun] = useReplicant("current-run");
 	if (!currentRun) {
 		return null;
 	}
@@ -135,7 +127,7 @@ const Info: React.FunctionComponent = () => {
 					<StyledAvatar>
 						<Mic />
 					</StyledAvatar>
-					<ListItemText primary={currentRun.commentator} />
+					<ListItemText primary={currentRun.console} />
 				</ListItem>
 			</List>
 		</InfoContainer>

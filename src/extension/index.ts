@@ -1,16 +1,18 @@
-import {setupSpreadsheet} from "./spreadsheet";
-import {setupSchedule} from "./schedule";
+import {setupAws} from "./aws";
 import {setupDiscord} from "./discord";
 import type {NodeCG} from "./nodecg";
-import {setupTwitchAdmin} from "./twitch-admin";
 import {setupObs} from "./obs";
-import {setupAws} from "./aws";
+import {setupSchedule} from "./schedule";
+import {setupSpreadsheet} from "./spreadsheet";
+import {setupTwitchAdmin} from "./twitch-admin";
 
-export = (nodecg: NodeCG) => {
-	setupTwitchAdmin(nodecg);
-	setupSpreadsheet(nodecg);
-	setupSchedule(nodecg);
-	setupDiscord(nodecg);
-	setupObs(nodecg);
-	setupAws(nodecg);
+export = async (nodecg: NodeCG) => {
+	await Promise.all([
+		setupTwitchAdmin(nodecg),
+		setupSpreadsheet(nodecg),
+		setupSchedule(nodecg),
+		setupDiscord(nodecg),
+		setupObs(nodecg),
+		setupAws(nodecg),
+	]);
 };

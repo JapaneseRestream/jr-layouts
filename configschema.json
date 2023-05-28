@@ -31,12 +31,11 @@
 		"twitch": {
 			"type": "object",
 			"properties": {
-				"ourChannel": {"type": "string"},
-				"originalChannel": {"type": "string"},
+				"channel": {"type": "string"},
 				"clientId": {"type": "string"},
 				"clientSecret": {"type": "string"}
 			},
-			"required": ["ourChannel", "originalChannel", "clientId", "clientSecret"],
+			"required": ["channel", "clientId", "clientSecret"],
 			"additionalProperties": false
 		},
 		"twitchGameIdMapSheetId": {

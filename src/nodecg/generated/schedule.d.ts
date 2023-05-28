@@ -9,7 +9,6 @@ export type Schedule = Run[];
 
 export interface Run {
 	category: string;
-	commentator: string;
 	console: string;
 	game: string;
 	index: number;

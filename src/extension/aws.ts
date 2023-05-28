@@ -1,11 +1,12 @@
-import {NodeCG} from "./nodecg";
 import {
 	EC2Client,
 	StartInstancesCommand,
 	StopInstancesCommand,
 } from "@aws-sdk/client-ec2";
 
-export const setupAws = async (nodecg: NodeCG) => {
+import type {NodeCG} from "./nodecg";
+
+export const setupAws = (nodecg: NodeCG) => {
 	const awsConfig = nodecg.bundleConfig.aws;
 	if (!awsConfig) {
 		return;

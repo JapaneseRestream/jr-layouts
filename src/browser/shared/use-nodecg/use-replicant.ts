@@ -1,49 +1,44 @@
-import {useEffect, useState} from "react";
-import _ from "lodash";
-import type {Replicant} from "ts-nodecg/browser";
+import isEqual from "lodash-es/isEqual";
+import {useEffect, useMemo, useState} from "react";
 
-import type {ReplicantMap} from "../../../nodecg/replicants";
+import type {ReplicantMap as RM} from "../../../nodecg/replicants";
 
-/**
- * Subscribe to a replicant, returns tuple of the replicant value and `setValue` function.
- * The component using this function gets re-rendered when the value is updated.
- * The `setValue` function can be used to update replicant value.
- * @param replicant Replicant object to subscribe to
- * @param initialValue Initial value to pass to `useState` function
- */
-export const useReplicant = <
-	TBundleName extends string,
-	TRepMap extends ReplicantMap,
-	TRepName extends keyof ReplicantMap,
-	TSchema extends TRepMap[TRepName],
->(
-	replicant: Replicant<TBundleName, TRepMap, TRepName, TSchema | undefined>,
-): [TSchema | null, (newValue: TSchema) => void] => {
-	const [value, updateValue] = useState<TSchema | null>(null);
-
-	const changeHandler = (newValue: TSchema): void => {
-		updateValue((oldValue) => {
-			if (newValue !== oldValue) {
-				return newValue;
-			}
-			if (_.isEqual(oldValue, newValue)) {
-				return oldValue;
-			}
-			return _.clone(newValue);
-		});
-	};
+export const useReplicant = <TName extends keyof RM, TValue = RM[TName]>(
+	replicantName: TName,
+	getValue = (value: RM[TName]) => value as TValue,
+) => {
+	const replicant = useMemo(
+		() => nodecg.Replicant(replicantName),
+		[replicantName],
+	);
+	const [value, setValue] = useState<TValue>();
 
 	useEffect(() => {
-		replicant.on("change", changeHandler as any);
-		return () => {
-			replicant.removeListener("change", changeHandler as any);
+		const changeHandler = (newReplicantValue: RM[TName]) => {
+			const newValue = getValue(newReplicantValue);
+			setValue((oldValue) => {
+				if (oldValue !== newValue || !isEqual(oldValue, newValue)) {
+					return newValue;
+				}
+				return oldValue;
+			});
 		};
-	}, [replicant]);
+		replicant.on("change", changeHandler);
+		return () => {
+			replicant.removeListener("change", changeHandler);
+		};
+	}, [replicant, getValue]);
 
 	return [
 		value,
-		(newValue) => {
-			replicant.value = newValue;
+		(
+			newValue: RM[TName] | ((oldValue: RM[TName] | undefined) => RM[TName]),
+		) => {
+			if (typeof newValue === "function") {
+				replicant.value = newValue(replicant.value);
+			} else {
+				replicant.value = newValue;
+			}
 		},
-	];
+	] as const;
 };

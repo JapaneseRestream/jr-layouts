@@ -5,12 +5,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Spreadsheet {
-	gamesList?: GamesListItem[];
-}
-export interface GamesListItem {
+export type Spreadsheet = {
 	category: string;
 	commentators: string;
 	platform: string;
 	title: string;
-}
+}[];

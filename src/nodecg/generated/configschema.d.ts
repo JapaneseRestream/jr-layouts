@@ -18,8 +18,7 @@ export interface Configschema {
 	googleApiKey: string;
 	spreadsheetId: string;
 	twitch?: {
-		ourChannel: string;
-		originalChannel: string;
+		channel: string;
 		clientId: string;
 		clientSecret: string;
 	};

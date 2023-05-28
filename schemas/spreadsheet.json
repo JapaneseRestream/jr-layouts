@@ -1,34 +1,24 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"additionalProperties": false,
-	"definitions": {
-		"GamesListItem": {
-			"additionalProperties": false,
-			"properties": {
-				"category": {
-					"type": "string"
-				},
-				"commentators": {
-					"type": "string"
-				},
-				"platform": {
-					"type": "string"
-				},
-				"title": {
-					"type": "string"
-				}
+
+	"type": "array",
+	"items": {
+		"type": "object",
+		"additionalProperties": false,
+		"properties": {
+			"category": {
+				"type": "string"
 			},
-			"required": ["category", "commentators", "platform", "title"],
-			"type": "object"
-		}
-	},
-	"properties": {
-		"gamesList": {
-			"items": {
-				"$ref": "#/definitions/GamesListItem"
+			"commentators": {
+				"type": "string"
 			},
-			"type": "array"
-		}
-	},
-	"type": "object"
+			"platform": {
+				"type": "string"
+			},
+			"title": {
+				"type": "string"
+			}
+		},
+		"required": ["category", "commentators", "platform", "title"]
+	}
 }

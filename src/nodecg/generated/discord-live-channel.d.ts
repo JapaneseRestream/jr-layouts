@@ -5,12 +5,10 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type CurrentRun = Run | null;
-
-export interface Run {
-	category: string;
-	commentator: string;
-	console: string;
-	game: string;
-	index: number;
-}
+export type DiscordLiveChannel = {
+	id: string;
+	nickname?: string;
+	username: string;
+	discriminator: string;
+	avatar?: string;
+}[];

@@ -4,9 +4,6 @@
 		"category": {
 			"type": "string"
 		},
-		"commentator": {
-			"type": "string"
-		},
 		"console": {
 			"type": "string"
 		},
@@ -17,6 +14,6 @@
 			"type": "number"
 		}
 	},
-	"required": ["category", "commentator", "console", "game", "index"],
+	"required": ["category", "console", "game", "index"],
 	"additionalProperties": false
 }

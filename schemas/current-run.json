@@ -1,4 +1,4 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"anyOf": [{"$ref": "lib/run.json"}, {"type": "null"}]
+	"oneOf": [{"$ref": "lib/run.json"}, {"type": "null"}]
 }

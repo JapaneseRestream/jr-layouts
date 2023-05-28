@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 import {Logo} from "./logo";
 import {UpcomingList} from "./upcoming-list";
-import {DiscordStatus} from "./discord-status";
 
 const Container = styled.div`
 	position: absolute;
@@ -26,6 +25,5 @@ export const Left = () => (
 		<Logo />
 		<UpcomingTitle>今後のゲーム</UpcomingTitle>
 		<UpcomingList />
-		<DiscordStatus />
 	</Container>
 );

@@ -1,7 +1,6 @@
 import {setInterval} from "timers";
 
 import {google} from "googleapis";
-import _ from "lodash";
 
 import type {BundleConfig} from "../nodecg/bundle-config";
 
@@ -10,14 +9,16 @@ import type {NodeCG} from "./nodecg";
 const UPDATE_INTERVAL = 10 * 1000;
 const GAMES_DEMOS_ID = "66082";
 
-export const setupSpreadsheet = (nodecg: NodeCG) => {
+export const setupSpreadsheet = async (nodecg: NodeCG) => {
+	const {default: zipObject} = await import("lodash-es/zipObject.js");
+
 	const config: BundleConfig = nodecg.bundleConfig;
 	const GOOGLE_API_KEY = config.googleApiKey;
 	const SPREADSHEET_ID = config.spreadsheetId;
 	const spreadsheetRep = nodecg.Replicant("spreadsheet", {
-		defaultValue: {gamesList: []},
+		defaultValue: [],
 	});
-	const gameIdsRep = nodecg.Replicant("gameIds");
+	const gameIdsRep = nodecg.Replicant("game-ids");
 	const sheets = google.sheets({version: "v4", auth: GOOGLE_API_KEY});
 
 	const fetchSpreadsheet = async () => {
@@ -32,17 +33,18 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 			);
 		}
 		const [gamesValue] = sheetValues;
-		if (gamesValue.values) {
+		if (gamesValue?.values) {
 			const [labels, ...contents] = gamesValue.values;
-			const games = contents.map((content) => _.zipObject(labels, content));
-
-			if (spreadsheetRep.value) {
-				spreadsheetRep.value.gamesList = games
+			if (labels) {
+				const games = contents.map((content) =>
+					zipObject<string>(labels, content),
+				);
+				spreadsheetRep.value = games
 					.map((g) => {
 						return {
-							title: g.title ?? "",
-							category: g.category ?? "",
-							platform: g.platform ?? "",
+							title: g["title"] ?? "",
+							category: g["category"] ?? "",
+							platform: g["platform"] ?? "",
 							commentators: "",
 						};
 					})
@@ -79,12 +81,15 @@ export const setupSpreadsheet = (nodecg: NodeCG) => {
 				);
 			}
 			const [idsValue] = sheetValues;
-			if (idsValue.values) {
-				const contents = idsValue.values.slice(1);
-				gameIdsRep.value = contents.map((row) => {
+			if (idsValue?.values) {
+				const [_label, ...contents] = idsValue.values;
+				const idMap = contents.map((content) =>
+					zipObject<string>(["name", "english", "id"], content),
+				);
+				gameIdsRep.value = idMap.map((idName) => {
 					return {
-						name: row[0],
-						gameId: row[2] || GAMES_DEMOS_ID,
+						name: idName["name"] ?? "",
+						gameId: idName["id"] || GAMES_DEMOS_ID,
 					};
 				});
 			}

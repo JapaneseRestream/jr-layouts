@@ -6,12 +6,9 @@ import {GamePlate} from "./game-plate";
 
 const GAME_PLATE_AMOUNT = 5;
 
-const scheduleRep = nodecg.Replicant("schedule");
-const currentRunRep = nodecg.Replicant("currentRun");
-
 export const UpcomingList: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
-	const [schedule] = useReplicant(scheduleRep);
+	const [currentRun] = useReplicant("current-run");
+	const [schedule] = useReplicant("schedule");
 	if (!currentRun || !schedule) {
 		return null;
 	}

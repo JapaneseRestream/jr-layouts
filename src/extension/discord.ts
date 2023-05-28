@@ -1,10 +1,9 @@
-import appRootPath from "app-root-path";
-import type {VoiceChannel} from "discord.js";
-import discord from "discord.js";
-import {isEqual} from "lodash";
-import filenamify from "filenamify";
-
-import type {DiscordSpeakingStatus} from "../nodecg/generated/discordSpeakingStatus";
+import {joinVoiceChannel, VoiceReceiver} from "@discordjs/voice";
+import discord, {
+	ChannelType,
+	GatewayIntentBits,
+	IntentsBitField,
+} from "discord.js";
 
 import type {NodeCG} from "./nodecg";
 import {obs} from "./obs";
@@ -19,7 +18,9 @@ const takeScreenshot = async () => {
 	return img;
 };
 
-export const setupDiscord = (nodecg: NodeCG) => {
+export const setupDiscord = async (nodecg: NodeCG) => {
+	const {default: filenamify} = await import("filenamify");
+
 	if (!nodecg.bundleConfig.discord) {
 		nodecg.log.warn("Discord settings are empty");
 		return;
@@ -28,8 +29,7 @@ export const setupDiscord = (nodecg: NodeCG) => {
 	const {token, voiceChannelId, screenshotChannelId} =
 		nodecg.bundleConfig.discord;
 
-	const speakingStatusRep = nodecg.Replicant("discordSpeakingStatus", {
-		defaultValue: [],
+	const discordLiveChannelRep = nodecg.Replicant("discord-live-channel", {
 		persistent: false,
 	});
 
@@ -39,13 +39,13 @@ export const setupDiscord = (nodecg: NodeCG) => {
 		| discord.DMChannel
 		| discord.NewsChannel
 		| null = null;
-	let updateTimer: NodeJS.Timer | null = null;
 
 	nodecg.listenFor("obs:take-screenshot", async (_, cb) => {
 		try {
 			const img = await takeScreenshot();
-			const name = nodecg.Replicant("currentRun").value?.game;
 			if (screenshotChannel) {
+				const name = nodecg.Replicant("current-run").value?.game ?? "";
+				const safeName = filenamify(name, {replacement: "_"});
 				await screenshotChannel.send({
 					files: [
 						{
@@ -53,16 +53,13 @@ export const setupDiscord = (nodecg: NodeCG) => {
 								img.replace("data:image/png;base64,", ""),
 								"base64",
 							),
-							name: `screenshot-${filenamify(name ?? "", {
-								replacement: "_",
-							})}-${Date.now()}.png`,
+							name: `screenshot-${safeName}-${Date.now()}.png`,
 						},
 					],
 				});
 			}
 			if (cb && !cb.handled) {
 				cb(null, img);
-				return;
 			}
 		} catch (error: unknown) {
 			nodecg.log.error("Failed to take screenshot:", error);
@@ -77,11 +74,14 @@ export const setupDiscord = (nodecg: NodeCG) => {
 			if (client) {
 				client.destroy();
 			}
-			if (updateTimer) {
-				clearInterval(updateTimer);
-			}
 
-			client = new discord.Client();
+			client = new discord.Client({
+				intents: [
+					IntentsBitField.Flags.Guilds,
+					GatewayIntentBits.GuildVoiceStates,
+				],
+			});
+
 			await client.login(token);
 
 			client.on("disconnect", () => {
@@ -105,77 +105,66 @@ export const setupDiscord = (nodecg: NodeCG) => {
 				}
 				try {
 					nodecg.log.info("Discord client is ready.");
-					const liveChannel = await client.channels.fetch(voiceChannelId);
+
+					// Find and set the text channel to send screenshots
 					if (screenshotChannelId) {
 						const channel = await client.channels.fetch(screenshotChannelId);
-						if (channel.isText()) {
+						if (channel?.type === ChannelType.GuildText) {
 							screenshotChannel = channel;
+						} else {
+							nodecg.log.error(
+								`Discord channel ${screenshotChannelId} is not text channel`,
+							);
 						}
 					}
 
-					if (liveChannel.type !== "voice") {
+					const liveChannel = await client.channels.fetch(voiceChannelId);
+
+					if (!liveChannel) {
+						nodecg.log.error(`Discord channel ${voiceChannelId} not found`);
+						return;
+					}
+					if (!liveChannel.isVoiceBased()) {
 						nodecg.log.error(
 							`Discord channel ${liveChannel.id} is not voice channel`,
 						);
 						return;
 					}
 
-					const voiceChannel = liveChannel as VoiceChannel;
-
-					if (!voiceChannel.joinable) {
+					if (!liveChannel.joinable) {
 						nodecg.log.error(
-							`Cannot join voice channel ${voiceChannel.name} (${voiceChannel.id})`,
+							`Cannot join voice channel ${liveChannel.name} (${liveChannel.id})`,
 						);
 						return;
 					}
 
-					nodecg.log.info(`Joining channel ${voiceChannel.name}`);
-					const connection = await voiceChannel.join();
-					nodecg.log.info("Joined channel");
-					connection.play(appRootPath.resolve("./assets/join.mp3"), {
-						volume: 0,
-					});
-					connection.on("speaking", (user, speaking) => {
-						const member = voiceChannel.members.find((m) => m.id === user.id);
-						if (!member) {
-							return;
-						}
-						let newStatus: DiscordSpeakingStatus;
-						const currentStatus = speakingStatusRep.value || [];
-						if (speaking.bitfield === 1) {
-							const alreadySpeaking = currentStatus.some(
-								(speakingMember) => speakingMember.id === member.id,
-							);
-							if (alreadySpeaking) {
-								return;
-							}
-							newStatus = [
-								...currentStatus,
-								{
-									id: member.id,
-									name:
-										member.nickname ??
-										member.displayName ??
-										member.user?.username ??
-										"",
-								},
-							];
-						} else {
-							newStatus = currentStatus.filter(
-								(speakingMember) => speakingMember.id !== member.id,
-							);
-						}
-						speakingStatusRep.value = newStatus;
+					nodecg.log.info(`Joining channel ${liveChannel.name}`);
+					const connection = joinVoiceChannel({
+						channelId: liveChannel.id,
+						guildId: liveChannel.guild.id,
+						adapterCreator: liveChannel.guild.voiceAdapterCreator,
+						selfDeaf: false,
 					});
 
-					updateTimer = setInterval(() => {
-						const filteredStatus = (speakingStatusRep.value || []).filter(
-							({id}) => voiceChannel.members.some((member) => member.id === id),
-						);
-						if (!isEqual(speakingStatusRep.value, filteredStatus)) {
-							speakingStatusRep.value = filteredStatus;
-						}
-					}, 200);
+					connection.on("stateChange", () => {
+						discordLiveChannelRep.value = liveChannel.members.map((member) => ({
+							id: member.id,
+							nickname: member.nickname ?? undefined,
+							username: member.user.username,
+							discriminator: member.user.discriminator,
+							avatar: member.user.avatarURL() ?? undefined,
+						}));
+					});
+
+					const voiceReceiver = new VoiceReceiver(connection);
+
+					const stream = voiceReceiver.subscribe("");
+					stream.on("readable", () => {
+						console.log("hello");
+					});
+					stream.on("data", (chunk) => {
+						console.log("voice", chunk);
+					});
 				} catch (error) {
 					nodecg.log.error(error);
 				}
@@ -188,6 +177,6 @@ export const setupDiscord = (nodecg: NodeCG) => {
 	void initialize();
 
 	nodecg.listenFor("refreshDiscordBot", () => {
-		initialize();
+		void initialize();
 	});
 };

@@ -3,29 +3,26 @@ import type {AccessToken} from "@twurple/auth";
 import type {
 	ObsStatus,
 	Spreadsheet,
-	DiscordSpeakingStatus,
 	Schedule,
 	CurrentRun,
-	Twitch,
 	GameIds,
+	DiscordLiveChannel,
 } from "./generated";
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ReplicantMap = {
 	// Defined by schemas
-	currentRun: CurrentRun;
-	discordSpeakingStatus: DiscordSpeakingStatus;
-	obsStatus: ObsStatus;
+	"current-run": CurrentRun;
+	"discord-live-channel": DiscordLiveChannel;
+	"game-ids": GameIds;
+	"obs-status": ObsStatus;
 	schedule: Schedule;
 	spreadsheet: Spreadsheet;
-	twitch: Twitch;
-	gameIds: GameIds;
 
 	// Additional replicants
-	twitchOauth: AccessToken;
 	lastMarkerTime: number;
-	obsRecordingTimestamp: number;
-	obsAutoRecording: boolean;
 	hashtag: string;
 	twitchTitle: string;
+	"twitch-oauth": AccessToken;
+	targetTwitchChannel: string;
+	targetTwitchChannelId: string;
 };

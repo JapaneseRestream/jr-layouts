@@ -7,8 +7,8 @@ export const obs = new OBSWebSocket();
 export const setupObs = (nodecg: NodeCG) => {
 	const {obs: obsConfig} = nodecg.bundleConfig;
 	const logger = new nodecg.Logger("obs");
-	const obsAutoRecording = nodecg.Replicant("obsAutoRecording");
-	const obsStatus = nodecg.Replicant("obsStatus", {persistent: false});
+	const obsStatus = nodecg.Replicant("obs-status", {persistent: false});
+	const targetChannelRep = nodecg.Replicant("targetTwitchChannel");
 
 	if (!obsConfig) {
 		logger.warn("OBS setting is empty");
@@ -32,27 +32,6 @@ export const setupObs = (nodecg: NodeCG) => {
 			attemptingToConnect = false;
 		}
 	};
-	const startRecording = async () => {
-		try {
-			await obs.send("StartRecording");
-			logger.info("Started recording");
-		} catch (error: unknown) {
-			logger.error("Failed to start recording:", error);
-		}
-	};
-	const stopRecording = async () => {
-		try {
-			await obs.send("StopRecording");
-			logger.info("Stopped recording");
-		} catch (error: unknown) {
-			logger.error("Failed to stop recording:", error);
-		}
-	};
-	nodecg.listenFor("nextRun", () => {
-		if (obsAutoRecording.value) {
-			void stopRecording();
-		}
-	});
 	nodecg.listenFor("obs:connect", () => {
 		connect().catch((error) => {
 			logger.error(error);
@@ -60,20 +39,17 @@ export const setupObs = (nodecg: NodeCG) => {
 	});
 
 	nodecg.listenFor("refreshPlayer", () => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		(obs.send as any)("RefreshBrowserSource", {
 			sourceName: "TWITCH_PLAYER",
 		});
 	});
 
-	nodecg.listenFor("setTwitchUrl", async ({channel}, cb) => {
-		if (!obsStatus.value?.connected) {
-			if (cb && !cb.handled) {
-				cb("OBS_NOT_ACTIVE");
-			}
-			return;
-		}
-
+	targetChannelRep.on("change", async (channel) => {
 		try {
+			if (!obsStatus.value?.connected) {
+				return;
+			}
 			const targetChannelUrl = new URL("https://player.twitch.tv");
 			if (/^\d+$/.test(channel)) {
 				targetChannelUrl.searchParams.append("video", channel);
@@ -84,19 +60,15 @@ export const setupObs = (nodecg: NodeCG) => {
 			targetChannelUrl.searchParams.append("parent", "twitch.tv");
 			targetChannelUrl.searchParams.append("player", "popout");
 			targetChannelUrl.searchParams.append("volume", "1");
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			await (obs.send as any)("SetSourceSettings", {
 				sourceName: "TWITCH_PLAYER",
 				sourceSettings: {
 					url: targetChannelUrl.href,
 				},
 			});
-			if (cb && !cb.handled) {
-				cb(null);
-			}
 		} catch (error) {
-			if (cb && !cb.handled) {
-				cb("UNKNOWN");
-			}
+			nodecg.log.error("Failed to update OBS browser source URL:", error);
 		}
 	});
 
@@ -118,9 +90,6 @@ export const setupObs = (nodecg: NodeCG) => {
 			streamTime: data["total-stream-time"] ?? 0,
 			recordTime: data["total-record-time"] ?? 0,
 		};
-		if (obsAutoRecording.value && !data.recording) {
-			void startRecording();
-		}
 	});
 	obs.on("ConnectionClosed", () => {
 		if (obsStatus.value?.connected) {

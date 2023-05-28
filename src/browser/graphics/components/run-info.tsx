@@ -1,11 +1,9 @@
-import React from "react";
 import styled from "@emotion/styled";
+import React from "react";
 
 import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 
-import {FitText, Text as FitTextText} from "./fit-text";
-
-const currentRunRep = nodecg.Replicant("currentRun");
+import {FitText} from "./fit-text";
 
 const Container = styled.div`
 	position: absolute;
@@ -18,31 +16,26 @@ const Container = styled.div`
 `;
 
 const Title = styled(FitText)`
-	& > ${FitTextText} {
-		font-size: 60px;
-		font-weight: 900;
-	}
+	font-size: 60px;
+	font-weight: 900;
 `;
 
 const Misc = styled(FitText)`
-	& > ${FitTextText} {
-		font-size: 20px;
-		font-weight: 500;
-	}
+	font-size: 20px;
+	font-weight: 500;
 `;
 
 export const RunInfo: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
-	if (!currentRun) {
-		return null;
-	}
-	const misc = [currentRun.category, currentRun.console]
-		.filter(Boolean)
-		.join(" - ");
+	const [game] = useReplicant("current-run", (currentRun) => currentRun?.game);
+	const [misc] = useReplicant(
+		"current-run",
+		(currentRun) =>
+			currentRun && `${currentRun.category} - ${currentRun.console}`,
+	);
 	return (
 		<Container>
-			<Title text={currentRun.game} />
-			<Misc text={misc} />
+			<Title text={game ?? ""} />
+			<Misc text={misc ?? ""} />
 		</Container>
 	);
 };

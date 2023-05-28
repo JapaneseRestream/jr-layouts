@@ -1,33 +1,37 @@
+import {ApiClient} from "@twurple/api";
+import type {AccessToken} from "@twurple/auth";
 import {
 	exchangeCode,
 	RefreshingAuthProvider,
 	StaticAuthProvider,
 } from "@twurple/auth";
-import type {HelixUser} from "@twurple/api";
-import {ApiClient} from "@twurple/api";
 import express from "express";
 
 import type {NodeCG} from "./nodecg";
 
 const UPDATE_INTERVAL = 10 * 1000;
 
-export const setupTwitchAdmin = (nodecg: NodeCG) => {
+export const setupTwitchAdmin = async (nodecg: NodeCG) => {
 	const log = new nodecg.Logger("extension:twitch-admin");
 
 	const twitchConfig = nodecg.bundleConfig.twitch;
-
 	if (!twitchConfig) {
 		log.error("Missing bundle's Twitch config");
 		return;
 	}
 
 	const {twitchGameIdMapSheetId} = nodecg.bundleConfig;
+	if (twitchGameIdMapSheetId) {
+		log.warn("Using spreadsheet to obtain game ID.");
+	}
 
-	const twitchOauthRep = nodecg.Replicant("twitchOauth");
-	const currentRunRep = nodecg.Replicant("currentRun");
+	const twitchOauthRep = nodecg.Replicant("twitch-oauth");
+	const currentRunRep = nodecg.Replicant("current-run");
 	const lastMarkerTimeRep = nodecg.Replicant("lastMarkerTime");
 	const twitchTitleRep = nodecg.Replicant("twitchTitle");
-	const gameIdsRep = nodecg.Replicant("gameIds");
+	const gameIdsRep = nodecg.Replicant("game-ids");
+	const targetChannelNameRep = nodecg.Replicant("targetTwitchChannel");
+	const targetChannelIdRep = nodecg.Replicant("targetTwitchChannelId");
 
 	const redirectPath = "/twitch-auth-callback";
 	const redirectUrl = new URL(
@@ -36,6 +40,7 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 			? `http://${nodecg.config.baseURL}`
 			: `https://${nodecg.config.baseURL}`,
 	);
+
 	const authPageUrl = new URL("https://id.twitch.tv/oauth2/authorize");
 	authPageUrl.searchParams.append("client_id", twitchConfig.clientId);
 	authPageUrl.searchParams.append("redirect_uri", redirectUrl.href);
@@ -45,7 +50,33 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 		"channel:manage:broadcast user:edit:broadcast",
 	);
 	log.warn("TWITCH AUTHENTICATION URL:", authPageUrl.href);
+
+	let apiClient: ApiClient | undefined;
+	let ourChannelId: string | undefined;
+
+	const setupApiClient = async (tokenData: AccessToken) => {
+		const authProvider = new RefreshingAuthProvider({
+			clientId: twitchConfig.clientId,
+			clientSecret: twitchConfig.clientSecret,
+			onRefresh: (_, tokenInfoData) => {
+				twitchOauthRep.value = tokenInfoData;
+			},
+		});
+		await authProvider.addUserForToken(tokenData);
+		apiClient = new ApiClient({authProvider});
+		const {userId} = await apiClient.getTokenInfo();
+		if (userId) {
+			ourChannelId = userId;
+		}
+	};
+
+	// Read the already existing token data to initially setup API client
+	if (twitchOauthRep.value) {
+		await setupApiClient(twitchOauthRep.value);
+	}
+
 	const redirectApp = express();
+	// eslint-disable-next-line @typescript-eslint/no-misused-promises
 	redirectApp.get("/", async (req, res) => {
 		try {
 			const {code} = req.query;
@@ -71,12 +102,13 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 				return;
 			}
 			const me = await tmpApiClient.users.getAuthenticatedUser(userId);
-			if (me.name === twitchConfig.ourChannel) {
+			if (me.name === twitchConfig.channel) {
 				twitchOauthRep.value = accessToken;
+				await setupApiClient(accessToken);
 				res.status(200).send(`Successfully registered user ${me.name}`);
-				return;
+			} else {
+				res.status(400).send(`Not a user to register (${me.name})`);
 			}
-			res.status(400).send(`Not a user to register (${me.name})`);
 		} catch (error: unknown) {
 			res.status(500).send("Server error while getting Twitch access token");
 			log.error("Server error while getting Twitch access token:", error);
@@ -84,35 +116,17 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	});
 	nodecg.mount(redirectPath, redirectApp);
 
-	let apiClient: ApiClient | undefined;
-
-	let ourChannelId: HelixUser | undefined;
-	let originalChannelId: HelixUser | undefined;
-
-	twitchOauthRep.on("change", async (twitchOauth) => {
+	targetChannelNameRep.on("change", async (channelName) => {
 		try {
-			if (!twitchOauth) {
+			if (!apiClient || !channelName || /^\d+$/.test(channelName)) {
 				return;
 			}
-			const authProvider = new RefreshingAuthProvider({
-				clientId: twitchConfig.clientId,
-				clientSecret: twitchConfig.clientSecret,
-				onRefresh: (_, tokenInfoData) => {
-					twitchOauthRep.value = tokenInfoData;
-				},
-			});
-			await authProvider.addUserForToken(twitchOauth);
-			apiClient = new ApiClient({authProvider});
-			const result = await Promise.all([
-				apiClient.users.getUserByName(twitchConfig.ourChannel),
-				apiClient.users.getUserByName(twitchConfig.originalChannel),
-			]);
-			if (result[0] && result[1]) {
-				ourChannelId = result[0];
-				originalChannelId = result[1];
+			const target = await apiClient.users.getUserByName(channelName);
+			if (target) {
+				targetChannelIdRep.value = target.id;
 			}
-		} catch (error: unknown) {
-			log.error("Failed to set up API client:", error);
+		} catch (error) {
+			log.error("Error while getting target channel ID:", error);
 		}
 	});
 
@@ -183,15 +197,13 @@ export const setupTwitchAdmin = (nodecg: NodeCG) => {
 	};
 	const fetchMainChannelInfo = async () => {
 		try {
-			if (!apiClient || !originalChannelId) {
+			if (!apiClient || !ourChannelId) {
 				return;
 			}
-			const result = await apiClient.channels.getChannelInfoById(
-				originalChannelId,
-			);
+			const result = await apiClient.channels.getChannelInfoById(ourChannelId);
 			return result;
 		} catch (error: unknown) {
-			log.error("eailed to fetch game ID:", error);
+			log.error("Failed to fetch game ID:", error);
 			return;
 		}
 	};

@@ -1,15 +1,13 @@
 import "./global.css";
 
+import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
-import createTheme from "@mui/material/styles/createTheme";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme";
 import {useState, useEffect} from "react";
 import {createRoot} from "react-dom/client";
-import styled from "@emotion/styled";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
-
-const currentRunRep = nodecg.Replicant("currentRun");
 
 const Container = styled.div`
 	margin: 8px;
@@ -25,10 +23,11 @@ const theme = createTheme({
 });
 
 const App: React.FunctionComponent = () => {
-	const [currentRun, setCurrentRun] = useReplicant(currentRunRep);
+	const [currentRun, setCurrentRun] = useReplicant("current-run");
 	const [game, updateGame] = useState("");
 	const [category, updateCategory] = useState("");
-	const [commentator, updateCommentator] = useState("");
+	const [platform, updatePlatform] = useState("");
+
 	useEffect(() => {
 		const onOpen = () => {
 			if (!currentRun) {
@@ -36,13 +35,13 @@ const App: React.FunctionComponent = () => {
 			}
 			updateGame(currentRun.game);
 			updateCategory(currentRun.category);
-			updateCommentator(currentRun.commentator);
+			updatePlatform(currentRun.console);
 		};
 		const onConfirm = () => {
 			if (!currentRun) {
 				return;
 			}
-			setCurrentRun({...currentRun, game, category, commentator});
+			setCurrentRun({...currentRun, game, category, console: platform});
 		};
 		document.addEventListener("dialog-opened", onOpen);
 		document.addEventListener("dialog-confirmed", onConfirm);
@@ -51,31 +50,33 @@ const App: React.FunctionComponent = () => {
 			document.removeEventListener("dialog-confirmed", onConfirm);
 		};
 	});
+
 	if (!currentRun) {
 		return null;
 	}
+
 	return (
 		<Container>
 			<ThemeProvider theme={theme}>
 				<TextField
 					label='ゲーム'
 					value={game}
-					onChange={(changeEvent) => {
-						updateGame(changeEvent.target.value);
+					onChange={({currentTarget}) => {
+						updateGame(currentTarget.value);
 					}}
 				/>
 				<TextField
 					label='カテゴリー'
 					value={category}
-					onChange={(changeEvent) => {
-						updateCategory(changeEvent.target.value);
+					onChange={({currentTarget}) => {
+						updateCategory(currentTarget.value);
 					}}
 				/>
 				<TextField
-					label='解説'
-					value={commentator}
-					onChange={(changeEvent) => {
-						updateCommentator(changeEvent.target.value);
+					label='機種'
+					value={platform}
+					onChange={({currentTarget}) => {
+						updatePlatform(currentTarget.value);
 					}}
 				/>
 			</ThemeProvider>

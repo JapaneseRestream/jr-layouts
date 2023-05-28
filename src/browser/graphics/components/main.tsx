@@ -1,9 +1,9 @@
-import React from "react";
 import styled from "@emotion/styled";
+import React from "react";
 
+import {Clock} from "./clock";
 import {Left} from "./left";
 import {RunInfo} from "./run-info";
-import {Clock} from "./clock";
 
 const Container = styled.div`
 	position: absolute;

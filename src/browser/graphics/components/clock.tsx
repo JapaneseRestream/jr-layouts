@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "@emotion/styled";
+import React from "react";
 
 import {useReplicant} from "../../shared/use-nodecg/use-replicant";
 
@@ -17,13 +17,14 @@ const Container = styled.div`
 `;
 
 const HashtagText = styled.div`
-	color: #f37f50;
-	text-shadow: #f37f50 0px 0px 5px;
+	color: #ff976e;
+	text-shadow: #ff976e 0px 0px 5px;
 	text-transform: uppercase;
 `;
 
 export const Clock: React.FunctionComponent = () => {
-	const [hashtag] = useReplicant(nodecg.Replicant("hashtag"));
+	const [hashtag] = useReplicant("hashtag");
+
 	return (
 		<Container>
 			<HashtagText>{hashtag}</HashtagText>

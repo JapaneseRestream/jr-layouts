@@ -1,5 +1,5 @@
-import React, {useRef, useEffect} from "react";
 import styled from "@emotion/styled";
+import React, {useRef, useEffect} from "react";
 
 const Container = styled.div`
 	display: flex;
@@ -10,11 +10,11 @@ export const Text = styled.div`
 	white-space: nowrap;
 `;
 
-interface Props {
+type Props = {
 	text: string;
 	style?: React.CSSProperties;
 	className?: string;
-}
+};
 
 export const FitText: React.FunctionComponent<Props> = (props) => {
 	const containerRef = useRef<HTMLDivElement>(null);

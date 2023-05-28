@@ -1,22 +1,18 @@
-import _ from "lodash";
-
-import type {CurrentRun} from "../nodecg/generated/currentRun";
+import type {CurrentRun} from "../nodecg/generated/current-run";
 
 import type {NodeCG} from "./nodecg";
 
-export const setupSchedule = (nodecg: NodeCG) => {
-	const spreadsheetRep = nodecg.Replicant("spreadsheet", {defaultValue: {}});
+export const setupSchedule = async (nodecg: NodeCG) => {
+	const {default: clone} = await import("lodash-es/clone.js");
+	const {default: isEqual} = await import("lodash-es/isEqual.js");
+
+	const spreadsheetRep = nodecg.Replicant("spreadsheet", {defaultValue: []});
 	const scheduleRep = nodecg.Replicant("schedule", {
 		defaultValue: [],
 	});
-	const currentRunRep = nodecg.Replicant("currentRun", {
-		defaultValue: null,
-	});
+	const currentRunRep = nodecg.Replicant("current-run");
 
 	const setCurrentRun = (index: number) => {
-		if (!scheduleRep.value) {
-			return;
-		}
 		const newCurrentRun = scheduleRep.value[index];
 		if (!newCurrentRun) {
 			nodecg.log.error(
@@ -24,26 +20,22 @@ export const setupSchedule = (nodecg: NodeCG) => {
 			);
 			return;
 		}
-		currentRunRep.value = _.clone(newCurrentRun);
+		currentRunRep.value = clone(newCurrentRun);
 	};
 
-	spreadsheetRep.on("change", ({gamesList}) => {
-		if (!gamesList) {
-			return;
-		}
+	spreadsheetRep.on("change", (gamesList) => {
 		const newScheduleValue = gamesList.map<NonNullable<CurrentRun>>(
 			(game, index) => {
 				return {
 					category: game.category,
-					commentator: "",
 					console: game.platform,
 					game: game.title,
 					index,
 				};
 			},
 		);
-		if (!_.isEqual(scheduleRep.value, newScheduleValue)) {
-			scheduleRep.value = _.clone(newScheduleValue);
+		if (!isEqual(scheduleRep.value, newScheduleValue)) {
+			scheduleRep.value = clone(newScheduleValue);
 		}
 		if (!currentRunRep.value) {
 			setCurrentRun(0);

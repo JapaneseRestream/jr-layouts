@@ -1,5 +1,6 @@
 import "./global.css";
 
+import styled from "@emotion/styled";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,21 +8,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {useRef, useEffect, createRef} from "react";
 import {createRoot} from "react-dom/client";
-import styled from "@emotion/styled";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const scheduleRep = nodecg.Replicant("schedule");
-const currentRunRep = nodecg.Replicant("currentRun");
-
 const Container = styled.div`
-	height: ${window.parent.innerHeight - 200}px;
+	height: 500px;
 	overflow: scroll;
 `;
 
 const App: React.FunctionComponent = () => {
-	const [currentRun] = useReplicant(currentRunRep);
-	const [schedule] = useReplicant(scheduleRep);
+	const [currentRun] = useReplicant("current-run");
+	const [schedule] = useReplicant("schedule");
 	const rowRefs = useRef(schedule?.map(() => createRef<HTMLSpanElement>()));
 	useEffect(() => {
 		if (!currentRun || !schedule || !rowRefs.current) {
@@ -35,9 +32,11 @@ const App: React.FunctionComponent = () => {
 			currentRunRef.current.scrollIntoView({behavior: "smooth"});
 		}
 	}, [currentRun, schedule]);
+
 	if (!schedule || !currentRun) {
 		return null;
 	}
+
 	return (
 		<Container>
 			<Table>
@@ -45,6 +44,7 @@ const App: React.FunctionComponent = () => {
 					<TableRow>
 						<TableCell>ゲーム名</TableCell>
 						<TableCell>カテゴリ</TableCell>
+						<TableCell>機種</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -54,6 +54,7 @@ const App: React.FunctionComponent = () => {
 								<span ref={rowRefs.current?.[index]}>{run.game}</span>
 							</TableCell>
 							<TableCell>{run.category}</TableCell>
+							<TableCell>{run.console}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>

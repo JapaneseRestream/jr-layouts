@@ -1,13 +1,16 @@
 import "./global.css";
 
-import {FC, useState} from "react";
-import ReactDOM from "react-dom";
 import styled from "@emotion/styled";
+import {Box, Button, ThemeProvider, Typography} from "@mui/material";
 import format from "date-fns/format";
+import {type FC, useState} from "react";
+import {createRoot} from "react-dom/client";
 
 import {useReplicant} from "../shared/use-nodecg/use-replicant";
 
-const Container = styled.div`
+import {theme} from "./lib/mui-theme";
+
+const Container = styled(Box)`
 	margin: 8px;
 	display: grid;
 	grid-gap: 8px;
@@ -31,89 +34,91 @@ const screenshotStateMessage = (state: string) => {
 	}
 };
 
-const markerTimeRep = nodecg.Replicant("lastMarkerTime");
-
 const App: FC = () => {
 	const [screenshotPending, setScreenshotPending] = useState(false);
 	const [screenshotState, setScreenshotState] = useState<
 		"waiting" | "downloading" | "failed"
 	>("waiting");
 
-	const [markerTime] = useReplicant(markerTimeRep);
+	const [markerTime] = useReplicant("lastMarkerTime");
 	const [pending, setPending] = useState(false);
 
 	return (
-		<Container>
-			<div>
-				<button
-					onClick={() => {
-						setPending(true);
-						void nodecg.sendMessage("twitch:putMarker").then(() => {
-							setPending(false);
-						});
-					}}
-					disabled={pending}
-				>
-					マーカーをうつ
-				</button>
-				最後のマーカー:
-				{markerTime ? new Date(markerTime).toLocaleString() : "N/A"}
-			</div>
-
-			{nodecg.bundleConfig.obs && (
-				<div>
-					<button
+		<ThemeProvider theme={theme}>
+			<Container>
+				<Box>
+					<Button
 						onClick={() => {
-							setScreenshotPending(true);
-							nodecg
-								.sendMessage("obs:take-screenshot")
-								.then((img) => {
-									const a = document.createElement("a");
-									a.href = img;
-									a.setAttribute(
-										"download",
-										`obs-screenshot-${format(new Date(), "yyyyMMdd-HHmmss")}`,
-									);
-									a.click();
-									setScreenshotState("downloading");
-								})
-								.catch((error) => {
-									nodecg.log.error(error);
-									setScreenshotState("failed");
-								})
-								.finally(() => {
-									setScreenshotPending(false);
-								});
+							setPending(true);
+							void nodecg.sendMessage("twitch:putMarker").then(() => {
+								setPending(false);
+							});
 						}}
-						disabled={screenshotPending}
+						disabled={pending}
 					>
-						スクショをダウンロード
-					</button>
-					{screenshotStateMessage(screenshotState)}
+						マーカーをうつ
+					</Button>
+					<Typography>
+						最後のマーカー:
+						{markerTime ? new Date(markerTime).toLocaleString() : "N/A"}
+					</Typography>
+				</Box>
+
+				{nodecg.bundleConfig.obs && (
+					<div>
+						<Button
+							onClick={() => {
+								setScreenshotPending(true);
+								nodecg
+									.sendMessage("obs:take-screenshot")
+									.then((img) => {
+										const a = document.createElement("a");
+										a.href = img;
+										a.setAttribute(
+											"download",
+											`obs-screenshot-${format(new Date(), "yyyyMMdd-HHmmss")}`,
+										);
+										a.click();
+										setScreenshotState("downloading");
+									})
+									.catch((error) => {
+										nodecg.log.error(error);
+										setScreenshotState("failed");
+									})
+									.finally(() => {
+										setScreenshotPending(false);
+									});
+							}}
+							disabled={screenshotPending}
+						>
+							スクショをダウンロード
+						</Button>
+						{screenshotStateMessage(screenshotState)}
+					</div>
+				)}
+
+				{nodecg.bundleConfig.obs && (
+					<Button
+						onClick={() => {
+							void nodecg.sendMessage("refreshPlayer");
+						}}
+					>
+						プレイヤー再読込
+					</Button>
+				)}
+
+				<div>
+					<Button
+						onClick={() => {
+							void nodecg.sendMessage("refreshDiscordBot");
+						}}
+					>
+						Discord VCの表示をなおす
+					</Button>
 				</div>
-			)}
-
-			{nodecg.bundleConfig.obs && (
-				<button
-					onClick={() => {
-						void nodecg.sendMessage("refreshPlayer");
-					}}
-				>
-					プレイヤー再読込
-				</button>
-			)}
-
-			<div>
-				<button
-					onClick={() => {
-						nodecg.sendMessage("refreshDiscordBot");
-					}}
-				>
-					Discord VCの表示をなおす
-				</button>
-			</div>
-		</Container>
+			</Container>
+		</ThemeProvider>
 	);
 };
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+createRoot(document.querySelector("#root")!).render(<App />);
