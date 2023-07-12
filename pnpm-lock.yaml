@@ -45,8 +45,8 @@ dependencies:
     specifier: 6.0.0
     version: 6.0.0
   googleapis:
-    specifier: 118.0.0
-    version: 118.0.0
+    specifier: 122.0.0
+    version: 122.0.0
   lodash-es:
     specifier: 4.17.21
     version: 4.17.21
@@ -4001,8 +4001,8 @@ packages:
       - supports-color
     dev: false
 
-  /googleapis@118.0.0:
-    resolution: {integrity: sha512-Ny6zJOGn5P/YDT6GQbJU6K0lSzEu4Yuxnsn45ZgBIeSQ1RM0FolEjUToLXquZd89DU9wUfqA5XYHPEctk1TFWg==}
+  /googleapis@122.0.0:
+    resolution: {integrity: sha512-n8Gt7j9LzSkhQEGPOrcLBKxllTvW/0v6oILuwszL/zqgelNsGJYXVqPJllgJJ6RM7maJ6T35UBeYqI6GQ/IlJg==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.7.0
