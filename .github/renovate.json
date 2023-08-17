@@ -6,5 +6,5 @@
 		":prConcurrentLimitNone",
 		":dependencyDashboard"
 	],
-	"postUpdateOptions": ["pnpmDedupe"]
+	"postUpdateOptions": ["npmDedupe"]
 }

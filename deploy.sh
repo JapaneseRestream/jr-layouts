@@ -1,8 +1,8 @@
 set -eu
 
-pnpm build
+npm run build
 
 rsync -avh --delete --checksum \
 dashboard extension graphics schemas shared \
-configschema.json package.json pnpm-lock.yaml \
+configschema.json package.json package-lock.json \
 $1

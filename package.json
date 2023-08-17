@@ -5,15 +5,15 @@
 	"scripts": {
 		"prepare": "simple-git-hooks || true",
 		"clean": "del-cli dashboard graphics extension shared/dist",
-		"build": "pnpm clean && vite build",
-		"dev": "pnpm clean && run-p dev:*",
+		"build": "npm run clean && vite build",
+		"dev": "npm run clean && run-p dev:*",
 		"dev:vite": "vite",
 		"dev:type": "tsc -b src/browser src/extension -w --preserveWatchOutput",
-		"dev:schema": "onchange schemas configschema.json -i -- pnpm schema-types",
+		"dev:schema": "onchange schemas configschema.json -i -- npm run schema-types",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"test": "run-s test:*",
 		"test:lint": "eslint --cache \"**/*.{ts,tsx}\"",
-		"test:format": "pnpm format --check",
+		"test:format": "npm run format -- --check",
 		"test:type": "tsc -b src/browser src/extension",
 		"schema-types": "del-cli \"src/nodecg/generated/*\" && nodecg schema-types -o src/nodecg/generated"
 	},
@@ -98,7 +98,6 @@
 		"typescript": "~5.1.0",
 		"vite": "^4.2.2"
 	},
-	"packageManager": "pnpm@8.6.1",
 	"nodecg": {
 		"compatibleRange": "1 || 2",
 		"dashboardPanels": [
