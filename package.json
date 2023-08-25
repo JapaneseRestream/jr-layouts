@@ -80,7 +80,7 @@
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-react-hooks": "^4.6.0",
-		"get-port": "^6.1.2",
+		"get-port": "^7.0.0",
 		"globby": "13.1.4",
 		"lint-staged": "13.2.2",
 		"modern-normalize": "1.1.0",
