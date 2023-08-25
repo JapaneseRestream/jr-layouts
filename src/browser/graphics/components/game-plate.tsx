@@ -10,7 +10,7 @@ const Container = styled.div`
 	padding: 5px 5px;
 	max-height: 114px;
 	overflow: hidden;
-	border: 2px solid #d4dff2;
+	border: 1px solid #fefefe;
 `;
 
 const Title = styled(FitText)`
