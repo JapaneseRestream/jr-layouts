@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install -y python3 build-essential
 RUN corepack enable
 
 WORKDIR /tmp
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm ci
 
 
 FROM node:18-slim AS nodecg
@@ -21,20 +21,20 @@ FROM build-base AS build
 
 WORKDIR /jr-layouts
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY configschema.json tsconfig.json vite-plugin-nodecg.mts vite.config.mts ./
 COPY schemas schemas
 COPY src src
-RUN pnpm build
+RUN npm run build
 
 
 FROM build-base AS npm
 
 WORKDIR /jr-layouts
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --production
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
 
 FROM node:18-slim
