@@ -12,7 +12,7 @@
 		"dev:schema": "onchange schemas configschema.json -i -- npm run schema-types",
 		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,yml,yaml,md}\"",
 		"test": "run-s test:*",
-		"test:lint": "eslint --cache \"**/*.{ts,tsx}\"",
+		"test:lint": "eslint \"**/*.{ts,tsx}\"",
 		"test:format": "npm run format -- --check",
 		"test:type": "tsc -b src/browser src/extension",
 		"schema-types": "del-cli \"src/nodecg/generated/*\" && nodecg schema-types -o src/nodecg/generated"

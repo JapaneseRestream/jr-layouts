@@ -9,6 +9,8 @@ on:
 jobs:
   test-minimum:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
