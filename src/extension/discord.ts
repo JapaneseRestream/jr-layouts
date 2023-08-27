@@ -66,7 +66,7 @@ export const setupDiscord = async (nodecg: NodeCG) => {
 	const initialize = async () => {
 		try {
 			if (client) {
-				client.destroy();
+				await client.destroy();
 			}
 
 			client = new discord.Client({
