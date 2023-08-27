@@ -4,4 +4,7 @@ import {createRoot} from "react-dom/client";
 
 import {Main} from "./components/main";
 
-createRoot(document.querySelector("#root")!).render(<Main />);
+const rootElement = document.querySelector("#root");
+if (rootElement) {
+	createRoot(rootElement).render(<Main />);
+}

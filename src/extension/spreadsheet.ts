@@ -89,7 +89,7 @@ export const setupSpreadsheet = async (nodecg: NodeCG) => {
 				gameIdsRep.value = idMap.map((idName) => {
 					return {
 						name: idName["name"] ?? "",
-						gameId: idName["id"] || GAMES_DEMOS_ID,
+						gameId: idName["id"] ? idName["id"] : GAMES_DEMOS_ID,
 					};
 				});
 			}

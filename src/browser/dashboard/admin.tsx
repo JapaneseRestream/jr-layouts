@@ -134,4 +134,7 @@ const App: FC = () => {
 	);
 };
 
-createRoot(document.querySelector("#root")!).render(<App />);
+const rootElement = document.querySelector("#root");
+if (rootElement) {
+	createRoot(rootElement).render(<App />);
+}

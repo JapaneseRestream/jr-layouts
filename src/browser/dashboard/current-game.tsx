@@ -112,4 +112,7 @@ const App: React.FunctionComponent = () => {
 	);
 };
 
-createRoot(document.querySelector("#root")!).render(<App />);
+const rootElement = document.querySelector("#root");
+if (rootElement) {
+	createRoot(rootElement).render(<App />);
+}

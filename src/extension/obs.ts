@@ -39,7 +39,7 @@ export const setupObs = (nodecg: NodeCG) => {
 	});
 
 	nodecg.listenFor("refreshPlayer", () => {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any
 		(obs.send as any)("RefreshBrowserSource", {
 			sourceName: "TWITCH_PLAYER",
 		});
@@ -60,7 +60,7 @@ export const setupObs = (nodecg: NodeCG) => {
 			targetChannelUrl.searchParams.append("parent", "twitch.tv");
 			targetChannelUrl.searchParams.append("player", "popout");
 			targetChannelUrl.searchParams.append("volume", "1");
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any
 			await (obs.send as any)("SetSourceSettings", {
 				sourceName: "TWITCH_PLAYER",
 				sourceSettings: {

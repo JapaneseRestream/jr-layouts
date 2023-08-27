@@ -141,8 +141,7 @@ export const setupTwitchAdmin = async (nodecg: NodeCG) => {
 				!apiClient ||
 				!ourChannelId ||
 				!twitchTitleRep.value ||
-				!newRun ||
-				!newRun.game ||
+				!newRun?.game ||
 				lastUpdatedTitle === newRun.game
 			) {
 				return;
