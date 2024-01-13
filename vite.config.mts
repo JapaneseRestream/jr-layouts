@@ -1,8 +1,9 @@
 import react from "@vitejs/plugin-react";
-import nodecg from "./vite-plugin-nodecg.mjs";
-import {defineConfig} from "vite";
 import esbuild from "rollup-plugin-esbuild";
 import externals from "rollup-plugin-node-externals";
+import {defineConfig} from "vite";
+
+import nodecg from "./vite-plugin-nodecg.mjs";
 
 export default defineConfig({
 	clearScreen: false,

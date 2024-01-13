@@ -1,10 +1,10 @@
-import path from "path";
 import fs from "fs";
+import path from "path";
+
 import * as cheerio from "cheerio";
-import {ResolvedConfig, Manifest, Plugin} from "vite";
-import {globbySync} from "globby";
 import {deleteSync} from "del";
 import getPort from "get-port";
+import {globbySync} from "globby";
 import {
 	rollup,
 	watch as rollupWatch,
@@ -15,6 +15,7 @@ import {
 	type RollupWatcherEvent,
 	type RollupWatcher,
 } from "rollup";
+import type {ResolvedConfig, Manifest, Plugin} from "vite";
 
 const setupExtensionBuild = async (options: RollupOptions) => {
 	const inputOptions: InputOptions = {
