@@ -12,8 +12,7 @@
 			"groupSlug": "non-major-updates",
 			"matchPackagePatterns": ["*"],
 			"excludePackageNames": ["@types/*", "typescript"],
-			"matchUpdateTypes": ["minor", "patch"],
-			"automerge": true
+			"matchUpdateTypes": ["minor", "patch"]
 		},
 		{
 			"groupName": "Major updates",
