@@ -49,6 +49,7 @@ COPY --from=npm /jr-layouts/node_modules node_modules
 COPY --from=build /jr-layouts/dashboard dashboard
 COPY --from=build /jr-layouts/extension extension
 COPY --from=build /jr-layouts/graphics graphics
+COPY --from=build /jr-layouts/shared shared
 
 WORKDIR /nodecg
 
