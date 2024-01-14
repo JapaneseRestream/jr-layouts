@@ -10,7 +10,7 @@ RUN npm ci
 
 FROM node:20-slim AS nodecg
 
-ADD https://github.com/nodecg/nodecg/releases/download/v2.2.0/nodecg-2.2.0.tgz /nodecg.tgz
+ADD https://github.com/nodecg/nodecg/releases/download/v2.2.1/nodecg-2.2.1.tgz /nodecg.tgz
 RUN mkdir /nodecg && tar -xzvf /nodecg.tgz -C /nodecg --strip-components=1
 RUN ls -al /nodecg
 WORKDIR /nodecg
