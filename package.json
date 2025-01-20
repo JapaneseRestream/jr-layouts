@@ -71,7 +71,7 @@
 		"prettier": "2.8.8",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"rollup": "^3.20.7",
+		"rollup": "^3.29.5",
 		"rollup-plugin-esbuild": "^5.0.0",
 		"rollup-plugin-node-externals": "^6.0.0",
 		"ts-nodecg": "0.3.1",
