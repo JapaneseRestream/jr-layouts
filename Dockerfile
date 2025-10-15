@@ -1,3 +1,6 @@
+ARG NODECG_JSON="{}"
+ARG JR_LAYOUTS_JSON="{}"
+
 FROM node:20-slim AS build-base
 
 RUN apt-get update && apt-get install -y python3 build-essential
@@ -52,5 +55,8 @@ COPY --from=build /jr-layouts/graphics graphics
 COPY --from=build /jr-layouts/shared shared
 
 WORKDIR /nodecg
+
+RUN echo "${NODECG_JSON}" > cfg/nodecg.json
+RUN echo "${JR_LAYOUTS_JSON}" > cfg/jr-layouts.json
 
 CMD ["node", "index.js"]
