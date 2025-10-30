@@ -4,64 +4,45 @@ ARG JR_LAYOUTS_JSON="{}"
 
 FROM node:22-slim AS base
 
-
-FROM base AS build-base
-
-RUN apt-get update && apt-get install -y python3 build-essential
+ENV PNPM_HOME="/pnpm"
 RUN corepack enable
-
-WORKDIR /tmp
-COPY package.json package-lock.json ./
-RUN npm ci
-
-
-FROM base AS nodecg
-
-ADD https://github.com/nodecg/nodecg/releases/download/v2.2.1/nodecg-2.2.1.tgz /nodecg.tgz
-RUN mkdir /nodecg && tar -xzvf /nodecg.tgz -C /nodecg --strip-components=1
-RUN ls -al /nodecg
-WORKDIR /nodecg
-RUN npm install --package-lock=false --omit=dev
+RUN apt-get update \
+	&& apt-get install -y git \
+	&& rm -rf /var/lib/apt/lists/*
 
 
-FROM build-base AS build
+FROM base AS build
 
-WORKDIR /jr-layouts
-
-COPY package.json package-lock.json ./
-RUN npm ci
+WORKDIR /app
+COPY package.json pnpm-* ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 COPY configschema.json tsconfig.json vite-plugin-nodecg.mts vite.config.mts ./
 COPY schemas schemas
 COPY src src
 RUN npm run build
 
 
-FROM build-base AS npm
+FROM build AS npm
 
-WORKDIR /jr-layouts
-
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+WORKDIR /app
+COPY package.json pnpm-* ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --production
 
 
 FROM base
 
-COPY --from=nodecg /nodecg /nodecg
+WORKDIR /app
 
-WORKDIR /nodecg/bundles/jr-layouts
+COPY --from=npm /app/package.json ./
+COPY --from=npm /app/node_modules node_modules
 
-COPY --from=npm /jr-layouts/package.json ./
-COPY --from=npm /jr-layouts/node_modules node_modules
-
-COPY --from=build /jr-layouts/dashboard dashboard
-COPY --from=build /jr-layouts/extension extension
-COPY --from=build /jr-layouts/graphics graphics
-COPY --from=build /jr-layouts/shared shared
-
-WORKDIR /nodecg
+COPY --from=build /app/dashboard dashboard
+COPY --from=build /app/extension extension
+COPY --from=build /app/graphics graphics
+COPY --from=build /app/shared shared
 
 RUN mkdir cfg \
 	&& echo "${NODECG_JSON}" > cfg/nodecg.json \
 	&& echo "${JR_LAYOUTS_JSON}" > cfg/jr-layouts.json
 
-CMD ["node", "index.js"]
+CMD ["node", "--run", "start"]

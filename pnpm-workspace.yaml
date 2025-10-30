@@ -1,0 +1,7 @@
+ignoredBuiltDependencies:
+  - '@vaadin/vaadin-usage-statistics'
+
+minimumReleaseAge: 10080
+
+onlyBuiltDependencies:
+  - better-sqlite3
