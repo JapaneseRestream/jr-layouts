@@ -1,5 +1,6 @@
 ARG NODECG_JSON="{}"
 ARG JR_LAYOUTS_JSON="{}"
+ARG PNPM_CACHE_ID_PREFIX="jr-layouts-pnpm"
 
 
 FROM node:22-slim AS base
@@ -15,7 +16,7 @@ FROM base AS build
 
 WORKDIR /app
 COPY package.json pnpm-* ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=${PNPM_CACHE_ID_PREFIX}-pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 COPY configschema.json tsconfig.json vite-plugin-nodecg.mts vite.config.mts ./
 COPY schemas schemas
 COPY src src
@@ -26,7 +27,7 @@ FROM build AS npm
 
 WORKDIR /app
 COPY package.json pnpm-* ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --production
+RUN --mount=type=cache,id=${PNPM_CACHE_ID_PREFIX}-pnpm,target=/pnpm/store pnpm install --frozen-lockfile --production
 
 
 FROM base
