@@ -1,6 +1,3 @@
-ARG NODECG_JSON="{}"
-ARG JR_LAYOUTS_JSON="{}"
-ARG PNPM_CACHE_ID_PREFIX="jr-layouts-pnpm"
 
 
 FROM node:22-slim AS base
@@ -42,8 +39,11 @@ COPY --from=build /app/extension extension
 COPY --from=build /app/graphics graphics
 COPY --from=build /app/shared shared
 
+ARG NODECG_JSON="{}"
+ARG JR_LAYOUTS_JSON="{}"
+
 RUN mkdir cfg \
-	&& echo "${NODECG_JSON}" > cfg/nodecg.json \
-	&& echo "${JR_LAYOUTS_JSON}" > cfg/jr-layouts.json
+	&& echo "$NODECG_JSON" > cfg/nodecg.json \
+	&& echo "$JR_LAYOUTS_JSON" > cfg/jr-layouts.json
 
 CMD ["node", "--run", "start"]
