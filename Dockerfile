@@ -23,7 +23,7 @@ COPY src src
 RUN npm run build
 
 
-FROM build AS npm
+FROM base AS npm
 
 WORKDIR /app
 COPY package.json pnpm-* ./
