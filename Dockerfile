@@ -1,7 +1,11 @@
 ARG NODECG_JSON="{}"
 ARG JR_LAYOUTS_JSON="{}"
 
-FROM node:20-slim AS build-base
+
+FROM node:22-slim AS base
+
+
+FROM base AS build-base
 
 RUN apt-get update && apt-get install -y python3 build-essential
 RUN corepack enable
@@ -11,7 +15,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 
-FROM node:20-slim AS nodecg
+FROM base AS nodecg
 
 ADD https://github.com/nodecg/nodecg/releases/download/v2.2.1/nodecg-2.2.1.tgz /nodecg.tgz
 RUN mkdir /nodecg && tar -xzvf /nodecg.tgz -C /nodecg --strip-components=1
@@ -40,7 +44,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 
-FROM node:20-slim
+FROM base
 
 COPY --from=nodecg /nodecg /nodecg
 
@@ -56,7 +60,8 @@ COPY --from=build /jr-layouts/shared shared
 
 WORKDIR /nodecg
 
-RUN echo "${NODECG_JSON}" > cfg/nodecg.json
-RUN echo "${JR_LAYOUTS_JSON}" > cfg/jr-layouts.json
+RUN mkdir cfg \
+	&& echo "${NODECG_JSON}" > cfg/nodecg.json \
+	&& echo "${JR_LAYOUTS_JSON}" > cfg/jr-layouts.json
 
 CMD ["node", "index.js"]
